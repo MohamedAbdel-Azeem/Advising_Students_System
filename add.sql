@@ -1,4 +1,5 @@
-create Database Advising_Team_66
+-- Creating DataBase
+Create Database Advising_Team_66
 
 
 -- Procedure for creating all Tables
@@ -38,7 +39,7 @@ CREATE PROCEDURE CreateAllTables
         major VARCHAR(40),
         is_offered BIT,
         credit_hours INT,
-        semester VARCHAR(40)
+        semester INT
     );
 
     -- Create the PreqCourse_course table
@@ -146,7 +147,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Graduation_Plan table
     CREATE TABLE  Graduation_Plan (
-        plan_id INT ,
+        plan_id INT,
         semester_code VARCHAR(40),
         semester_credit_hours INT,
         expected_grad_semester VARCHAR(40),
@@ -163,7 +164,6 @@ CREATE PROCEDURE CreateAllTables
         semester_code VARCHAR(40),
         course_id INT,
         FOREIGN KEY (plan_id,semester_code) REFERENCES Graduation_Plan(plan_id,semester_code),
-        FOREIGN KEY (course_id) REFERENCES Course(course_id),
         primary key (plan_id,semester_code,course_id)
     );
 
@@ -179,6 +179,7 @@ CREATE PROCEDURE CreateAllTables
         course_id INT,
         FOREIGN KEY (student_id) REFERENCES Student(student_id),
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id),
+        FOREIGN KEY (course_id) REFERENCES Course(course_id),
     );
 
     -- Create the MakeUp_Exam table
@@ -205,13 +206,13 @@ CREATE PROCEDURE CreateAllTables
     -- Create the Payment table
     CREATE TABLE Payment (
         payment_id INT PRIMARY KEY,
-        amount DECIMAL(10, 2),
-        deadline DATE,
+        amount INT,
+        deadline DATETIME,
         status VARCHAR(40) DEFAULT 'notPaid',
         fund_percentage DECIMAL(4, 3),
         student_id INT,
         semester_code VARCHAR(40),
-        start_date DATE,
+        start_date DATETIME,
         n_installments INT, -- Is n_installments Derived?
         FOREIGN KEY (student_id) REFERENCES Student(student_id)
         ON UPDATE CASCADE 
@@ -224,10 +225,10 @@ CREATE PROCEDURE CreateAllTables
     -- Create the Installment table
     CREATE TABLE Installment (
         payment_id INT,
-        deadline DATE,
-        amount DECIMAL(10,2), -- Is Amount derived?
+        deadline DATETIME,
+        amount INT, -- Is Amount derived?
         status VARCHAR(40) DEFAULT 'notPaid',
-        start_date DATE,
+        start_date DATETIME,
         FOREIGN KEY (payment_id) REFERENCES Payment(payment_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
@@ -269,112 +270,7 @@ AS
     TRUNCATE Table Payment;
     TRUNCATE Table Installment;
 GO
+
+
 EXEC CreateAllTables
---Test______
---Ahmed----
 
-
-
---2.3
---A)
-go
-CREATE PROCEDURE Procedures_StudentRegistration
-    @FirstName VARCHAR(40),
-    @LastName VARCHAR(40),
-    @Password VARCHAR(40),
-    @Faculty VARCHAR(40),
-    @Email VARCHAR(40),
-    @Major VARCHAR(40),
-    @Semester INT
-AS
-BEGIN
-    -- Declare variable for Student ID
-    DECLARE @StudentID INT;
-
-    -- Generate a unique student ID
-    SELECT @StudentID = ISNULL(MAX(student_id), 0) + 1 FROM Student;
-
-    -- Insert into the Student table
-    INSERT INTO Student (student_id, f_name, l_name, faculty, email, major, password, semester)
-    VALUES (@StudentID, @FirstName, @LastName, @Faculty, @Email, @Major, @Password, @Semester);
-
-    -- Output the generated Student ID
-    SELECT @StudentID AS 'Student ID';
-END;
-go
-Exec Procedures_StudentRegistration 'John','Doe', 'password123', 'Engineering', 'john.doe@example.com','Computer Science', 1;
-go
---F)
-CREATE PROCEDURE AdminAddingSemester
-    @StartDate DATE,
-    @EndDate DATE,
-    @SemesterCode VARCHAR(40)
-AS
-BEGIN
-    -- Insert into the Semester table
-    INSERT INTO Semester (semester_code, start_date, end_date)
-    VALUES (@SemesterCode, @StartDate, @EndDate);
-END;
-
-go
-EXEC AdminAddingSemester '2023-1-1', '2023-12-31', 5
-
-
-
-
-
---K)
-go
-CREATE PROCEDURE Procedures_AdminAddExam
-    @Type VARCHAR(40),
-    @Date DATETIME,
-    @CourseID INT
-AS
-BEGIN
-    -- Declare variables
-    DECLARE @ExamID INT;
-
-    -- Generate a unique exam ID
-    SELECT @ExamID = ISNULL(MAX(exam_id), 0) + 1 FROM MakeUp_Exam;
-
-    -- Insert into the MakeUp_Exam table
-    INSERT INTO MakeUp_Exam (exam_id, date, type, course_id)
-    VALUES (@ExamID, @Date, @Type,@CourseID)
-END;
-
-Exec Procedures_AdminAddExam 'Normal', '2023-5-2', 9
-
-
---P)
-GO
-CREATE PROCEDURE Procedures_AdminDeleteSlots
-    @CurrentSemester VARCHAR(40)
-AS
-BEGIN
-    -- Delete slots of courses not offered in the current semester
-    DELETE FROM Slot
-    WHERE course_id IN (
-        SELECT course_id
-        FROM Course
-        WHERE semester <> @CurrentSemester
-    );
-END;
-
-
---U)
-go
-CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
-    @StudentID INT,
-    @SemesterCode VARCHAR(40),
-    @CourseID INT
-AS
-BEGIN
-    -- Delete the specified course from the graduation plan
-    DELETE FROM GradPlan_Course
-    WHERE plan_id IN (
-        SELECT plan_id
-        FROM Graduation_Plan
-        WHERE student_id = @StudentID
-          AND semester_code = @SemesterCode
-    ) AND course_id = @CourseID;
-END;
