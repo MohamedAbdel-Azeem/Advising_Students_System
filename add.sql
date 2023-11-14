@@ -9,7 +9,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Advisor table
     CREATE TABLE  Advisor (
-        advisor_id VARCHAR(40) PRIMARY KEY,
+        advisor_id INT PRIMARY KEY,
         name VARCHAR(40),
         email VARCHAR(40),
         office VARCHAR(40),
@@ -25,7 +25,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Instructor table
     CREATE TABLE Instructor (
-        instructor_id VARCHAR(40) PRIMARY KEY,
+        instructor_id INT PRIMARY KEY,
         name VARCHAR(40),
         email VARCHAR(40),
         faculty VARCHAR(40),
@@ -34,18 +34,18 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Course table
     CREATE TABLE Course (
-        course_id VARCHAR(40) PRIMARY KEY,
+        course_id INT PRIMARY KEY,
         name VARCHAR(40),
         major VARCHAR(40),
         is_offered BIT,
         credit_hours INT,
-        semester VARCHAR(40)
+        semester INT
     );
 
     -- Create the PreqCourse_course table
     CREATE TABLE PreqCourse_course (
-        prerequisite_course_id VARCHAR(40),
-        course_id VARCHAR(40),
+        prerequisite_course_id INT,
+        course_id INT,
         FOREIGN KEY (course_id) REFERENCES Course(course_id),        
         FOREIGN KEY (prerequisite_course_id) REFERENCES Course(course_id),      
         Primary Key (course_id,prerequisite_course_id)
@@ -53,7 +53,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student table
     CREATE TABLE  Student (
-        student_id VARCHAR(40) PRIMARY KEY,
+        student_id INT PRIMARY KEY,
         f_name VARCHAR(40),
         l_name VARCHAR(40),
         gpa DECIMAL(3,2),
@@ -65,7 +65,7 @@ CREATE PROCEDURE CreateAllTables
         semester INT,
         acquired_hours INT,
         assigned_hours INT,
-        advisor_id VARCHAR(40),
+        advisor_id INT,
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id)
         ON Update CASCADE
         ON DELETE CASCADE,
@@ -73,7 +73,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student_Phone table
     CREATE TABLE Student_Phone (
-        student_id VARCHAR(40),
+        student_id INT,
         phone_number VARCHAR(40),
         FOREIGN KEY (student_id) REFERENCES Student(student_id) 
         ON UPDATE CASCADE 
@@ -84,8 +84,8 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Instructor_Course table
     CREATE TABLE Instructor_Course (
-        course_id VARCHAR(40),
-        instructor_id VARCHAR(40),
+        course_id INT,
+        instructor_id INT,
         FOREIGN KEY (course_id) REFERENCES Course(course_id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
@@ -97,9 +97,9 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student_Instructor_Course_Take table
     CREATE TABLE Student_Instructor_Course_Take (
-        student_id VARCHAR(40),
-        course_id VARCHAR(40),
-        instructor_id VARCHAR(40),
+        student_id INT,
+        course_id INT,
+        instructor_id INT,
         semester_code VARCHAR(40),
         exam_type VARCHAR(40) DEFAULT 'Normal',
         grade VARCHAR(40),
@@ -118,7 +118,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Course_Semester table
     CREATE TABLE Course_Semester (
-        course_id VARCHAR(40),
+        course_id INT,
         semester_code VARCHAR(40),
         FOREIGN KEY (course_id) REFERENCES Course(course_id)        
         ON UPDATE CASCADE
@@ -131,12 +131,12 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Slot table
     CREATE TABLE  Slot (
-        slot_id VARCHAR(40) PRIMARY KEY,
+        slot_id INT PRIMARY KEY,
         day VARCHAR(40),
         time VARCHAR(40),
         location VARCHAR(40),
-        course_id VARCHAR(40),
-        instructor_id VARCHAR(40),
+        course_id INT,
+        instructor_id INT,
         FOREIGN KEY (course_id) REFERENCES Course(course_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
@@ -147,12 +147,12 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Graduation_Plan table
     CREATE TABLE  Graduation_Plan (
-        plan_id VARCHAR(40) ,
+        plan_id INT,
         semester_code VARCHAR(40),
         semester_credit_hours INT,
         expected_grad_semester VARCHAR(40),
-        advisor_id VARCHAR(40),
-        student_id VARCHAR(40),
+        advisor_id INT,
+        student_id INT,
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id),
         FOREIGN KEY (student_id) REFERENCES Student(student_id),
         PRIMARY KEY (plan_id,semester_code)
@@ -160,42 +160,42 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the GradPlan_Course table
     CREATE TABLE  GradPlan_Course (
-        plan_id VARCHAR(40),
+        plan_id INT,
         semester_code VARCHAR(40),
-        course_id VARCHAR(40),
+        course_id INT,
         FOREIGN KEY (plan_id,semester_code) REFERENCES Graduation_Plan(plan_id,semester_code),
-        FOREIGN KEY (course_id) REFERENCES Course(course_id),
         primary key (plan_id,semester_code,course_id)
     );
 
     -- Create the Request table
     CREATE TABLE  Request (
-        request_id VARCHAR(40) PRIMARY KEY,
+        request_id INT PRIMARY KEY,
         type VARCHAR(40),
         comment VARCHAR(40),
         status VARCHAR(40) DEFAULT 'pending',
         credit_hours INT,
-        student_id VARCHAR(40),
-        advisor_id VARCHAR(40),
-        course_id VARCHAR(40),
+        student_id INT,
+        advisor_id INT,
+        course_id INT,
         FOREIGN KEY (student_id) REFERENCES Student(student_id),
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id),
+        FOREIGN KEY (course_id) REFERENCES Course(course_id),
     );
 
     -- Create the MakeUp_Exam table
     CREATE TABLE MakeUp_Exam (
-        exam_id VARCHAR(40) PRIMARY KEY,
+        exam_id INT PRIMARY KEY,
         date DATE,
         type VARCHAR(40),
-        course_id VARCHAR(40),
+        course_id INT,
         FOREIGN KEY (course_id) REFERENCES Course(course_id),
     );
 
     -- Create the Exam_Student table
     CREATE TABLE Exam_Student (
-        exam_id VARCHAR(40),
-        student_id VARCHAR(40),
-        course_id VARCHAR(40),
+        exam_id INT,
+        student_id INT,
+        course_id INT,
         FOREIGN KEY (exam_id) REFERENCES MakeUp_Exam(exam_id),
         FOREIGN KEY (student_id) REFERENCES Student(student_id)
         ON UPDATE CASCADE 
@@ -205,14 +205,14 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Payment table
     CREATE TABLE Payment (
-        payment_id VARCHAR(40) PRIMARY KEY,
-        amount DECIMAL(10, 2),
-        deadline DATE,
+        payment_id INT PRIMARY KEY,
+        amount INT,
+        deadline DATETIME,
         status VARCHAR(40) DEFAULT 'notPaid',
         fund_percentage DECIMAL(4, 3),
-        student_id VARCHAR(40),
+        student_id INT,
         semester_code VARCHAR(40),
-        start_date DATE,
+        start_date DATETIME,
         n_installments INT, -- Is n_installments Derived?
         FOREIGN KEY (student_id) REFERENCES Student(student_id)
         ON UPDATE CASCADE 
@@ -224,11 +224,11 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Installment table
     CREATE TABLE Installment (
-        payment_id VARCHAR(40),
-        deadline DATE,
-        amount DECIMAL(10,2), -- Is Amount derived?
+        payment_id INT,
+        deadline DATETIME,
+        amount INT, -- Is Amount derived?
         status VARCHAR(40) DEFAULT 'notPaid',
-        start_date DATE,
+        start_date DATETIME,
         FOREIGN KEY (payment_id) REFERENCES Payment(payment_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
@@ -273,4 +273,4 @@ GO
 
 
 EXEC CreateAllTables
---Test______
+
