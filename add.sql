@@ -274,8 +274,98 @@ AS
 GO
 
 
-EXEC CreateAllTables
+---List all Students with their Advisors 2.3.E
+GO
+create PROCEDURE AdminListStudentsWithAdvisors
+AS
+Select S.*,A.name AS ADVISOR_NAME,A.email AS ADVISOR_EMAIL,A.office AS ADVISOR_OFFICE , A.password AS ADVISOR_PASSWORD
+From Student S inner join Advisor A on (S.advisor_id=A.advisor_id)
+Go
 
+---Link student to advisor 2.3.J
+GO 
+CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
+@Student_ID int ,
+@Advisor_ID int 
+As
+Update  Student 
+Set advisor_id=@Advisor_ID
+where student_id=@Student_ID
+GO
+
+
+--Update expected graduation date in a certain graduation plan 2.3.T
+GO
+CREATE PROCEDURE Procedures_AdvisorUpdateGP
+@expected_grad_semster varchar (40),
+@studentID int
+AS
+UPDATE Graduation_Plan
+Set expected_grad_semester=@expected_grad_semster
+where student_id=@studentID
+Go
+
+
+
+----Approve/Reject courses request 2.3.Y
+GO
+Create PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
+@RequestID int, 
+@studentID int, 
+@advisorID int
+AS
+---GET REQUIRED COURSE FOR REQUEST
+Declare @Course_ID int
+Select @Course_ID= Course_id
+                 From Request R
+                 where R.advisor_id=@advisorID AND R.student_id=@studentID AND R.request_id=@RequestID 
+---GET COURSE CREDIT HOURS
+DECLARE @CREDIT_HOURS int 
+Select   @CREDIT_HOURS = credit_hours  From Course C
+                 where c.course_id=@Course_ID
+--GET TOTAL STUDENT CREDIT HOURS
+DECLARE @ASSIGNED_HOURS INT 
+SELECT @ASSIGNED_HOURS =S.assigned_hours FROM STUDENT S
+WHERE S.student_id=@studentID
+---CHECK FOR ITS PREREQUISITE SATISFIED AND BEING LESS THAN ALREADY ASSIGNED HOURS
+DECLARE @SUM_HOURS int
+SELECT @SUM_HOURS= sum(C.credit_hours)
+FROM Student_Instructor_Course_Take SICT INNER JOIN Course C ON C.course_id=SICT.course_id 
+WHERE SICT.student_id=@studentID AND SICT.grade IS NULL
+IF @SUM_HOURS IS NULL
+BEGIN
+SET @SUM_HOURS=0
+END
+IF ((@SUM_HOURS+@CREDIT_HOURS<=@ASSIGNED_HOURS )AND NOT EXISTS(
+SELECT PQ.prerequisite_course_id
+   FROM PreqCourse_course PQ 
+   WHERE PQ.course_id=@Course_ID
+   EXCEPT
+   (Select SICT.course_id
+   FROM Student_Instructor_Course_Take SICT
+   WHERE SICT.student_id=@studentID 
+   AND SICT.grade IS NOT NULL AND 
+   SICT.grade <> 'F'
+   )
+))
+BEGIN 
+UPDATE Request
+SET status='accepted'
+where request_id=@RequestID
+DECLARE @INSTRUCTOR_ID INT
+SELECT @INSTRUCTOR_ID= IC.instructor_id from Instructor_Course IC
+WHERE IC.course_id=@Course_ID
+DECLARE @SEMESTER_CODE VARCHAR(40)
+SELECT @SEMESTER_CODE= S.semester_code FROM Semester S WHERE S.end_date>CURRENT_TIMESTAMP AND S.start_date<CURRENT_TIMESTAMP
+INSERT into Student_Instructor_Course_Take(course_id,instructor_id,semester_code,student_id) VALUES(@Course_ID,@INSTRUCTOR_ID,@studentID,@SEMESTER_CODE) 
+END
+ELSE
+BEGIN 
+UPDATE Request
+SET status='rejected'
+where request_id=@RequestID
+END
+GO
 
  -- 2.3)B)  Advisor Registration
 Go
@@ -343,7 +433,7 @@ as
 Go
 
 
--- 2.3)N)   Update student’s Status based on his/her financial status
+-- 2.3)N)   Update student's Status based on his/her financial status
 Go
 create procedure Procedures_AdvisorAddCourseGP
 @student_id int,
@@ -452,7 +542,7 @@ AS
 GO
 
 
--- 2.3)W)   Approve/Reject extra credit hours’ request
+-- 2.3)W)   Approve/Reject extra credit hours request
 GO
 CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
     @RequestID int,
@@ -480,5 +570,6 @@ AS
                UPDATE Request 
                SET status= 'accepted' 
                WHERE request_id =@RequestID
-            END
+   Â Â Â Â Â Â Â Â Â END
 GO
+
