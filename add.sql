@@ -274,8 +274,8 @@ GO
 
 EXEC CreateAllTables
 
- -- 2.3)b)
 
+ -- 2.3)b)  Advisor Registration
 Go
     CREATE PROCEDURE Procedures_AdvisorRegistration
         @advisor_name VARCHAR(40),
@@ -284,4 +284,9 @@ Go
         @office VARCHAR(40),
         @advisor_id INT OUTPUT
         AS
+            Insert Into Advisor values (@advisor_name,@email,@office,@password);
+            SELECT @advisor_id = Advisor.advisor_id FROM Advisor WHERE Advisor.email = @email AND Advisor.password = @password
+Go
             
+            
+
