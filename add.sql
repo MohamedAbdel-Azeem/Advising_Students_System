@@ -488,7 +488,20 @@ Go
     CREATE PROCEDURE Procedures_AdminIssueInstallment
         @payment_id INT
         AS
-            UPDATE Installment set amount = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id) WHERE payment_id = @payment_id
+            UPDATE Payment SET n_installments =  (SELECT DATEDIFF(MONTH,start_date,deadline) FROM Payment WHERE Payment.payment_id = @payment_id) WHERE payment_id = @payment_id;
+            declare @installment_amount INT = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id);
+            declare @installment_startDate DATETIME = (SELECT start_date from Payment WHERE payment_id = @payment_id);
+            declare @n_installments INT =  (SELECT n_installments from Payment WHERE payment_id = @payment_id);
+            declare @i INT;
+            declare @installment_deadline DATETIME;
+            SET @i = 0;
+            WHILE @i < @n_installments
+            BEGIN
+                SET @installment_deadline = DATEADD(MONTH,1,@installment_startDate);
+                INSERT INTO Installment (payment_id,deadline,amount,start_date) VALUES (@payment_id,@installment_deadline,@installment_amount,@installment_startDate);
+                SET @i = @i + 1;
+                SET @installment_startDate = DATEADD(MONTH,1,@installment_startDate);
+            END;
 GO
 
 
@@ -661,4 +674,3 @@ AS
                WHERE request_id =@RequestID
             END
 GO
-
