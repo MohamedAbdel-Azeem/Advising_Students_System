@@ -239,49 +239,37 @@ GO
 
 
 -- Procedure for Droping all Tables
-GO
 CREATE PROCEDURE DropAllTables
 AS
-    DROP Table Student,Student_Phone,Course,PreqCourse_course,Instructor,Instructor_Course,Student_Instructor_Course_Take,
-    Semester,Course_Semester,Advisor,Slot,Graduation_Plan,GradPlan_Course,Request,MakeUp_Exam,Exam_Student,Payment,Installment
+    DROP Table Installment, Exam_Student, GradPlan_Course, Course_Semester,
+        Student_Instructor_Course_Take, Instructor_Course, PreqCourse_course,
+        Student_Phone, Request, Slot, Graduation_Plan, MakeUp_Exam, Payment,
+        Student, Course, Instructor, Semester, Advisor;
 GO
 
 
 -- Procedure for Clearing All Tables
 GO
 CREATE PROCEDURE  clearAllTables
-AS
-    TRUNCATE Table Student;
-    TRUNCATE Table Student_Phone;
-    TRUNCATE Table Course;
-    TRUNCATE Table PreqCourse_course;
-    TRUNCATE Table Instructor;
-    TRUNCATE Table Instructor_Course;
-    TRUNCATE Table Student_Instructor_Course_Take;
-    TRUNCATE Table Semester;
-    TRUNCATE Table Course_Semester;
-    TRUNCATE Table Advisor;
-    TRUNCATE Table Slot;
-    TRUNCATE Table Graduation_Plan;
-    TRUNCATE Table GradPlan_Course;
-    TRUNCATE Table Request;
-    TRUNCATE Table MakeUp_Exam;
-    TRUNCATE Table Exam_Student;
-    TRUNCATE Table Payment;
-    TRUNCATE Table Installment;
+AS  
+
+    Delete From Installment;
+    Delete From Exam_Student;
+    Delete From GradPlan_Course;
+    Delete From Course_Semester;
+    Delete From Student_Instructor_Course_Take;
+    Delete From Instructor_Course;
+    Delete From PreqCourse_course;
+    Delete From Student_Phone;
+    Delete From Request;
+    Delete From Slot;
+    Delete From Advisor;
+    Delete From Payment;
+    Delete From MakeUp_Exam;
+    Delete From Student;
+    Delete From Course;
+    Delete From Instructor;
+    Delete From Graduation_Plan;
+    Delete From Semester;
 GO
 
-
-EXEC CreateAllTables
-
- -- 2.3)b)
-
-Go
-    CREATE PROCEDURE Procedures_AdvisorRegistration
-        @advisor_name VARCHAR(40),
-        @password VARCHAR(40),
-        @email VARCHAR(40),
-        @office VARCHAR(40),
-        @advisor_id INT OUTPUT
-        AS
-            
