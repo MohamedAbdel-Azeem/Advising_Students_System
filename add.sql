@@ -9,7 +9,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Advisor table
     CREATE TABLE  Advisor (
-        advisor_id INT PRIMARY KEY,
+        advisor_id INT PRIMARY KEY ,
         name VARCHAR(40),
         email VARCHAR(40),
         office VARCHAR(40),
@@ -53,7 +53,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student table
     CREATE TABLE  Student (
-        student_id INT PRIMARY KEY,
+        student_id INT PRIMARY KEY IDENTITY,
         f_name VARCHAR(40),
         l_name VARCHAR(40),
         gpa DECIMAL(3,2),
@@ -273,4 +273,168 @@ GO
 
 
 EXEC CreateAllTables
+
+
+
+---List all Students with their Advisors
+GO
+create PROCEDURE AdminListStudentsWithAdvisors
+AS
+Select S.*,A.name AS ADVISOR_NAME,A.email AS ADVISOR_EMAIL,A.office AS ADVISOR_OFFICE , A.password AS ADVISOR_PASSWORD
+From Student S inner join Advisor A on (S.advisor_id=A.advisor_id)
+Go
+
+Drop PROCEDURE AdminListStudentsWithAdvisors
+
+Exec AdminListStudentsWithAdvisors 
+Insert into Advisor(advisor_id,password) VALUES(1,1234)
+Insert into Advisor(advisor_id,password) VALUES(2,1234)
+Insert into Student (f_name) Values ('hello')
+Insert into Student (advisor_id,f_name) Values (2,'ello')
+
+
+GO 
+
+---Link student to advisor
+CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
+@Student_ID int ,
+@Advisor_ID int 
+As
+Update  Student 
+Set advisor_id=@Advisor_ID
+where student_id=@Student_ID
+GO
+
+Exec Procedures_AdminLinkStudentToAdvisor 1,1
+
+
+--Update expected graduation date in a certain graduation plan
+GO
+CREATE PROCEDURE Procedures_AdvisorUpdateGP
+@expected_grad_semster varchar (40),
+@studentID int
+AS
+UPDATE Graduation_Plan
+Set expected_grad_semester=@expected_grad_semster
+where student_id=@studentID
+Go
+insert into Graduation_Plan VALUES(34,'SPRING 2014',30,'WINTER 2020',1,1)
+EXEC Procedures_AdvisorUpdateGP 'SUMMER 2015',1
+GO
+----Approve/Reject courses request 
+Create PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
+@RequestID int, 
+@studentID int, 
+@advisorID int
+AS
+---GET REQUIRED COURSE FOR REQUEST
+Declare @Course_ID int
+Select @Course_ID= Course_id
+                 From Request R
+                 where R.advisor_id=@advisorID AND R.student_id=@studentID AND R.request_id=@RequestID 
+---GET COURSE CREDIT HOURS
+DECLARE @CREDIT_HOURS int 
+Select   @CREDIT_HOURS = credit_hours  From Course C
+                 where c.course_id=@Course_ID
+--GET TOTAL STUDENT CREDIT HOURS
+DECLARE @ASSIGNED_HOURS INT 
+SELECT @ASSIGNED_HOURS =S.assigned_hours FROM STUDENT S
+WHERE S.student_id=@studentID
+---CHECK FOR ITS PREREQUISITE SATISFIED AND BEING LESS THAN ALREADY ASSIGNED HOURS
+DECLARE @SUM_HOURS int
+SELECT @SUM_HOURS= sum(C.credit_hours)
+FROM Student_Instructor_Course_Take SICT INNER JOIN Course C ON C.course_id=SICT.course_id 
+WHERE SICT.student_id=@studentID AND SICT.grade IS NULL
+IF @SUM_HOURS IS NULL
+BEGIN
+SET @SUM_HOURS=0
+END
+IF ((@SUM_HOURS+@CREDIT_HOURS<=@ASSIGNED_HOURS )AND NOT EXISTS(
+SELECT PQ.prerequisite_course_id
+   FROM PreqCourse_course PQ 
+   WHERE PQ.course_id=@Course_ID
+   EXCEPT
+   (Select SICT.course_id
+   FROM Student_Instructor_Course_Take SICT
+   WHERE SICT.student_id=@studentID 
+   AND SICT.grade IS NOT NULL AND 
+   SICT.grade <> 'F'
+   )
+))
+BEGIN 
+UPDATE Request
+SET status='accepted'
+where request_id=@RequestID
+DECLARE @INSTRUCTOR_ID INT
+SELECT @INSTRUCTOR_ID= IC.instructor_id from Instructor_Course IC
+WHERE IC.course_id=@Course_ID
+DECLARE @SEMESTER_CODE VARCHAR(40)
+SELECT @SEMESTER_CODE= S.semester_code FROM Semester S WHERE S.end_date>CURRENT_TIMESTAMP AND S.start_date<CURRENT_TIMESTAMP
+INSERT into Student_Instructor_Course_Take(course_id,instructor_id,semester_code,student_id) VALUES(@Course_ID,@INSTRUCTOR_ID,@studentID,@SEMESTER_CODE) 
+END
+ELSE
+BEGIN 
+UPDATE Request
+SET status='rejected'
+where request_id=@RequestID
+END
+GO
+
+
+DROP PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
+
+
+
+insert into Student(f_name,assigned_hours,advisor_id,gpa) VALUES('HELLO',26,1,2)
+insert into Student(f_name,assigned_hours,advisor_id,gpa) VALUES('HELLO',32,1,2)
+insert into Student(f_name,assigned_hours,advisor_id,gpa) VALUES('HELLO',32,1,2)
+select * from Student
+INSERT INTO Course (course_id,name,credit_hours) VALUES(1,'CSEN102',4)
+INSERT INTO Course (course_id,name,credit_hours) VALUES(3,'CSEN301',4)
+INSERT INTO Course (course_id,name,credit_hours) VALUES(2,'CSEN202',4)
+INSERT INTO Course (course_id,name,credit_hours) VALUES(4,'CSEN402',10)
+INSERT INTO Course (course_id,name,credit_hours) VALUES(5,'CSEN502',3)
+INSERT INTO Course (course_id,name,credit_hours) VALUES(6,'CSEN602',45)
+INSERT INTO PreqCourse_course VALUES(2,3),(1,2),(1,3)
+INSERT INTO PreqCourse_course VALUES(3,4)
+INSERT INTO Instructor (instructor_id) VALUES(40)
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id,grade) VALUES(1,40,2,'A')
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id,grade) VALUES(2,40,2,'A')
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id) VALUES(5,40,2)
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id,grade) VALUES(3,40,2,'A')
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id,grade) VALUES(2,40,4,'A')
+INSERT INTO Student_Instructor_Course_Take (course_id,instructor_id,student_id,grade) VALUES(2,40,3,'A')
+UPDATE Student_Instructor_Course_Take
+SET grade='A'
+WHERE student_id=2 AND course_id=3
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,2,1,2),(1,2,2,3),(1,3,3,2)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,2,4,4)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,3,5,1)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,2,6,4)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,2,7,6)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,1,8,6)
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,4,9,3)--Testing taking one preq but not the others
+INSERT INTO Request(advisor_id,student_id,request_id,course_id) VALUES(1,2,9,3)
+select * from PreqCourse_course
+SELECT * FROM Request
+SELECT * FROM Student_Instructor_Course_Take
+select * from Student
+EXEC Procedures_AdvisorApproveRejectCourseRequest 6,2,1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXEC clearAllTables
+DROP DATABASE Advising_Team_66
+EXEC DropAllTables
 
