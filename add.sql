@@ -9,7 +9,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Advisor table
     CREATE TABLE  Advisor (
-        advisor_id INT PRIMARY KEY,
+        advisor_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         email VARCHAR(40),
         office VARCHAR(40),
@@ -25,7 +25,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Instructor table
     CREATE TABLE Instructor (
-        instructor_id INT PRIMARY KEY,
+        instructor_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         email VARCHAR(40),
         faculty VARCHAR(40),
@@ -34,7 +34,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Course table
     CREATE TABLE Course (
-        course_id INT PRIMARY KEY,
+        course_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         major VARCHAR(40),
         is_offered BIT,
@@ -53,7 +53,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student table
     CREATE TABLE  Student (
-        student_id INT PRIMARY KEY,
+        student_id INT PRIMARY KEY Identity(1,1),
         f_name VARCHAR(40),
         l_name VARCHAR(40),
         gpa DECIMAL(3,2),
@@ -131,7 +131,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Slot table
     CREATE TABLE  Slot (
-        slot_id INT PRIMARY KEY,
+        slot_id INT PRIMARY KEY Identity(1,1),
         day VARCHAR(40),
         time VARCHAR(40),
         location VARCHAR(40),
@@ -147,7 +147,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Graduation_Plan table
     CREATE TABLE  Graduation_Plan (
-        plan_id INT,
+        plan_id INT Identity(1,1),
         semester_code VARCHAR(40),
         semester_credit_hours INT,
         expected_grad_semester VARCHAR(40),
@@ -169,7 +169,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Request table
     CREATE TABLE  Request (
-        request_id INT PRIMARY KEY,
+        request_id INT PRIMARY KEY Identity(1,1),
         type VARCHAR(40),
         comment VARCHAR(40),
         status VARCHAR(40) DEFAULT 'pending',
@@ -184,7 +184,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the MakeUp_Exam table
     CREATE TABLE MakeUp_Exam (
-        exam_id INT PRIMARY KEY,
+        exam_id INT PRIMARY KEY Identity(1,1),
         date DATE,
         type VARCHAR(40),
         course_id INT,
@@ -205,7 +205,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Payment table
     CREATE TABLE Payment (
-        payment_id INT PRIMARY KEY,
+        payment_id INT PRIMARY KEY Identity(1,1),
         amount INT,
         deadline DATETIME,
         status VARCHAR(40) DEFAULT 'notPaid',
@@ -274,3 +274,14 @@ GO
 
 EXEC CreateAllTables
 
+ -- 2.3)b)
+
+Go
+    CREATE PROCEDURE Procedures_AdvisorRegistration
+        @advisor_name VARCHAR(40),
+        @password VARCHAR(40),
+        @email VARCHAR(40),
+        @office VARCHAR(40),
+        @advisor_id INT OUTPUT
+        AS
+            
