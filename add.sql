@@ -277,7 +277,7 @@ GO
 EXEC CreateAllTables
 
 
- -- 2.3)b)  Advisor Registration
+ -- 2.3)B)  Advisor Registration
 Go
     CREATE PROCEDURE Procedures_AdvisorRegistration
         @advisor_name VARCHAR(40),
@@ -292,3 +292,22 @@ Go
             
             
 
+-- 2.3)G)   Add new course
+Go
+    CREATE PROCEDURE Procedures_AdminAddingCourse
+        @major VARCHAR(40),
+        @semester INT,
+        @credit_hrs INT,
+        @course_name VARCHAR(40),
+        @offered BIT
+        AS
+            Insert INTO Course values (@course_name,@major,@offered,@credit_hrs,@semester);
+Go
+
+-- 2.3)L)   Issue installments as per the number of installments for a certain payment
+Go
+    CREATE PROCEDURE Procedures_AdminIssueInstallment
+        @payment_id INT
+        AS
+            UPDATE Installment set amount = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id) WHERE payment_id = @payment_id
+GO
