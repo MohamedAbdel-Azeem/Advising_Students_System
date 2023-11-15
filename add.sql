@@ -311,3 +311,12 @@ Go
         AS
             UPDATE Installment set amount = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id) WHERE payment_id = @payment_id
 GO
+
+
+-- 2.3)Z)   View pending requests of specific advisor students
+Go
+    CREATE PROCEDURE Procedures_AdvisorViewPendingRequests
+        @advisor_id INT
+        AS
+            SELECT * FROM Request WHERE advisor_id = @advisor_id AND status = 'pending'
+Go
