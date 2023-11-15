@@ -287,17 +287,12 @@ CREATE PROCEDURE Procedures_StudentRegistration
     @Semester INT
 AS
 BEGIN
-    -- Declare variable for Student ID
     DECLARE @StudentID INT;
-
-    -- Generate a unique student ID
     SELECT @StudentID = ISNULL(MAX(student_id), 0) + 1 FROM Student;
 
-    -- Insert into the Student table
     INSERT INTO Student (student_id, f_name, l_name, faculty, email, major, password, semester)
     VALUES (@StudentID, @FirstName, @LastName, @Faculty, @Email, @Major, @Password, @Semester);
 
-    -- Output the generated Student ID
     SELECT @StudentID AS 'Student ID';
 END;
 go
@@ -310,7 +305,6 @@ CREATE PROCEDURE AdminAddingSemester
     @SemesterCode VARCHAR(40)
 AS
 BEGIN
-    -- Insert into the Semester table
     INSERT INTO Semester (semester_code, start_date, end_date)
     VALUES (@SemesterCode, @StartDate, @EndDate);
 END;
@@ -330,13 +324,10 @@ CREATE PROCEDURE Procedures_AdminAddExam
     @CourseID INT
 AS
 BEGIN
-    -- Declare variables
     DECLARE @ExamID INT;
 
-    -- Generate a unique exam ID
     SELECT @ExamID = ISNULL(MAX(exam_id), 0) + 1 FROM MakeUp_Exam;
 
-    -- Insert into the MakeUp_Exam table
     INSERT INTO MakeUp_Exam (exam_id, date, type, course_id)
     VALUES (@ExamID, @Date, @Type,@CourseID)
 END;
@@ -350,7 +341,6 @@ CREATE PROCEDURE Procedures_AdminDeleteSlots
     @CurrentSemester VARCHAR(40)
 AS
 BEGIN
-    -- Delete slots of courses not offered in the current semester
     DELETE FROM Slot
     WHERE course_id IN (
         SELECT course_id
@@ -368,7 +358,6 @@ CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
     @CourseID INT
 AS
 BEGIN
-    -- Delete the specified course from the graduation plan
     DELETE FROM GradPlan_Course
     WHERE plan_id IN (
         SELECT plan_id
