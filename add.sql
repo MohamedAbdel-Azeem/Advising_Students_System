@@ -9,7 +9,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Advisor table
     CREATE TABLE  Advisor (
-        advisor_id INT PRIMARY KEY ,
+        advisor_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         email VARCHAR(40),
         office VARCHAR(40),
@@ -25,7 +25,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Instructor table
     CREATE TABLE Instructor (
-        instructor_id INT PRIMARY KEY,
+        instructor_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         email VARCHAR(40),
         faculty VARCHAR(40),
@@ -34,7 +34,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Course table
     CREATE TABLE Course (
-        course_id INT PRIMARY KEY,
+        course_id INT PRIMARY KEY Identity(1,1),
         name VARCHAR(40),
         major VARCHAR(40),
         is_offered BIT,
@@ -53,7 +53,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Student table
     CREATE TABLE  Student (
-        student_id INT PRIMARY KEY IDENTITY,
+        student_id INT PRIMARY KEY Identity(1,1),
         f_name VARCHAR(40),
         l_name VARCHAR(40),
         gpa DECIMAL(3,2),
@@ -131,7 +131,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Slot table
     CREATE TABLE  Slot (
-        slot_id INT PRIMARY KEY,
+        slot_id INT PRIMARY KEY Identity(1,1),
         day VARCHAR(40),
         time VARCHAR(40),
         location VARCHAR(40),
@@ -147,7 +147,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Graduation_Plan table
     CREATE TABLE  Graduation_Plan (
-        plan_id INT,
+        plan_id INT Identity(1,1),
         semester_code VARCHAR(40),
         semester_credit_hours INT,
         expected_grad_semester VARCHAR(40),
@@ -169,7 +169,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Request table
     CREATE TABLE  Request (
-        request_id INT PRIMARY KEY,
+        request_id INT PRIMARY KEY Identity(1,1),
         type VARCHAR(40),
         comment VARCHAR(40),
         status VARCHAR(40) DEFAULT 'pending',
@@ -184,7 +184,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the MakeUp_Exam table
     CREATE TABLE MakeUp_Exam (
-        exam_id INT PRIMARY KEY,
+        exam_id INT PRIMARY KEY Identity(1,1),
         date DATE,
         type VARCHAR(40),
         course_id INT,
@@ -205,7 +205,7 @@ CREATE PROCEDURE CreateAllTables
 
     -- Create the Payment table
     CREATE TABLE Payment (
-        payment_id INT PRIMARY KEY,
+        payment_id INT PRIMARY KEY Identity(1,1),
         amount INT,
         deadline DATETIME,
         status VARCHAR(40) DEFAULT 'notPaid',
@@ -239,38 +239,39 @@ GO
 
 
 -- Procedure for Droping all Tables
-GO
 CREATE PROCEDURE DropAllTables
 AS
-    DROP Table Student,Student_Phone,Course,PreqCourse_course,Instructor,Instructor_Course,Student_Instructor_Course_Take,
-    Semester,Course_Semester,Advisor,Slot,Graduation_Plan,GradPlan_Course,Request,MakeUp_Exam,Exam_Student,Payment,Installment
+    DROP Table Installment, Exam_Student, GradPlan_Course, Course_Semester,
+        Student_Instructor_Course_Take, Instructor_Course, PreqCourse_course,
+        Student_Phone, Request, Slot, Graduation_Plan, MakeUp_Exam, Payment,
+        Student, Course, Instructor, Semester, Advisor;
 GO
 
 
 -- Procedure for Clearing All Tables
 GO
 CREATE PROCEDURE  clearAllTables
-AS
-    TRUNCATE Table Student;
-    TRUNCATE Table Student_Phone;
-    TRUNCATE Table Course;
-    TRUNCATE Table PreqCourse_course;
-    TRUNCATE Table Instructor;
-    TRUNCATE Table Instructor_Course;
-    TRUNCATE Table Student_Instructor_Course_Take;
-    TRUNCATE Table Semester;
-    TRUNCATE Table Course_Semester;
-    TRUNCATE Table Advisor;
-    TRUNCATE Table Slot;
-    TRUNCATE Table Graduation_Plan;
-    TRUNCATE Table GradPlan_Course;
-    TRUNCATE Table Request;
-    TRUNCATE Table MakeUp_Exam;
-    TRUNCATE Table Exam_Student;
-    TRUNCATE Table Payment;
-    TRUNCATE Table Installment;
-GO
+AS  
 
+    Delete From Installment;
+    Delete From Exam_Student;
+    Delete From GradPlan_Course;
+    Delete From Course_Semester;
+    Delete From Student_Instructor_Course_Take;
+    Delete From Instructor_Course;
+    Delete From PreqCourse_course;
+    Delete From Student_Phone;
+    Delete From Request;
+    Delete From Slot;
+    Delete From Advisor;
+    Delete From Payment;
+    Delete From MakeUp_Exam;
+    Delete From Student;
+    Delete From Course;
+    Delete From Instructor;
+    Delete From Graduation_Plan;
+    Delete From Semester;
+GO
 
 EXEC CreateAllTables
 
@@ -420,20 +421,6 @@ SELECT * FROM Request
 SELECT * FROM Student_Instructor_Course_Take
 select * from Student
 EXEC Procedures_AdvisorApproveRejectCourseRequest 6,2,1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 EXEC clearAllTables
 DROP DATABASE Advising_Team_66
 EXEC DropAllTables
