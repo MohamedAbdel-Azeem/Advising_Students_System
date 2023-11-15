@@ -277,7 +277,7 @@ EXEC CreateAllTables
 
 
 
----List all Students with their Advisors
+---List all Students with their Advisors 2.3.E
 GO
 create PROCEDURE AdminListStudentsWithAdvisors
 AS
@@ -296,7 +296,7 @@ Insert into Student (advisor_id,f_name) Values (2,'ello')
 
 GO 
 
----Link student to advisor
+---Link student to advisor 2.3.J
 CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
 @Student_ID int ,
 @Advisor_ID int 
@@ -309,7 +309,7 @@ GO
 Exec Procedures_AdminLinkStudentToAdvisor 1,1
 
 
---Update expected graduation date in a certain graduation plan
+--Update expected graduation date in a certain graduation plan 2.3.T
 GO
 CREATE PROCEDURE Procedures_AdvisorUpdateGP
 @expected_grad_semster varchar (40),
@@ -322,7 +322,7 @@ Go
 insert into Graduation_Plan VALUES(34,'SPRING 2014',30,'WINTER 2020',1,1)
 EXEC Procedures_AdvisorUpdateGP 'SUMMER 2015',1
 GO
-----Approve/Reject courses request 
+----Approve/Reject courses request 2.3.Y
 Create PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
 @RequestID int, 
 @studentID int, 
