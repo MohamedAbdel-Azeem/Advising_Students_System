@@ -272,7 +272,7 @@ AS
     Delete From Graduation_Plan;
     Delete From Semester;
 GO
-
+Exec CreateAllTables
 --2.3
 --A)
 go
@@ -283,20 +283,21 @@ CREATE PROCEDURE Procedures_StudentRegistration
     @Faculty VARCHAR(40),
     @Email VARCHAR(40),
     @Major VARCHAR(40),
-    @Semester INT
+    @Semester INT,
+    @StudentID INT OUTPUT
+    
 AS
 BEGIN
-    DECLARE @StudentID INT;
-    SELECT @StudentID = ISNULL(MAX(student_id), 0) + 1 FROM Student;
-
-    INSERT INTO Student (student_id, f_name, l_name, faculty, email, major, password, semester)
-    VALUES (@StudentID, @FirstName, @LastName, @Faculty, @Email, @Major, @Password, @Semester);
-
-    SELECT @StudentID AS 'Student ID';
+    INSERT INTO Student (f_name, l_name, faculty, email, major, password, semester)
+    VALUES (@FirstName, @LastName, @Faculty, @Email, @Major, @Password, @Semester);
+    SET @StudentID = SCOPE_IDENTITY() 
 END;
 go
-Exec Procedures_StudentRegistration 'John','Doe', 'password123', 'Engineering', 'john.doe@example.com','Computer Science', 1;
+Declare @StudentID INT
+Exec Procedures_StudentRegistration 'John','Doe', 'password123', 'Engineering', 'john.doe@example.com','Computer Science', 1, @StudentID OUTPUT
+Select @StudentID
 go
+
 --F)
 CREATE PROCEDURE AdminAddingSemester
     @StartDate DATE,
@@ -320,15 +321,11 @@ CREATE PROCEDURE Procedures_AdminAddExam
     @CourseID INT
 AS
 BEGIN
-    DECLARE @ExamID INT;
-
-    SELECT @ExamID = ISNULL(MAX(exam_id), 0) + 1 FROM MakeUp_Exam;
-
-    INSERT INTO MakeUp_Exam (exam_id, date, type, course_id)
-    VALUES (@ExamID, @Date, @Type,@CourseID)
+    INSERT INTO MakeUp_Exam (date, type, course_id)
+    VALUES (@Date, @Type,@CourseID)
 END;
-
 Exec Procedures_AdminAddExam 'Normal', '2023-5-2', 9
+
 
 
 --P)
@@ -358,9 +355,8 @@ BEGIN
     WHERE plan_id IN (
         SELECT plan_id
         FROM Graduation_Plan
-        WHERE student_id = @StudentID
-          AND semester_code = @SemesterCode
-    ) AND course_id = @CourseID;
+        WHERE student_id = @StudentID AND semester_code = @SemesterCode)
+        AND course_id = @CourseID;
 END;
 
 ---List all Students with their Advisors 2.3.E
