@@ -316,7 +316,7 @@ Go
 
 
 
---P)
+--P) (Tested)
 GO
 CREATE PROCEDURE Procedures_AdminDeleteSlots
     @current_semester VARCHAR(40)
@@ -338,10 +338,10 @@ CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
     @CourseID INT
 AS
     DELETE FROM GradPlan_Course
-    WHERE course_id = @CourseID AND plan_id IN (
+    WHERE course_id = @CourseID AND semester_code = @SemesterCode AND plan_id IN (
         SELECT plan_id
         FROM Graduation_Plan
-        WHERE student_id = @StudentID AND semester_code = @SemesterCode)
+        WHERE student_id = @StudentID)
 GO
 
 ---List all Students with their Advisors 2.3.E (Tested)
