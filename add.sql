@@ -625,6 +625,8 @@ AS
 GO
 
 
+-- 2.3)W)   Approve/Reject extra credit hours’ request
+GO
 CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
     @RequestID int,
     @Current_semester_code varchar (40)
@@ -661,4 +663,5 @@ AS
                SET status= 'accepted' 
                WHERE request_id =@RequestID
             END
+
 GO
