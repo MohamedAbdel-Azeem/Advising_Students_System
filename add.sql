@@ -274,7 +274,7 @@ AS
 GO
 Exec CreateAllTables
 --2.3
---A)
+--A) (Tested)
 go
 CREATE PROCEDURE Procedures_StudentRegistration
     @FirstName VARCHAR(40),
@@ -287,79 +287,64 @@ CREATE PROCEDURE Procedures_StudentRegistration
     @StudentID INT OUTPUT
     
 AS
-BEGIN
     INSERT INTO Student (f_name, l_name, faculty, email, major, password, semester)
     VALUES (@FirstName, @LastName, @Faculty, @Email, @Major, @Password, @Semester);
     SET @StudentID = SCOPE_IDENTITY() 
-END;
-go
-Declare @StudentID INT
-Exec Procedures_StudentRegistration 'John','Doe', 'password123', 'Engineering', 'john.doe@example.com','Computer Science', 1, @StudentID OUTPUT
-Select @StudentID
-go
+Go
 
---F)
+--F) (Tested)
 CREATE PROCEDURE AdminAddingSemester
     @StartDate DATE,
     @EndDate DATE,
     @SemesterCode VARCHAR(40)
 AS
-BEGIN
     INSERT INTO Semester (semester_code, start_date, end_date)
     VALUES (@SemesterCode, @StartDate, @EndDate);
-END;
-
-go
-EXEC AdminAddingSemester '2023-1-1', '2023-12-31', 5
+Go
 
 
---K)
+--K) (Tested)
 go
 CREATE PROCEDURE Procedures_AdminAddExam
     @Type VARCHAR(40),
     @Date DATETIME,
     @CourseID INT
 AS
-BEGIN
     INSERT INTO MakeUp_Exam (date, type, course_id)
     VALUES (@Date, @Type,@CourseID)
-END;
-Exec Procedures_AdminAddExam 'Normal', '2023-5-2', 9
+Go
 
 
 
 --P)
 GO
 CREATE PROCEDURE Procedures_AdminDeleteSlots
-    @CurrentSemester VARCHAR(40)
+    @current_semester VARCHAR(40)
 AS
-BEGIN
     DELETE FROM Slot
     WHERE course_id IN (
-        SELECT course_id
-        FROM Course
-        WHERE semester <> @CurrentSemester
+        SELECT CS.course_id
+        FROM Course_Semester CS INNER JOIN Course C on CS.course_id = C.course_id
+        WHERE CS.semester_code <> @current_semester OR C.is_offered = 0
     );
-END;
+Go
 
 
 --U)
-go
+Go
 CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
     @StudentID INT,
     @SemesterCode VARCHAR(40),
     @CourseID INT
 AS
-BEGIN
     DELETE FROM GradPlan_Course
-    WHERE plan_id IN (
+    WHERE course_id = @CourseID AND plan_id IN (
         SELECT plan_id
         FROM Graduation_Plan
         WHERE student_id = @StudentID AND semester_code = @SemesterCode)
-        AND course_id = @CourseID;
-END;
+GO
 
----List all Students with their Advisors 2.3.E
+---List all Students with their Advisors 2.3.E (Tested)
 GO
 create PROCEDURE AdminListStudentsWithAdvisors
 AS
@@ -367,7 +352,7 @@ Select S.*,A.name AS ADVISOR_NAME,A.email AS ADVISOR_EMAIL,A.office AS ADVISOR_O
 From Student S inner join Advisor A on (S.advisor_id=A.advisor_id)
 Go
 
----Link student to advisor 2.3.J
+---Link student to advisor 2.3.J (Tested)
 GO 
 CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
 @Student_ID int ,
@@ -379,7 +364,7 @@ where student_id=@Student_ID
 GO
 
 
---Update expected graduation date in a certain graduation plan 2.3.T
+--Update expected graduation date in a certain graduation plan 2.3.T (Tested)
 GO
 CREATE PROCEDURE Procedures_AdvisorUpdateGP
 @expected_grad_semster varchar (40),
@@ -392,7 +377,7 @@ Go
 
 
 
-----Approve/Reject courses request 2.3.Y
+----Approve/Reject courses request 2.3.Y (ISA Tested)
 GO
 Create PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
 @RequestID int, 
@@ -452,7 +437,7 @@ where request_id=@RequestID
 END
 GO
 
- -- 2.3)B)  Advisor Registration
+ -- 2.3)B)  Advisor Registration (Tested)
 Go
     CREATE PROCEDURE Procedures_AdvisorRegistration
         @advisor_name VARCHAR(40),
@@ -462,12 +447,12 @@ Go
         @advisor_id INT OUTPUT
         AS
             Insert Into Advisor values (@advisor_name,@email,@office,@password);
-            SELECT @advisor_id = Advisor.advisor_id FROM Advisor WHERE Advisor.email = @email AND Advisor.password = @password
+            SELECT @advisor_id = MAX(Advisor.advisor_id) FROM Advisor
 Go
             
             
 
--- 2.3)G)   Add new course
+-- 2.3)G)   Add new course (Tested)
 Go
     CREATE PROCEDURE Procedures_AdminAddingCourse
         @major VARCHAR(40),
@@ -479,7 +464,7 @@ Go
             Insert INTO Course values (@course_name,@major,@offered,@credit_hrs,@semester);
 Go
 
--- 2.3)L)   Issue installments as per the number of installments for a certain payment
+-- 2.3)L)   Issue installments as per the number of installments for a certain payment (Tested)
 Go
     CREATE PROCEDURE Procedures_AdminIssueInstallment
         @payment_id INT
@@ -501,7 +486,7 @@ Go
 GO
 
 
--- 2.3)Z)   View pending requests of specific advisor students
+-- 2.3)Z)   View pending requests of specific advisor students (Tested)
 Go
     CREATE PROCEDURE Procedures_AdvisorViewPendingRequests
         @advisor_id INT
@@ -511,7 +496,7 @@ Go
 
 
 
--- 2.3)D)    List all Advisors
+-- 2.3)D)    List all Advisors (Tested)
 Go
 create procedure Procedures_AdminListAdvisors
 as
@@ -519,7 +504,7 @@ select * from Advisor;
 Go
 
 
--- 2.3)I)   Link student to course with Specific instructor
+-- 2.3)I)   Link student to course with Specific instructor (Tested)
 Go
 create procedure Procedures_AdminLinkStudent
 @instructor_Id int, 
@@ -531,7 +516,7 @@ as
 Go
 
 
--- 2.3)N)   Update student's Status based on his/her financial status
+-- 2.3)S)   Add course inside certain plan of specific student (Tested)
 Go
 create procedure Procedures_AdvisorAddCourseGP
 @student_id int,
@@ -547,7 +532,7 @@ INSERT INTO GradPlan_Course values(@plan_id, @semester_code, @course_id);
 go
 
 
--- 2.3)S)   Add course inside certain plan of specific student
+-- 2.3)X)    View all students assigned to specific advisor from a certain major (Tested)
 Go
 create procedure Procedures_AdvisorViewAssignedStudents
     @AdvisorID INT,
@@ -563,7 +548,7 @@ Go
 
 
 
--- 2.3)X)    View all students assigned to specific advisor from a certain major
+-- 2.3)N)   Update student's Status based on his/her financial status
 Go
 create procedure Procedure_AdminUpdateStudentStatus
 @StudentID int
@@ -590,7 +575,7 @@ End
 Go
 
 
--- 2.3)C)    List all advising students
+-- 2.3)C)    List all advising students (Tested)
 GO
 CREATE PROCEDURE  Procedures_AdminListStudents  
 AS 
@@ -599,7 +584,7 @@ AS
 GO
 
 
--- 2.3)H)   Link instructor to course on specific slot
+-- 2.3)H)   Link instructor to course on specific slot (Tested)
 GO
 CREATE PROCEDURE Procedures_AdminLinkInstructor
     @InstructorId int,
@@ -615,7 +600,7 @@ AS
 GO
 
 
--- 2.3)M)   Delete courses along with its related slots
+-- 2.3)M)   Delete courses along with its related slots (Tested)
 GO
 CREATE PROCEDURE Procedures_AdminDeleteCourse
     @courseID int
@@ -626,7 +611,7 @@ AS
 GO
 
 
--- 2.3)R)   Insert graduation Plan
+-- 2.3)R)   Insert graduation Plan (Tested)
 GO
 CREATE PROCEDURE Procedures_AdvisorCreateGP
     @Semester_code varchar (40),
@@ -640,23 +625,30 @@ AS
 GO
 
 
--- 2.3)W)   Approve/Reject extra credit hours request
-GO
 CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
     @RequestID int,
     @Current_semester_code varchar (40)
 AS
     DECLARE @SUM_HOURS int
+    DECLARE @ASSIGN_HOURS int
+
+    IF (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID ) IS NULL
+        BEGIN
+
+            SET @ASSIGN_HOURS = 0
+        END
+    ELSE
+        BEGIN
+            SET @ASSIGN_HOURS = (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID )
+        END
             SELECT @SUM_HOURS= sum(C.credit_hours)
             FROM Request R INNER JOIN Student S ON R.student_id=S.student_id
             INNER JOIN Student_Instructor_Course_Take SC ON S.student_id=SC.student_id
             INNER JOIN Course C ON C.course_id=SC.course_id
             WHERE SC.semester_code=@Current_semester_code and R.request_id=@RequestID
-            print @SUM_HOURS
       IF (SELECT credit_hours FROM Request WHERE request_id=@RequestID) >3    OR
-           @SUM_HOURS+(SELECT credit_hours FROM Request WHERE request_id=@RequestID) >34    OR
-           (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID ) 
-           +(SELECT credit_hours FROM Request WHERE request_id=@RequestID) >34   OR
+           @SUM_HOURS+(SELECT credit_hours FROM Request WHERE request_id=@RequestID) >34      OR
+           @SUM_HOURS+@ASSIGN_HOURS >34      OR
            (SELECT S.gpa FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where R.request_id=@RequestID )>3.7
              BEGIN
                UPDATE Request 
@@ -668,5 +660,5 @@ AS
                UPDATE Request 
                SET status= 'accepted' 
                WHERE request_id =@RequestID
-            END
+            END
 GO
