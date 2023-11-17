@@ -563,13 +563,13 @@ FROM Student s
 if @i_status is null
 Begin
 Update Student
-Set status = 1
+Set financial_status = 1
 Where student_id=@StudentID;
 End
 else
 Begin
 Update Student
-Set status = 0
+Set financial_status = 0
 Where student_id=@StudentID;
 End
 Go
@@ -665,3 +665,4 @@ AS
             END
 
 GO
+
