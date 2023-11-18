@@ -330,7 +330,7 @@ AS
 Go
 
 
---U)
+--U) (Tested)
 Go
 CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
     @StudentID INT,
@@ -666,3 +666,65 @@ AS
 
 GO
 
+
+-- 2.3)II)  Register for first makeup exam 
+-- IF Student not in Make_up exam Table or if in SICT Table Then grade is F or Null
+-- 2 tables will have Insertions,exam_student and SICT (IN SICT do I get the Instructor_id? or Alter Data?)
+-- DON'T INSERT INTO MAKEUP_EXAM!
+GO
+CREATE PROCEDURE Procedures_StudentRegisterFirstMakeup
+    @studentID INT,
+    @courseID INT,
+    @student_current_sem VARCHAR(40)
+    AS
+        IF not Exists (SELECT * FROM
+        MakeUp_Exam INNER JOIN Exam_Student on MakeUp_Exam.exam_id = Exam_Student.exam_id 
+        WHERE Exam_Student.student_id = @studentID AND Exam_Student.course_id = @courseID) AND 
+        @studentID NOT IN (SELECT student_id FROM Student_Instructor_Course_Take
+        WHERE semester_code=@student_current_sem AND (grade <> 'F' OR grade is not null) AND course_id = @courseID)
+        BEGIN
+            declare @exam_id INT;
+            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type = 'first';
+            INSERT INTO Exam_Student(course_id,exam_id,student_id) VALUES (@courseID,@exam_id,@studentID);
+            UPDATE Student_Instructor_Course_Take 
+            SET exam_type = 'first' WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
+            UPDATE Student_Instructor_Course_Take 
+            SET grade = null WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
+        END
+GO
+
+
+--2.3)KK)   Register for 2nd makeup exam
+-- Eligible Only When failed or did not attend the first makeup and also has a maximum of TWO
+-- failed courses per all odd or even semesters.
+-- Is there a third Condition for Makeup Exams The Time in Which I am taking the 2nd Makeup?
+GO
+CREATE PROCEDURE Procedures_StudentRegisterSecondMakeup
+    @student_ID INT,
+    @courseID INT,
+    @student_current_sem VARCHAR(40)
+    AS
+        IF (not Exists (SELECT * FROM MakeUp_Exam INNER JOIN Exam_Student on MakeUp_Exam.course_id = Exam_Student.course_id
+        WHERE MakeUp_Exam.course_id = @courseID AND Exam_Student.student_id = @student_ID) OR Exists (SELECT * FROM Student_Instructor_Course_Take
+        WHERE student_id = @student_ID AND course_id = @courseID AND semester_code = @student_current_sem AND (grade is Null OR grade = 'F')) ) AND 
+        Exists (SELECT Count(*) AS X FROM Student_Instructor_Course_Take WHERE student_id = @student_ID AND grade = 'F' AND X > 2)
+        BEGIN
+            declare @exam_id INT;
+            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type = 'second';
+            INSERT INTO Exam_Student(course_id,exam_id,student_id) VALUES (@courseID,@exam_id,@studentID);
+            UPDATE Student_Instructor_Course_Take 
+            SET exam_type = 'second' WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
+            UPDATE Student_Instructor_Course_Take 
+            SET grade = null WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
+        END
+Go
+
+
+-- 2.3) O)  List all pending requests (Tested)
+GO
+CREATE VIEW all_Pending_Requests
+AS
+    SELECT R.* , S.f_name + S.l_name As 'Student_Name' , A.name As 'Advisor_name' FROM
+    Request R INNER JOIN Student S on R.student_id = S.student_id
+    INNER JOIN Advisor A on R.advisor_id = A.advisor_id
+GO
