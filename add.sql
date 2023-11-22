@@ -728,3 +728,16 @@ AS
     Request R INNER JOIN Student S on R.student_id = S.student_id
     INNER JOIN Advisor A on R.advisor_id = A.advisor_id
 GO
+
+--2.3) OO) 
+GO
+CREATE PROCEDURE Procedures_ChooseInstructor
+@StudentID INT,
+@InstructorID INT,
+@CourseID INT
+AS
+INSERT INTO Student_Instructor_Course_Take(student_id, course_id, instructor_id)
+VALUES (@StudentID, @CourseID, @InstructorID);
+INSERT INTO Instructor_Course(course_id, instructor_id)
+VALUES (@CourseID, @InstructorID);
+GO
