@@ -275,7 +275,7 @@ GO
 Exec CreateAllTables
 --2.3
 --A) (Tested)
-go
+Go
 CREATE PROCEDURE Procedures_StudentRegistration
     @FirstName VARCHAR(40),
     @LastName VARCHAR(40),
@@ -292,6 +292,43 @@ AS
     SET @StudentID = SCOPE_IDENTITY() 
 Go
 
+
+ -- 2.3)B)  Advisor Registration (Tested)
+Go
+    CREATE PROCEDURE Procedures_AdvisorRegistration
+        @advisor_name VARCHAR(40),
+        @password VARCHAR(40),
+        @email VARCHAR(40),
+        @office VARCHAR(40),
+        @advisor_id INT OUTPUT
+        AS
+            Insert Into Advisor values (@advisor_name,@email,@office,@password);
+            SELECT @advisor_id = MAX(Advisor.advisor_id) FROM Advisor
+Go
+
+-- 2.3)C)    List all advising students (Tested)
+GO
+CREATE PROCEDURE  Procedures_AdminListStudents  
+AS 
+    SELECT *
+    FROM Student
+GO
+
+-- 2.3)D)    List all Advisors (Tested)
+Go
+create procedure Procedures_AdminListAdvisors
+as
+select * from Advisor;
+Go
+
+--- 2.3)E)  List all Students with their Advisors (Tested)
+GO
+create PROCEDURE AdminListStudentsWithAdvisors
+AS
+Select S.*,A.name AS ADVISOR_NAME,A.email AS ADVISOR_EMAIL,A.office AS ADVISOR_OFFICE , A.password AS ADVISOR_PASSWORD
+From Student S inner join Advisor A on (S.advisor_id=A.advisor_id)
+Go
+
 --F) (Tested)
 CREATE PROCEDURE AdminAddingSemester
     @StartDate DATE,
@@ -302,8 +339,56 @@ AS
     VALUES (@SemesterCode, @StartDate, @EndDate);
 Go
 
+-- 2.3)G)   Add new course (Tested)
+Go
+    CREATE PROCEDURE Procedures_AdminAddingCourse
+        @major VARCHAR(40),
+        @semester INT,
+        @credit_hrs INT,
+        @course_name VARCHAR(40),
+        @offered BIT
+        AS
+            Insert INTO Course values (@course_name,@major,@offered,@credit_hrs,@semester);
+Go
 
---K) (Tested)
+-- 2.3)H)   Link instructor to course on specific slot (Tested)
+GO
+CREATE PROCEDURE Procedures_AdminLinkInstructor
+    @InstructorId int,
+    @courseId int,
+    @slotID int
+AS
+    INSERT INTO Instructor_Course (instructor_id, course_id)
+    VALUES (@InstructorId, @courseId)
+
+    UPDATE Slot
+    SET instructor_id = @InstructorId , course_id = @courseId
+    WHERE slot_id = @slotID  
+GO
+
+-- 2.3)I)   Link student to course with Specific instructor (Tested)
+Go
+create procedure Procedures_AdminLinkStudent
+@instructor_Id int, 
+@student_ID int,
+@course_ID int,
+@semester_code varchar (40)
+as
+    insert into Student_Instructor_Course_Take(student_id, course_id, instructor_id, semester_code) values(@student_id,@course_id,@instructor_Id,@semester_code)
+Go
+
+---2.3)J)   Link student to advisor (Tested)
+GO 
+CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
+@Student_ID int ,
+@Advisor_ID int 
+As
+Update  Student 
+Set advisor_id=@Advisor_ID
+where student_id=@Student_ID
+GO
+
+--K)    Admin add exam (Tested)
 go
 CREATE PROCEDURE Procedures_AdminAddExam
     @Type VARCHAR(40),
@@ -314,9 +399,74 @@ AS
     VALUES (@Date, @Type,@CourseID)
 Go
 
+-- 2.3)L)   Issue installments as per the number of installments for a certain payment (Tested)
+Go
+    CREATE PROCEDURE Procedures_AdminIssueInstallment
+        @payment_id INT
+        AS
+            UPDATE Payment SET n_installments =  (SELECT DATEDIFF(MONTH,start_date,deadline) FROM Payment WHERE Payment.payment_id = @payment_id) WHERE payment_id = @payment_id;
+            declare @installment_amount INT = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id);
+            declare @installment_startDate DATETIME = (SELECT start_date from Payment WHERE payment_id = @payment_id);
+            declare @n_installments INT =  (SELECT n_installments from Payment WHERE payment_id = @payment_id);
+            declare @i INT;
+            declare @installment_deadline DATETIME;
+            SET @i = 0;
+            WHILE @i < @n_installments
+            BEGIN
+                SET @installment_deadline = DATEADD(MONTH,1,@installment_startDate);
+                INSERT INTO Installment (payment_id,deadline,amount,start_date) VALUES (@payment_id,@installment_deadline,@installment_amount,@installment_startDate);
+                SET @i = @i + 1;
+                SET @installment_startDate = DATEADD(MONTH,1,@installment_startDate);
+            END;
+GO
+
+-- 2.3)M)   Delete courses along with its related slots (Tested)
+GO
+CREATE PROCEDURE Procedures_AdminDeleteCourse
+    @courseID int
+AS
+    DELETE 
+    FROM Course
+    WHERE course_id=@courseID
+GO
+
+-- 2.3)N)   Update student's Status based on his/her financial status
+Go
+create procedure Procedure_AdminUpdateStudentStatus
+@StudentID int
+as
+declare @i_status varchar(40)
+Select @i_status=i.status
+FROM Student s
+    Inner Join Payment p ON s.student_id = p.student_id
+    Inner Join Installment i ON p.payment_id = i.payment_id
+    where s.student_id=@StudentID AND i.deadline<current_timestamp AND i.status='NotPaid';
+
+if @i_status is null
+Begin
+Update Student
+Set financial_status = 1
+Where student_id=@StudentID;
+End
+else
+Begin
+Update Student
+Set financial_status = 0
+Where student_id=@StudentID;
+End
+Go
+
+-- 2.3) O)  List all pending requests (Tested)
+GO
+CREATE VIEW all_Pending_Requests
+AS
+    SELECT R.* , S.f_name + S.l_name As 'Student_Name' , A.name As 'Advisor_name' FROM
+    Request R INNER JOIN Student S on R.student_id = S.student_id
+    INNER JOIN Advisor A on R.advisor_id = A.advisor_id
+GO
 
 
---P) (Tested)
+--P)Delete slots of certain courses if course isn’t offered in current sem (Tested)
 GO
 CREATE PROCEDURE Procedures_AdminDeleteSlots
     @current_semester VARCHAR(40)
@@ -329,8 +479,47 @@ AS
     );
 Go
 
+-- 2.3)R)   Insert graduation Plan (Tested)
+GO
+CREATE PROCEDURE Procedures_AdvisorCreateGP
+    @Semester_code varchar (40),
+    @expected_graduation_date date,
+    @sem_credit_hours int,
+    @advisor_id int,
+    @student_id int
+AS
+    INSERT INTO Graduation_Plan (semester_code, expected_grad_semester, semester_credit_hours, advisor_id, student_id)
+    VALUES (@SemesterCode, @ExpectedGraduationDate, @SemCreditHours, @AdvisorId, @StudentId)
+GO
 
---U) (Tested)
+-- 2.3)S)   Add course inside certain plan of specific student (Tested)
+Go
+create procedure Procedures_AdvisorAddCourseGP
+@student_id int,
+@semester_code varchar (40),
+@course_name varchar (40)
+as
+DECLARE @plan_id varchar(40)
+Declare @course_id int 
+select @plan_id=GP.plan_id,@semester_code=GP.semester_code From Graduation_plan GP where GP.student_id=@student_id;
+select @course_id=C.course_id from Course C  where C.name=@course_name;
+
+INSERT INTO GradPlan_Course values(@plan_id, @semester_code, @course_id);
+go
+
+--2.3)T)    Update expected graduation date in a certain graduation plan (Tested)
+GO
+CREATE PROCEDURE Procedures_AdvisorUpdateGP
+@expected_grad_semster varchar (40),
+@studentID int
+AS
+UPDATE Graduation_Plan
+Set expected_grad_semester=@expected_grad_semster
+where student_id=@studentID
+Go
+
+
+--2.3)U)    Delete course from certain graduation plan in certain semester (Tested)
 Go
 CREATE PROCEDURE Procedures_AdvisorDeleteFromGP
     @StudentID INT,
@@ -344,40 +533,63 @@ AS
         WHERE student_id = @StudentID)
 GO
 
----List all Students with their Advisors 2.3.E (Tested)
+
+-- 2.3)W)   Approve/Reject extra credit hours’ request
 GO
-create PROCEDURE AdminListStudentsWithAdvisors
+CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
+    @RequestID int,
+    @Current_semester_code varchar (40)
 AS
-Select S.*,A.name AS ADVISOR_NAME,A.email AS ADVISOR_EMAIL,A.office AS ADVISOR_OFFICE , A.password AS ADVISOR_PASSWORD
-From Student S inner join Advisor A on (S.advisor_id=A.advisor_id)
+    DECLARE @SUM_HOURS int
+    DECLARE @ASSIGN_HOURS int
+
+    IF (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID ) IS NULL
+        BEGIN
+
+            SET @ASSIGN_HOURS = 0
+        END
+    ELSE
+        BEGIN
+            SET @ASSIGN_HOURS = (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID )
+        END
+            SELECT @SUM_HOURS= sum(C.credit_hours)
+            FROM Request R INNER JOIN Student S ON R.student_id=S.student_id
+            INNER JOIN Student_Instructor_Course_Take SC ON S.student_id=SC.student_id
+            INNER JOIN Course C ON C.course_id=SC.course_id
+            WHERE SC.semester_code=@Current_semester_code and R.request_id=@RequestID
+      IF (SELECT credit_hours FROM Request WHERE request_id=@RequestID) >3    OR
+           @SUM_HOURS+(SELECT credit_hours FROM Request WHERE request_id=@RequestID) >34      OR
+           @SUM_HOURS+@ASSIGN_HOURS >34      OR
+           (SELECT S.gpa FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where R.request_id=@RequestID )>3.7
+             BEGIN
+               UPDATE Request 
+               SET status= 'rejected' 
+               WHERE request_id =@RequestID
+               END
+       ELSE
+              BEGIN
+               UPDATE Request 
+               SET status= 'accepted' 
+               WHERE request_id =@RequestID
+            END
+
+GO
+
+-- 2.3)X)    View all students assigned to specific advisor from a certain major (Tested)
+Go
+create procedure Procedures_AdvisorViewAssignedStudents
+    @AdvisorID INT,
+    @Major VARCHAR(40)
+AS
+    SELECT s.student_id, s.f_name, s.l_name, s.major, c.name AS course_name
+    FROM Student s
+         left outer JOIN Student_Instructor_Course_Take sic ON s.student_id = sic.student_id
+         left outer join Course c ON sic.course_id = c.course_id
+         INNER JOIN Advisor a ON s.advisor_id = a.advisor_id 
+         WHERE   s.advisor_id = @AdvisorID AND s.major = @Major;
 Go
 
----Link student to advisor 2.3.J (Tested)
-GO 
-CREATE PROCEDURE  Procedures_AdminLinkStudentToAdvisor
-@Student_ID int ,
-@Advisor_ID int 
-As
-Update  Student 
-Set advisor_id=@Advisor_ID
-where student_id=@Student_ID
-GO
-
-
---Update expected graduation date in a certain graduation plan 2.3.T (Tested)
-GO
-CREATE PROCEDURE Procedures_AdvisorUpdateGP
-@expected_grad_semster varchar (40),
-@studentID int
-AS
-UPDATE Graduation_Plan
-Set expected_grad_semester=@expected_grad_semster
-where student_id=@studentID
-Go
-
-
-
-----Approve/Reject courses request 2.3.Y (ISA Tested)
+--2.3)Y)    Approve/Reject courses request (ISA Tested)
 GO
 Create PROCEDURE Procedures_AdvisorApproveRejectCourseRequest
 @RequestID int, 
@@ -436,55 +648,7 @@ SET status='rejected'
 where request_id=@RequestID
 END
 GO
-
- -- 2.3)B)  Advisor Registration (Tested)
-Go
-    CREATE PROCEDURE Procedures_AdvisorRegistration
-        @advisor_name VARCHAR(40),
-        @password VARCHAR(40),
-        @email VARCHAR(40),
-        @office VARCHAR(40),
-        @advisor_id INT OUTPUT
-        AS
-            Insert Into Advisor values (@advisor_name,@email,@office,@password);
-            SELECT @advisor_id = MAX(Advisor.advisor_id) FROM Advisor
-Go
             
-            
-
--- 2.3)G)   Add new course (Tested)
-Go
-    CREATE PROCEDURE Procedures_AdminAddingCourse
-        @major VARCHAR(40),
-        @semester INT,
-        @credit_hrs INT,
-        @course_name VARCHAR(40),
-        @offered BIT
-        AS
-            Insert INTO Course values (@course_name,@major,@offered,@credit_hrs,@semester);
-Go
-
--- 2.3)L)   Issue installments as per the number of installments for a certain payment (Tested)
-Go
-    CREATE PROCEDURE Procedures_AdminIssueInstallment
-        @payment_id INT
-        AS
-            UPDATE Payment SET n_installments =  (SELECT DATEDIFF(MONTH,start_date,deadline) FROM Payment WHERE Payment.payment_id = @payment_id) WHERE payment_id = @payment_id;
-            declare @installment_amount INT = (SELECT Payment.amount/Payment.n_installments FROM Payment WHERE payment_id = @payment_id);
-            declare @installment_startDate DATETIME = (SELECT start_date from Payment WHERE payment_id = @payment_id);
-            declare @n_installments INT =  (SELECT n_installments from Payment WHERE payment_id = @payment_id);
-            declare @i INT;
-            declare @installment_deadline DATETIME;
-            SET @i = 0;
-            WHILE @i < @n_installments
-            BEGIN
-                SET @installment_deadline = DATEADD(MONTH,1,@installment_startDate);
-                INSERT INTO Installment (payment_id,deadline,amount,start_date) VALUES (@payment_id,@installment_deadline,@installment_amount,@installment_startDate);
-                SET @i = @i + 1;
-                SET @installment_startDate = DATEADD(MONTH,1,@installment_startDate);
-            END;
-GO
-
 
 -- 2.3)Z)   View pending requests of specific advisor students (Tested)
 Go
@@ -495,176 +659,6 @@ Go
 Go
 
 
-
--- 2.3)D)    List all Advisors (Tested)
-Go
-create procedure Procedures_AdminListAdvisors
-as
-select * from Advisor;
-Go
-
-
--- 2.3)I)   Link student to course with Specific instructor (Tested)
-Go
-create procedure Procedures_AdminLinkStudent
-@instructor_Id int, 
-@student_ID int,
-@course_ID int,
-@semester_code varchar (40)
-as
-    insert into Student_Instructor_Course_Take(student_id, course_id, instructor_id, semester_code) values(@student_id,@course_id,@instructor_Id,@semester_code)
-Go
-
-
--- 2.3)S)   Add course inside certain plan of specific student (Tested)
-Go
-create procedure Procedures_AdvisorAddCourseGP
-@student_id int,
-@semester_code varchar (40),
-@course_name varchar (40)
-as
-DECLARE @plan_id varchar(40)
-Declare @course_id int 
-select @plan_id=GP.plan_id,@semester_code=GP.semester_code From Graduation_plan GP where GP.student_id=@student_id;
-select @course_id=C.course_id from Course C  where C.name=@course_name;
-
-INSERT INTO GradPlan_Course values(@plan_id, @semester_code, @course_id);
-go
-
-
--- 2.3)X)    View all students assigned to specific advisor from a certain major (Tested)
-Go
-create procedure Procedures_AdvisorViewAssignedStudents
-    @AdvisorID INT,
-    @Major VARCHAR(40)
-AS
-    SELECT s.student_id, s.f_name, s.l_name, s.major, c.name AS course_name
-    FROM Student s
-         left outer JOIN Student_Instructor_Course_Take sic ON s.student_id = sic.student_id
-         left outer join Course c ON sic.course_id = c.course_id
-         INNER JOIN Advisor a ON s.advisor_id = a.advisor_id 
-         WHERE   s.advisor_id = @AdvisorID AND s.major = @Major;
-Go
-
-
-
--- 2.3)N)   Update student's Status based on his/her financial status
-Go
-create procedure Procedure_AdminUpdateStudentStatus
-@StudentID int
-as
-declare @i_status varchar(40)
-Select @i_status=i.status
-FROM Student s
-    Inner Join Payment p ON s.student_id = p.student_id
-    Inner Join Installment i ON p.payment_id = i.payment_id
-    where s.student_id=@StudentID AND i.deadline<current_timestamp AND i.status='NotPaid';
-
-if @i_status is null
-Begin
-Update Student
-Set financial_status = 1
-Where student_id=@StudentID;
-End
-else
-Begin
-Update Student
-Set financial_status = 0
-Where student_id=@StudentID;
-End
-Go
-
-
--- 2.3)C)    List all advising students (Tested)
-GO
-CREATE PROCEDURE  Procedures_AdminListStudents  
-AS 
-    SELECT *
-    FROM Student
-GO
-
-
--- 2.3)H)   Link instructor to course on specific slot (Tested)
-GO
-CREATE PROCEDURE Procedures_AdminLinkInstructor
-    @InstructorId int,
-    @courseId int,
-    @slotID int
-AS
-    INSERT INTO Instructor_Course (instructor_id, course_id)
-    VALUES (@InstructorId, @courseId)
-
-    UPDATE Slot
-    SET instructor_id = @InstructorId , course_id = @courseId
-    WHERE slot_id = @slotID  
-GO
-
-
--- 2.3)M)   Delete courses along with its related slots (Tested)
-GO
-CREATE PROCEDURE Procedures_AdminDeleteCourse
-    @courseID int
-AS
-    DELETE 
-    FROM Course
-    WHERE course_id=@courseID
-GO
-
-
--- 2.3)R)   Insert graduation Plan (Tested)
-GO
-CREATE PROCEDURE Procedures_AdvisorCreateGP
-    @Semester_code varchar (40),
-    @expected_graduation_date date,
-    @sem_credit_hours int,
-    @advisor_id int,
-    @student_id int
-AS
-    INSERT INTO Graduation_Plan (semester_code, expected_grad_semester, semester_credit_hours, advisor_id, student_id)
-    VALUES (@SemesterCode, @ExpectedGraduationDate, @SemCreditHours, @AdvisorId, @StudentId)
-GO
-
-
--- 2.3)W)   Approve/Reject extra credit hours’ request
-GO
-CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
-    @RequestID int,
-    @Current_semester_code varchar (40)
-AS
-    DECLARE @SUM_HOURS int
-    DECLARE @ASSIGN_HOURS int
-
-    IF (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID ) IS NULL
-        BEGIN
-
-            SET @ASSIGN_HOURS = 0
-        END
-    ELSE
-        BEGIN
-            SET @ASSIGN_HOURS = (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID )
-        END
-            SELECT @SUM_HOURS= sum(C.credit_hours)
-            FROM Request R INNER JOIN Student S ON R.student_id=S.student_id
-            INNER JOIN Student_Instructor_Course_Take SC ON S.student_id=SC.student_id
-            INNER JOIN Course C ON C.course_id=SC.course_id
-            WHERE SC.semester_code=@Current_semester_code and R.request_id=@RequestID
-      IF (SELECT credit_hours FROM Request WHERE request_id=@RequestID) >3    OR
-           @SUM_HOURS+(SELECT credit_hours FROM Request WHERE request_id=@RequestID) >34      OR
-           @SUM_HOURS+@ASSIGN_HOURS >34      OR
-           (SELECT S.gpa FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where R.request_id=@RequestID )>3.7
-             BEGIN
-               UPDATE Request 
-               SET status= 'rejected' 
-               WHERE request_id =@RequestID
-               END
-       ELSE
-              BEGIN
-               UPDATE Request 
-               SET status= 'accepted' 
-               WHERE request_id =@RequestID
-            END
-
-GO
 
 
 -- 2.3)II)  Register for first makeup exam 
@@ -720,14 +714,6 @@ CREATE PROCEDURE Procedures_StudentRegisterSecondMakeup
 Go
 
 
--- 2.3) O)  List all pending requests (Tested)
-GO
-CREATE VIEW all_Pending_Requests
-AS
-    SELECT R.* , S.f_name + S.l_name As 'Student_Name' , A.name As 'Advisor_name' FROM
-    Request R INNER JOIN Student S on R.student_id = S.student_id
-    INNER JOIN Advisor A on R.advisor_id = A.advisor_id
-GO
 
 --2.3) OO) 
 GO
