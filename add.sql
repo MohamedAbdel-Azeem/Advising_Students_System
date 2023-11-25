@@ -15,7 +15,7 @@ CREATE PROCEDURE CreateAllTables
         office VARCHAR(40),
         password VARCHAR(40)
     );
-
+        
     -- Create the Semester table
     CREATE TABLE Semester (
         semester_code VARCHAR(40) PRIMARY KEY,
@@ -67,8 +67,6 @@ CREATE PROCEDURE CreateAllTables
         assigned_hours INT,
         advisor_id INT,
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id)
-        ON Update CASCADE
-        ON DELETE CASCADE,
     );
 
     -- Create the Student_Phone table
@@ -112,7 +110,7 @@ CREATE PROCEDURE CreateAllTables
         FOREIGN KEY (instructor_id) REFERENCES Instructor(instructor_id)        
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-        Primary Key (student_id,course_id,instructor_id)
+        Primary Key (student_id,course_id,semester_code)
     );
 
 
@@ -150,7 +148,7 @@ CREATE PROCEDURE CreateAllTables
         plan_id INT Identity(1,1),
         semester_code VARCHAR(40),
         semester_credit_hours INT,
-        expected_grad_semester VARCHAR(40),
+        expected_grad_date Date,
         advisor_id INT,
         student_id INT,
         FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id),
@@ -185,7 +183,7 @@ CREATE PROCEDURE CreateAllTables
     -- Create the MakeUp_Exam table
     CREATE TABLE MakeUp_Exam (
         exam_id INT PRIMARY KEY Identity(1,1),
-        date DATE,
+        date DATETIME,
         type VARCHAR(40),
         course_id INT,
         FOREIGN KEY (course_id) REFERENCES Course(course_id),
@@ -208,12 +206,12 @@ CREATE PROCEDURE CreateAllTables
         payment_id INT PRIMARY KEY Identity(1,1),
         amount INT,
         deadline DATETIME,
+        n_installments INT,
         status VARCHAR(40) DEFAULT 'notPaid',
         fund_percentage DECIMAL(4, 3),
+        start_date DATETIME,
         student_id INT,
         semester_code VARCHAR(40),
-        start_date DATETIME,
-        n_installments INT, -- Is n_installments Derived?
         FOREIGN KEY (student_id) REFERENCES Student(student_id)
         ON UPDATE CASCADE 
         ON DELETE CASCADE,
@@ -226,7 +224,7 @@ CREATE PROCEDURE CreateAllTables
     CREATE TABLE Installment (
         payment_id INT,
         deadline DATETIME,
-        amount INT, -- Is Amount derived?
+        amount INT,
         status VARCHAR(40) DEFAULT 'notPaid',
         start_date DATETIME,
         FOREIGN KEY (payment_id) REFERENCES Payment(payment_id)
@@ -272,7 +270,80 @@ AS
     Delete From Graduation_Plan;
     Delete From Semester;
 GO
-Exec CreateAllTables
+
+--  2.2)
+-- 2.2)A)
+ go
+ create view view_Students
+ as 
+ select * from Student where financial_status=1
+ go
+
+  -- 2.2)B)
+
+ go
+ create view view_Course_prerequisites
+ as select c.*, p.prerequisite_course_id from Course c left outer join PreqCourse_course p on c.course_id=p.course_id
+ go
+
+  -- 2.2)C)
+
+ go
+ create view Instructors_AssignedCourses
+ as
+ select s.*,i.course_id from Instructor_Course i inner join Instructor s on s.instructor_id=i.instructor_id
+ go
+
+  -- 2.2)D)
+
+ go
+ create view Student_Payment
+ as
+ select i.*,s.f_name+' '+s.l_name as'Full name' from Payment i inner join Student s on s.student_id=i.student_id
+ go
+
+  -- 2.2)E)
+
+ go
+ create view Courses_Slots_Instructor
+ as select c.course_id,c.name, s.slot_id, s.day, s.time, s.location, i.name as'InstructorName' from Course c inner join slot s on s.course_id=c.course_id inner join Instructor i on s.instructor_id=i.instructor_id
+ go
+
+  -- 2.2)F)
+
+ go
+ create view Courses_MakeupExams(Course_Name,Course_Semester,Exam_id,Exam_date,Exam_type,Course_id)
+ as
+    Select C.name , C.semester , ME.exam_id , ME.date , ME.type , ME.course_id 
+    From Course C INNER JOIN MakeUp_Exam ME on C.course_id = ME.course_id
+go
+
+ -- 2.2)G)
+
+go
+create view Students_Courses_transcript (Student_id, student_name, course_id, course_name, exam_type, course_grade, semester,  Instructors_name)
+as select s.student_id,s.f_name+' '+s.l_name, sic.course_id, c.name,sic.exam_type,sic.grade,sic.semester_code,i.name
+from Student s inner join Student_Instructor_Course_Take sic on s.student_id=sic.student_id inner join Course c on c.course_id=sic.course_id inner join Instructor i on i.instructor_id=sic.instructor_id
+go
+
+ -- 2.2)H)
+
+ go
+ create view Semster_offered_Courses (Course_id, Course_name, Semester_code)
+ as 
+ select c.course_id,c.name ,sc.semester_code from Course_Semester sc inner join course c on c.course_id=sc.course_id
+ go
+
+
+--2.2)I)    Fetch all graduation plans along with their initiated advisors
+GO
+CREATE VIEW Advisors_Graduation_Plan(Plan_id,Semester_code,Semester_credit_hrs,Expected_grad_date,Advisor_id,Student_id,Advisor_name)
+AS
+    SELECT GP.plan_id,GP.semester_code,GP.semester_credit_hours,GP.expected_grad_date,GP.advisor_id,GP.student_id,A.name 
+    FROM Graduation_Plan GP INNER JOIN Advisor A ON GP.advisor_id=A.advisor_id
+GO
+
+
 --2.3
 --A) (Tested)
 Go
@@ -627,7 +698,7 @@ SELECT PQ.prerequisite_course_id
    FROM Student_Instructor_Course_Take SICT
    WHERE SICT.student_id=@studentID 
    AND SICT.grade IS NOT NULL AND 
-   SICT.grade <> 'F'
+   SICT.grade not in ('F','FA','FF')
    )
 ))
 BEGIN 
@@ -659,10 +730,48 @@ Go
 Go
 
 
+-- BB)   Add Student mobile number(s)
+
+go 
+create procedure Procedures_StudentaddMobile 
+@StudentID int, 
+@mobile_number varchar (40)
+as
+insert into Student_phone values(@StudentID,@mobile_number);
+go
+
+-- DD)  Sending course’s request 
+
+go 
+create procedure Procedures_StudentSendingCourseRequest
+@Student_ID int,
+@course_ID int,
+@type varchar (40),
+@comment varchar (40) 
+as
+declare @advisor_Id int
+select @advisor_Id=advisor_id from Student where @Student_ID=student_id
+insert into Request(type,comment,course_id,student_id,advisor_id) values(@type, @comment, @course_id,@student_id,@advisor_Id);
+go
+
+
+-- EE)  Sending extra credit hours’ reques
+
+go
+create procedure Procedures_StudentSendingCHRequest
+@Student_ID int,
+@credit_hours int,
+@type varchar (40),
+@comment varchar (40) 
+as
+declare @advisor_Id int
+select @advisor_Id=advisor_id from Student where @Student_ID=student_id
+insert into Request(type,comment,credit_hours,student_id,advisor_id) values(@type, @comment, @credit_hours,@student_id,@advisor_Id);
+go
 
 
 -- 2.3)II)  Register for first makeup exam 
--- IF Student not in Make_up exam Table or if in SICT Table Then grade is F or Null
+-- IF Student not in Make_up exam Table or if in SICT Table Then grade is F or Null TYPE IS NORMAL ?? 
 -- 2 tables will have Insertions,exam_student and SICT (IN SICT do I get the Instructor_id? or Alter Data?)
 -- DON'T INSERT INTO MAKEUP_EXAM!
 GO
@@ -674,8 +783,8 @@ CREATE PROCEDURE Procedures_StudentRegisterFirstMakeup
         IF not Exists (SELECT * FROM
         MakeUp_Exam INNER JOIN Exam_Student on MakeUp_Exam.exam_id = Exam_Student.exam_id 
         WHERE Exam_Student.student_id = @studentID AND Exam_Student.course_id = @courseID) AND 
-        @studentID NOT IN (SELECT student_id FROM Student_Instructor_Course_Take
-        WHERE semester_code=@student_current_sem AND (grade <> 'F' OR grade is not null) AND course_id = @courseID)
+        @studentID IN (SELECT student_id FROM Student_Instructor_Course_Take
+        WHERE semester_code=@student_current_sem AND (grade = 'FF') AND course_id = @courseID)
         BEGIN
             declare @exam_id INT;
             SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type = 'first';
@@ -700,20 +809,101 @@ CREATE PROCEDURE Procedures_StudentRegisterSecondMakeup
     AS
         IF (not Exists (SELECT * FROM MakeUp_Exam INNER JOIN Exam_Student on MakeUp_Exam.course_id = Exam_Student.course_id
         WHERE MakeUp_Exam.course_id = @courseID AND Exam_Student.student_id = @student_ID) OR Exists (SELECT * FROM Student_Instructor_Course_Take
-        WHERE student_id = @student_ID AND course_id = @courseID AND semester_code = @student_current_sem AND (grade is Null OR grade = 'F')) ) AND 
-        Exists (SELECT Count(*) AS X FROM Student_Instructor_Course_Take WHERE student_id = @student_ID AND grade = 'F' AND X > 2)
+        WHERE student_id = @student_ID AND course_id = @courseID AND semester_code = @student_current_sem AND (grade is Null OR grade = 'FF')) ) AND 
+        Exists (SELECT Count(*) AS X FROM Student_Instructor_Course_Take WHERE student_id = @student_ID AND grade = 'FF' AND X > 2)
         BEGIN
             declare @exam_id INT;
             SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type = 'second';
             INSERT INTO Exam_Student(course_id,exam_id,student_id) VALUES (@courseID,@exam_id,@studentID);
-            UPDATE Student_Instructor_Course_Take 
+            UPDATE Student_Instructor_Course_Take
             SET exam_type = 'second' WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
             UPDATE Student_Instructor_Course_Take 
             SET grade = null WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem;
         END
 Go
 
+-- 2.3)LL)  View required courses
 
+GO 
+CREATE PROCEDURE Procedures_ViewRequiredCourses
+    @StudentID int,
+    @CurrentSemesterCode varchar(40)
+AS
+    DECLARE @Major  VARCHAR(40)
+    DECLARE @Semster  int
+    DECLARE @count_failed int
+
+    SELECT @count_failed=count(*) 
+     FROM Student_Instructor_Course_Take
+     WHERE student_id = @StudentID AND grade in('F','FA')
+
+    SELECT  @Major=major ,@Semster=semester
+    from Student where student_id=@StudentID
+
+    SELECT C.*
+    FROM Course C left outer join Student_Instructor_Course_Take SICT on c.course_id=SICT.course_id
+    WHERE ( (SICT.student_id=@StudentID  AND SICT.grade in ('F','FA') OR (C.major=@Major AND C.semester<@Semster and c.course_id not in(select course_id from Student_Instructor_Course_Take where student_id=@StudentID)))) AND 
+    C.is_offered=1 AND 
+    NOT EXISTS( SELECT * 
+                FROM MakeUp_Exam ME  
+                WHERE ME.course_id=C.course_id AND ME.type='FIRST' AND ME.date>CURRENT_TIMESTAMP) AND 
+    NOT EXISTS( SELECT * 
+                FROM MakeUp_Exam ME  
+                WHERE ME.course_id=C.course_id AND ME.type='SECOND' AND ME.date>CURRENT_TIMESTAMP AND @count_failed<3 )
+
+GO
+
+-- 2.3)MM)  View optional courses
+go
+create procedure Procedures_ViewOptionalCourse
+@StudentID int, 
+@Current_semester_code Varchar (40)
+AS
+DECLARE @Major  VARCHAR(40)
+    DECLARE @Semster  int
+    DECLARE @count_failed int
+
+    SELECT @count_failed=count(*) 
+     FROM Student_Instructor_Course_Take
+     WHERE student_id = @StudentID AND grade in('F','FA')
+
+     SELECT  @Major=major ,@Semster=semester
+    from Student where student_id=@StudentID
+
+select c.*
+from Course c
+where c.major=@major and not exists(select * from Student_Instructor_Course_Take s
+ where s.student_id=@StudentID and c.course_id=s.course_id) and c.course_id 
+ not in(
+    
+
+    SELECT C2.course_id
+    FROM Course C2 left outer join Student_Instructor_Course_Take SICT on c2.course_id=SICT.course_id
+    WHERE ( (SICT.student_id=@StudentID  AND SICT.grade in ('F','FA') OR (C2.major=@Major AND C2.semester<@Semster and c2.course_id not in(select course_id from Student_Instructor_Course_Take where student_id=@StudentID)))) AND 
+    C2.is_offered=1 AND 
+    NOT EXISTS( SELECT * 
+                FROM MakeUp_Exam ME  
+                WHERE ME.course_id=C2.course_id AND ME.type='FIRST' AND ME.date>CURRENT_TIMESTAMP) AND 
+    NOT EXISTS( SELECT * 
+                FROM MakeUp_Exam ME  
+                WHERE ME.course_id=C2.course_id AND ME.type='SECOND' AND ME.date>CURRENT_TIMESTAMP AND @count_failed<3 )
+ )
+ go
+
+
+--2.3)NN)   View missing/remaining courses to specific student. 
+GO
+CREATE PROCEDURE Procedures_ViewMS
+    @StudentID INT
+    AS
+    Declare @student_major VARCHAR(40)
+    select @student_major= s.major from Student S where s.student_id=@studentID
+    
+    SELECT * FROM Course C WHERE C.major = @student_major
+    AND not Exists 
+    (SELECT * FROM Student_Instructor_Course_Take 
+    where student_id = @StudentID AND course_id = C.course_id AND grade not in ('FA','FF','F')) 
+Go
 
 --2.3) OO) 
 GO
@@ -727,3 +917,5 @@ VALUES (@StudentID, @CourseID, @InstructorID);
 INSERT INTO Instructor_Course(course_id, instructor_id)
 VALUES (@CourseID, @InstructorID);
 GO
+
+
