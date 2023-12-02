@@ -259,13 +259,13 @@ AS
     Delete From Student_Phone;
     Delete From Request;
     Delete From Slot;
-    Delete From Advisor;
     Delete From Payment;
     Delete From MakeUp_Exam;
+    Delete From Graduation_Plan;
     Delete From Student;
+    Delete From Advisor;
     Delete From Course;
     Delete From Instructor;
-    Delete From Graduation_Plan;
     Delete From Semester;
 GO
 
@@ -621,7 +621,7 @@ AS
 GO
 
 
--- 2.3)W)   Approve/Reject extra credit hours� request
+-- 2.3)W)   Approve/Reject extra credit hours request
 GO
 CREATE PROCEDURE Procedures_AdvisorApproveRejectCHRequest
     @RequestID int,
@@ -631,15 +631,8 @@ if (select credit_hours from Request where request_id=@RequestID) is not null
 begin
     DECLARE @SUM_HOURS int
     DECLARE @ASSIGN_HOURS int
-    IF (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID ) IS NULL
-        BEGIN
-            SET @ASSIGN_HOURS = 0
-        END
-    ELSE
-        BEGIN
             SET @ASSIGN_HOURS = (SELECT S.assigned_hours FROM Student S INNER JOIN Request R ON S.student_id=R.student_id where r.request_id=@RequestID )
-        END
-            SELECT @SUM_HOURS= sum(C.credit_hours)
+            SELECT @SUM_HOURS= isnull( sum(C.credit_hours),0)
             FROM Request R INNER JOIN Student S ON R.student_id=S.student_id
             INNER JOIN Student_Instructor_Course_Take SC ON S.student_id=SC.student_id
             INNER JOIN Course C ON C.course_id=SC.course_id
@@ -665,7 +658,7 @@ begin
                             from installment
                             where payment_id= (select payment_id from payment where semester_code=@Current_semester_code 
                             and student_id=(select student_id from Request where request_id=@RequestID)))
-            END
+            END
 END
 GO
 
@@ -724,7 +717,7 @@ BEGIN
 UPDATE Request
 SET status='accepted'
 where request_id=@RequestID
-INSERT into Student_Instructor_Course_Take(course_id,semester_code,student_id) VALUES(@Course_ID,@studentID,@Current_semester_code)
+INSERT into Student_Instructor_Course_Take(course_id,semester_code,student_id) VALUES(@Course_ID,@Current_semester_code,@studentID)
 update Student set assigned_hours=assigned_hours-@CREDIT_HOURS where student_id=@studentID
 update Payment set amount=amount+1000*@CREDIT_HOURS
                where semester_code=@Current_semester_code and student_id=(select student_id from Request where request_id=@RequestID)
@@ -797,8 +790,27 @@ go
 -- 2.3)II)  Register for first makeup exam 
 -- IF Student not in Make_up exam Table or if in SICT Table Then grade is F or Null TYPE IS NORMAL ?? 
 -- DON'T INSERT INTO MAKEUP_EXAM!
+
 GO
-CREATE PROCEDURE Procedures_StudentRegisterFirstMakeup
+CREATE FUNCTION HELPER_GETNEXTSEMESTER(@CurrentSemesterCode VARCHAR(40)) RETURNS VARCHAR(40) -- gets next Semester Code
+AS
+BEGIN
+Declare @nextSemesterCode varchar(40);
+SELECT TOP 1 @nextSemesterCode =  semester_code
+FROM Semester
+WHERE start_date > (
+    SELECT end_date
+    FROM Semester
+    WHERE semester_code = @CurrentSemesterCode
+)
+ORDER BY start_date ASC;
+Return @nextSemesterCode;
+END
+
+
+
+GO
+CREATE PROCEDURE Procedures_StudentRegisterFirstMakeup -- Inserts into Exam_Student and SICT using the next semester code
     @studentID INT,
     @courseID INT,
     @student_current_sem VARCHAR(40)
@@ -810,10 +822,11 @@ CREATE PROCEDURE Procedures_StudentRegisterFirstMakeup
         WHERE semester_code=@student_current_sem AND (grade in ('FF','F',null)) AND course_id = @courseID)
         BEGIN
             declare @exam_id INT;
-            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type like 'First';
+            declare @nextSemesterCode varchar(40) = dbo.HELPER_GETNEXTSEMESTER(@student_current_sem);
+            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type like 'First%';
             INSERT INTO Exam_Student(course_id,exam_id,student_id) VALUES (@courseID,@exam_id,@studentID);
-            UPDATE Student_Instructor_Course_Take SET grade = null , exam_type = 'First_makeup' 
-            WHERE student_id = @studentID AND course_id = @courseID AND semester_code = @student_current_sem
+            INSERT INTO Student_Instructor_Course_Take(course_id,semester_code,student_id,exam_type,grade) 
+            VALUES (@courseID,@nextSemesterCode,@studentID,'First_makeup',null);
         END
 GO
 
@@ -852,10 +865,7 @@ return 0
 END
 GO
 
---2.3)KK)   Register for 2nd makeup exam
--- Eligible Only When failed or did not attend the first makeup and also has a maximum of TWO
--- failed courses per all odd or even semesters.
--- Is there a third Condition for Makeup Exams The Time in Which I am taking the 2nd Makeup?
+--2.3)KK)   Register for 2nd makeup exam , Inserts in the Student_Instructor_Course_Take and Exam_Student tables using the nextSemesterCode using a Helper Function
 GO
 CREATE PROCEDURE Procedures_StudentRegisterSecondMakeup
     @student_ID INT,
@@ -866,10 +876,11 @@ CREATE PROCEDURE Procedures_StudentRegisterSecondMakeup
         IF (@ourBit = 1)
         BEGIN
             declare @exam_id INT;
-            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type like 'Second';
+            declare @nextSemesterCode varchar(40) = dbo.HELPER_GETNEXTSEMESTER(@student_current_sem);
+            SELECT @exam_id = exam_id  from MakeUp_Exam WHERE course_id = @courseID and type like 'Second%';
             INSERT INTO Exam_Student(course_id,exam_id,student_id) VALUES (@courseID,@exam_id,@student_ID);
-            UPDATE Student_Instructor_Course_Take SET grade = null , exam_type = 'Second_makeup' 
-            WHERE student_id = @student_ID AND course_id = @courseID AND semester_code = @student_current_sem
+            INSERT INTO Student_Instructor_Course_Take(course_id,semester_code,student_id,exam_type,grade)
+            Values (@courseID,@nextSemesterCode,@student_ID,'Second_makeup',null);
         END
 Go
 
@@ -882,21 +893,22 @@ CREATE PROCEDURE Procedures_ViewRequiredCourses
 AS
     DECLARE @Major  VARCHAR(40)
     DECLARE @Semster  int
-
     SELECT  @Major=major ,@Semster=semester
     from Student where student_id=@StudentID
 
-    SELECT C.*
-    FROM Course C left outer join Student_Instructor_Course_Take SICT on c.course_id=SICT.course_id
-    WHERE  (( (SICT.student_id=@StudentID  AND SICT.grade in ('F','FA','FF') and 
-    not exists (select * from Student_Instructor_Course_Take where course_id=c.course_id and student_id=@StudentID and grade not in ('F','FA','FF') )
-    and (dbo.FN_StudentCheckSMEligiability(c.course_id,@StudentID)=0)))
+    SELECT DISTINCT C.*
+    FROM Course C , Student_Instructor_Course_Take SICT
+    WHERE(((exists (select * from Student_Instructor_Course_Take where course_id=c.course_id and student_id=@StudentID and grade  in ('F','FA','FF') )) and 
+    ( not exists (select * from Student_Instructor_Course_Take where course_id=c.course_id and student_id=@StudentID and grade not in ('F','FA','FF') ))
+    and (dbo.FN_StudentCheckSMEligiability(c.course_id,@StudentID)=0))
+    
+    or
+    
+    (C.major=@Major AND C.semester<@Semster and c.course_id not in(select course_id from Student_Instructor_Course_Take where student_id=@StudentID)))
 
-   OR (C.major=@Major AND C.semester<@Semster and c.course_id not in(select course_id from Student_Instructor_Course_Take where student_id=@StudentID)))
-   and exists(select * from Course_Semester cs where cs.course_id=c.course_id and cs.semester_code=@CurrentSemesterCode)
+    and exists(select * from Course_Semester cs where cs.course_id=c.course_id and cs.semester_code=@CurrentSemesterCode) 
+go
 
-
-GO
 -- 2.3)MM)  View optional courses
 go
 create procedure Procedures_ViewOptionalCourse
