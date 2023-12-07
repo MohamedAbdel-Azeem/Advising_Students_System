@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Login Screen</title>
-    <link rel="stylesheet" href="./styles/styles.css"/>
+    <link rel="stylesheet" href="./styles/loginStyles.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -27,6 +27,7 @@
             </div>
             <asp:Button ID="LoginButton" runat="server" Text="Login" OnClick="login" />
         </div>
+         <a href="registerPage.aspx" id="SignupButton" target="_self"><i>Register</i></a>
     </form>
 </body>
 </html>

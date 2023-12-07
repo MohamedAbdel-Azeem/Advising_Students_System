@@ -1,4 +1,4 @@
-﻿body {
+body {
     background: url("./assets/background.jpeg") no-repeat;
     background-size: cover;
     display: flex;
@@ -20,16 +20,29 @@
         z-index: -1;
     }
 
+a {
+    text-decoration: none;
+    color: #496800;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #5e5e5e;
+}
+
 form {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: grid;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-evenly;
-    width: 400px;
-    height: 350px;
+    width: 600px;
+    height: 650px;
 }
 
 h2 {
@@ -40,7 +53,8 @@ h2 {
 #inputs {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    gap: 7px;
 }
 
 .inputGroup {
@@ -71,22 +85,21 @@ h2 {
 }
 
 
-#form1 .input:focus, .input:not(:placeholder-shown) {
+#form2 .input:focus, .input:not(:placeholder-shown) {
     outline: none;
     border: solid 1.5px #496800;
 }
 
-#form1 .input:focus ~ .userLabel , .input:not(:placeholder-shown) ~ .userLabel{
-        transform: translateX(-115%) scale(0.9);
+    #form2 .input:focus ~ .userLabel, .input:not(:placeholder-shown) ~ .userLabel {
+        transform: translateX(-125%) scale(0.9);
         padding: 0.2em;
         color: #496800;
         font-size: 20px;
-        
-}
+    }
 
-#form1 .input:focus::placeholder {
-    color: transparent;
-}
+    #form2 .input:focus::placeholder {
+        color: transparent;
+    }
 
 #LoginButton {
     cursor: pointer;
@@ -100,18 +113,19 @@ h2 {
     color: rgb(0, 0, 0);
     background-color: rgba(255, 255, 255, 1);
     border: 1px solid rgba(0, 0, 0, 1);
+    margin-top: 15px;
 }
 
 #LoginButton:hover {
-        color: white;
-        background-color: #496800;
+    color: white;
+    background-color: #496800;
 }
 
 .radio {
     padding: 4px;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     margin-top: 0;
 }
 
@@ -128,6 +142,7 @@ h2 {
     font-size: 14px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     transition: all 100ms linear;
+    margin-top: 0px;
 }
 
 .radio input:checked {
@@ -142,4 +157,43 @@ h2 {
     display: inline-block;
     text-align: center;
     width: 100%;
+}
+
+.SignuserLabel {
+    position: absolute;
+    left: 15px;
+    color: #1d1b1b;
+    pointer-events: none;
+    font-size: 20px;
+    font-weight: 500;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Signinput {
+    border: solid 1.5px #5e5e5e;
+    border-radius: 1rem;
+    background: none;
+    padding: 0.75rem;
+    width: 10rem;
+    font-size: 1rem;
+    color: #000;
+}
+
+    .Signinput:focus {
+        outline: none;
+        border: solid 1.5px #496800;
+    }
+
+
+        .Signinput:focus ~ label {
+            transform: translateX(-125%) scale(0.9);
+            padding: 0.2em;
+            color: #496800;
+        }
+
+/* Hide/Show Advisor and Student using JS */
+.student {
+}
+
+.advisor {
 }

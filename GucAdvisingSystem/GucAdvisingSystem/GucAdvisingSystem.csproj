@@ -67,6 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="registerPage.aspx" />
+    <Content Include="scripts\registerScript.js" />
     <Content Include="styles\assets\background.jpeg" />
     <Content Include="LoginPage.aspx" />
     <Content Include="styles\styles.css" />
@@ -81,6 +83,13 @@
       <DependentUpon>LoginPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="registerPage.aspx.cs">
+      <DependentUpon>registerPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="registerPage.aspx.designer.cs">
+      <DependentUpon>registerPage.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
