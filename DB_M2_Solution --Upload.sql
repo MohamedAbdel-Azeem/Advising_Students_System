@@ -1233,8 +1233,15 @@ GO
 
 
 --//////////////////////////////////////////////////////////////////////////////////////////////
---EXEC Procedures_CreateAllTables
+--EXEC CreateAllTables
 
+insert into Student(password) values('1234');
 
+insert into Advisor(password) values('2244');
 
+select * from student;
+select * from advisor;
+
+update student set financial_status=1;
+print(dbo.FN_StudentLogin(1, '1234'))
 
