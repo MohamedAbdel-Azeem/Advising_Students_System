@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Login Screen</title>
     <link rel="stylesheet" href="./styles/loginStyles.css"/>
 </head>
@@ -17,8 +18,8 @@
                 <input label="Admin" type="radio" id="Admin" name="role" value="Admin"/>
             </div> 
             <div class="inputGroup">
-                <asp:TextBox ID="UsernameInput" runat="server" CssClass="input" placeholder="Username"></asp:TextBox>
-                <asp:Label ID="Username" runat="server" Text="Username" CssClass="userLabel"></asp:Label>
+                <asp:TextBox ID="UsernameInput" runat="server" CssClass="input" placeholder="User ID"></asp:TextBox>
+                <asp:Label ID="Username" runat="server" Text="User ID" CssClass="userLabel"></asp:Label>
             </div>
             <div class="inputGroup">
                 <asp:TextBox ID="PasswordInput" runat="server" CssClass="input" placeholder="Password"></asp:TextBox>

@@ -22,6 +22,14 @@ namespace GucAdvisingSystem
             String connStr = WebConfigurationManager.ConnectionStrings["Advising_System"].ToString();
             // Create a new connection to the database
             SqlConnection conn = new SqlConnection(connStr);
+            try
+            {
+                Int16.Parse(UsernameInput.Text);
+            } catch (Exception)
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'User ID must be a number!', 'error');", true);
+                return;
+            }
 
             int username = Int16.Parse(UsernameInput.Text);
             String pass = PasswordInput.Text;
@@ -33,6 +41,21 @@ namespace GucAdvisingSystem
         {
             log = new SqlCommand("Select dbo.FN_StudentLogin(@Student_Id, @password)", conn);
             log.Parameters.AddWithValue("@Student_Id", username);
+            log.CommandType = CommandType.Text;
+            log.Parameters.AddWithValue("@password", pass);
+
+            conn.Open();
+            bool result = (bool)log.ExecuteScalar();
+            conn.Close();
+            if (result == true)
+            {
+                // Re-Direct to Student Page
+                Response.Write("<script>console.log('success')</script>");
+            }
+            else
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'User ID or Password are Incorrect!', 'error');", true);
+            } 
         }
         else
         {
@@ -40,41 +63,33 @@ namespace GucAdvisingSystem
             {
                 log = new SqlCommand("Select dbo.FN_AdvisorLogin(@advisor_Id, @password)", conn);
                 log.Parameters.AddWithValue("@advisor_Id", username);
-
-            }
-        }
-
-            if (type != "Admin") {
                 log.CommandType = CommandType.Text;
                 log.Parameters.AddWithValue("@password", pass);
 
-
                 conn.Open();
                 bool result = (bool)log.ExecuteScalar();
+                conn.Close();
                 if (result == true)
                 {
-                    Response.Write("Hello");
-                    //Response.Redirect("Courses.aspx");
+                    //Re-Direct to Advisor Page
+                    Response.Write("<script>console.log('success')</script>");
                 }
                 else
                 {
-                    Response.Write("Notfound");
-                    Response.Write(type);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'User ID or Password are Incorrect!', 'error');", true);
                 }
-            } else
-            {
-                // Admin Part
-                if (username == 2004 && pass == "password")
+            } else // admin code
                 {
-                    Response.Redirect("AdminPage.aspx");
+                    if (username == 2004 && pass == "password")
+                    {
+                        Response.Redirect("AdminPage.aspx");
+                    }
+                    else
+                    {
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'Go Away!', 'error');", true);
+                    }
                 }
-                else
-                {
-                    Response.Write("Bas yalla mn hena");
-                }
-            }
-
-        
+        }
         }
     }
 }

@@ -75,7 +75,6 @@
     <Content Include="styles\assets\background.jpeg" />
     <Content Include="LoginPage.aspx" />
     <Content Include="styles\assets\menu-down.svg" />
-    <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
