@@ -32,11 +32,11 @@
                     <asp:Label ID="pass" runat="server" Text="Password" CssClass="userLabel"></asp:Label>       
                 </div>
                 <div class="inputGroup student" id="faculty">
-                    <select id="facultyInput" class="Signinput" >
-                        <option value="CSEN">Engineering</option>
-                        <option value="DMET">Bussines</option>
-                        <option value="MET">Pharmacy and BioTechnology</option>
-                        <option value="MET">Applied Arts</option>
+                    <select id="facultyInput" class="Signinput" name="facultyInput">
+                        <option value="Engineering" selected ="selected">Engineering</option>
+                        <option value="Bussines">Bussines</option>
+                        <option value="Pharmacy and BioTechnology">Pharmacy and BioTechnology</option>
+                        <option value="Applied Arts">Applied Arts</option>
                     </select>
                 </div>
                 <div class="inputGroup" id="email">
@@ -56,7 +56,7 @@
                     <asp:Label ID="officeL" runat="server" Text="Office" CssClass="userLabel"></asp:Label>
                 </div>
             </div>
-            <button id="LoginButton">Register</button>
+            <asp:Button ID="LoginButton" runat="server" Text="Register" OnClick="Register" />
             <a href="LoginPage.aspx" id="SignupButton" target="_self"><i>Login</i></a>
     </form>
     <script src="/scripts/registerScript.js" defer="defer"></script>

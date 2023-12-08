@@ -13,5 +13,13 @@ namespace GucAdvisingSystem
         {
 
         }
+
+        protected void Register(object sender, EventArgs e)
+        {
+            String faculty = Request.Form["facultyInput"];
+            string alertScript = "alert('"+faculty+"');";
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "ServerAlert", alertScript, true);
+        }
     }
+
 }
