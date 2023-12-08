@@ -12,7 +12,6 @@
         <h2>GUC Advising System</h2>
         <div id="inputs">
             <div class="radio">
-                
                 <input label="Student" type="radio" id="Student" name="role" value="Student" checked="checked"/>
                 <input label="Advisor" type="radio" id="Advisor" name="role" value="Advisor"/>
                 <input label="Admin" type="radio" id="Admin" name="role" value="Admin"/>

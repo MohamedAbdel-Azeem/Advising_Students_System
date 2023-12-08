@@ -66,7 +66,7 @@ namespace GucAdvisingSystem
                 // Admin Part
                 if (username == 2004 && pass == "password")
                 {
-                    Response.Write("menawar");
+                    Response.Redirect("AdminPage.aspx");
                 }
                 else
                 {

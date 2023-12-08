@@ -1,0 +1,74 @@
+﻿body {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+aside {
+    background: linear-gradient(180deg,#15803d,#166534);
+    width: 200px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #e4e4e7;
+}
+
+    aside h1 {
+        color: #e4e4e7;
+        font-weight: 700;
+        margin: 0;
+        margin-left: 10%;
+        padding: 20px;
+    }
+
+    aside button {
+        background: transparent;
+        color: #e4e4e7;
+        min-width: 7em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+.dropdown {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+#controls {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+    margin: 10px 0;
+}
+
+.collapsible {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    border-left: 2px solid #e4e4e7;
+    padding-left: 10px;
+    margin: 5px;
+}
