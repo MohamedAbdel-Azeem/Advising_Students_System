@@ -68,6 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pages\Admin\AdminPage.aspx" />
+    <Content Include="pages\Admin\lists\advisorsList.aspx" />
+    <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
+    <Content Include="pages\Admin\lists\studentsList.aspx" />
     <Content Include="pages\Advisor\AdvisorPage.aspx" />
     <Content Include="registerPage.aspx" />
     <Content Include="pages\Scripts\sidebarScript.js" />
@@ -92,6 +95,27 @@
     </Compile>
     <Compile Include="LoginPage.aspx.designer.cs">
       <DependentUpon>LoginPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\lists\advisorsList.aspx.cs">
+      <DependentUpon>advisorsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\lists\advisorsList.aspx.designer.cs">
+      <DependentUpon>advisorsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\lists\PendingRequestsList.aspx.cs">
+      <DependentUpon>PendingRequestsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\lists\PendingRequestsList.aspx.designer.cs">
+      <DependentUpon>PendingRequestsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\lists\studentsList.aspx.cs">
+      <DependentUpon>studentsList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\lists\studentsList.aspx.designer.cs">
+      <DependentUpon>studentsList.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Advisor\AdvisorPage.aspx.cs">
       <DependentUpon>AdvisorPage.aspx</DependentUpon>
