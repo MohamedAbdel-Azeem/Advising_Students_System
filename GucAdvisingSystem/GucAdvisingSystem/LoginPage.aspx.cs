@@ -49,9 +49,11 @@ namespace GucAdvisingSystem
             conn.Close();
             if (result == true)
             {
-                // Re-Direct to Student Page
-                Response.Write("<script>console.log('success')</script>");
-            }
+                    // Re-Direct to Student Page
+                    Session["id"] = username;
+                    Response.Write("<script>console.log('success')</script>");
+                
+                }
             else
             {
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'User ID or Password are Incorrect!', 'error');", true);
@@ -72,7 +74,8 @@ namespace GucAdvisingSystem
                 if (result == true)
                 {
                     //Re-Direct to Advisor Page
-                    Response.Write("<script>console.log('success')</script>");
+                    Response.Redirect("./pages/Advisor/AdvisorPage.aspx");
+                    Session["id"] = username;
                 }
                 else
                 {
@@ -82,7 +85,7 @@ namespace GucAdvisingSystem
                 {
                     if (username == 2004 && pass == "password")
                     {
-                        Response.Redirect("AdminPage.aspx");
+                        Response.Redirect("./pages/Admin/AdminPage.aspx");
                     }
                     else
                     {

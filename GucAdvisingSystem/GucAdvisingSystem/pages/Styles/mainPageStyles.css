@@ -8,11 +8,13 @@
 
 aside {
     background: linear-gradient(180deg,#15803d,#166534);
-    width: 200px;
+    width: 250px;
     height: 100%;
     display: flex;
     flex-direction: column;
     color: #e4e4e7;
+    overflow-y: auto;
+    justify-content:center;
 }
 
     aside h1 {
@@ -29,7 +31,7 @@ aside {
         min-width: 7em;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
     }
 
 .dropdown {
@@ -71,4 +73,11 @@ li {
     border-left: 2px solid #e4e4e7;
     padding-left: 10px;
     margin: 5px;
+}
+
+p::before {
+    content: "\2022";
+    display: inline-block;
+    width: 1em;
+    margin-right: 0.5em;
 }
