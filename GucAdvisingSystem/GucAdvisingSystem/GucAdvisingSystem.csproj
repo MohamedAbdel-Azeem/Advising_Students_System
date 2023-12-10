@@ -67,11 +67,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="pages\Admin\add\courseAdd.aspx" />
     <Content Include="pages\Admin\AdminPage.aspx" />
     <Content Include="pages\Admin\lists\advisorsList.aspx" />
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
     <Content Include="pages\Admin\lists\studentsList.aspx" />
     <Content Include="pages\Advisor\AdvisorPage.aspx" />
+    <Content Include="pages\Styles\addStyles.css" />
     <Content Include="registerPage.aspx" />
     <Content Include="pages\Scripts\sidebarScript.js" />
     <Content Include="scripts\registerScript.js" />
@@ -82,6 +84,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pages\Admin\add\courseAdd.aspx.cs">
+      <DependentUpon>courseAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\add\courseAdd.aspx.designer.cs">
+      <DependentUpon>courseAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Admin\AdminPage.aspx.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

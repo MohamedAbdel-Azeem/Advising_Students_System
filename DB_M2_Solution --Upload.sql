@@ -1245,3 +1245,4 @@ select * from advisor;
 update student set advisor_id=2;
 print(dbo.FN_StudentLogin(1, '1234'))
 
+select * from Course;

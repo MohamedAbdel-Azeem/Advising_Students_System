@@ -29,14 +29,14 @@
                     <asp:Label ID="AdvisorName" runat="server" Text="Name" CssClass="userLabel"></asp:Label> 
                 </div>
                 <div class="inputGroup" id="password">
-                    <asp:TextBox ID="passwordInput" runat="server" CssClass="input" placeholder="Password"></asp:TextBox>
+                    <asp:TextBox ID="passwordInput" runat="server" CssClass="switch" placeholder="Password"></asp:TextBox>
                     <asp:Label ID="pass" runat="server" Text="Password" CssClass="userLabel"></asp:Label>       
                 </div>
                 <div class="inputGroup student" id="faculty">
                     <select id="facultyInput" class="Signinput" name="facultyInput">
                         <option value="Engineering" selected ="selected">Engineering</option>
                         <option value="Bussines">Bussines</option>
-                        <option value="Pharmacy and BioTechnology">Pharmacy and BioTechnology</option>
+                        <option value="Pharmacy">Pharmacy</option>
                         <option value="Applied Arts">Applied Arts</option>
                     </select>
                 </div>

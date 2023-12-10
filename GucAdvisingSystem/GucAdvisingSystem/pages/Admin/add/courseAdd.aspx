@@ -1,11 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="advisorsList.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.advisorsList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="courseAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.courseAdd" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Advisors List View</title>
+    <title>Add a Course</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
     <aside>
@@ -18,16 +20,16 @@
             <li class="menu-item">
                 <button class="collapsible">List <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="advisorsList.aspx" style="color:white;text-decoration:none">Advisors</a></p>
-                    <p><a href="studentsList.aspx" style="color:white;text-decoration:none">Students</a></p>
-                    <p><a href="PendingRequestsList.aspx" style="color:white;text-decoration:none">Requests</a></p>
+                    <p><a href="../lists/advisorsList.aspx" style="color:white;text-decoration:none">Advisors</a></p>
+                    <p><a href="../lists/studentsList.aspx" style="color:white;text-decoration:none">Students</a></p>
+                    <p><a href="../lists/PendingRequestsList.aspx" style="color:white;text-decoration:none">Requests</a></p>
                 </div>
             </li>
            <li class="menu-item">
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
-                    <p><a href="../add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Course</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
@@ -69,10 +71,34 @@
     </div>
 </aside>
     <form id="form1" runat="server">
-        <div>
-            <div class="TableContainer">
-                <h1>Advisors</h1>
-            <asp:GridView ID="AdvisorsList" runat="server"></asp:GridView>
+        <div class="inputContainer">
+            <div class="inputGroup" id="courseName">
+                <asp:TextBox ID="coursenInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
+                <asp:Label ID="Cname" runat="server" Text="Course Name" CssClass="userLabel"></asp:Label>
+            </div>
+            <div class="inputGroup" id="Semester">
+                <asp:TextBox ID="SemesterInput" runat="server" CssClass="input" placeholder="Semester"></asp:TextBox>
+                <asp:Label ID="Sem" runat="server" Text="Semester" CssClass="userLabel"></asp:Label>
+            </div>
+            <div class="inputGroup" id="CreditHours">
+                <asp:TextBox ID="CredHrsInput" runat="server" CssClass="input" placeholder="Credit Hours"></asp:TextBox>
+                <asp:Label ID="CredHrs" runat="server" Text="Credit Hours" CssClass="userLabel"></asp:Label> 
+            </div>
+            <div class="inputGroup" id="isOffered">
+                <input type="checkbox" id="isOfferedInput" class="input" name="isOfferedInput"/>
+                <label for="isOfferedInput" class="styledText">Is Offered</label>    
+            </div>
+            <div id="major">
+                <span class="styledText">Major</span>
+                <select id="majorInput" class="input" name="majorInput">
+                    <option value="Engineering" selected ="selected">Engineering</option>
+                    <option value="Bussines">Bussines</option>
+                    <option value="Pharmacy">Pharmacy</option>
+                    <option value="Applied Arts">Applied Arts</option>
+                </select>
+            </div>
+            <div>
+                <asp:Button ID="AddButton" runat="server" Text="Add Course" OnClick="addCourse" class="AddButton"/>
             </div>
         </div>
     </form>

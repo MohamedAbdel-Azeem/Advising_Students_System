@@ -49,11 +49,18 @@ namespace GucAdvisingSystem
             conn.Close();
             if (result == true)
             {
-                    // Re-Direct to Student Page
+                    //Getting Student ID and adding it to Session
                     Session["id"] = username;
-                    Response.Write("<script>console.log('success')</script>");
-                
-                }
+                    
+                    // Getting Current Semester and adding it to Session
+                    SqlCommand Current_Sem = new SqlCommand("Select TOP 1 (Semester_code) from Semester where CURRENT_TIMESTAMP >= start_date and CURRENT_TIMESTAMP<= end_date", conn);
+                    conn.Open();
+                    string Cur_Sem = (string)Current_Sem.ExecuteScalar();
+                    conn.Close();
+                    Session["Cur_Sem"] = Cur_Sem;
+
+                    // Re-Direct to Student Page
+            }
             else
             {
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'User ID or Password are Incorrect!', 'error');", true);
@@ -73,9 +80,18 @@ namespace GucAdvisingSystem
                 conn.Close();
                 if (result == true)
                 {
+                    //Getting Advisor ID and adding it to Session
+                    Session["id"] = username;
+
+                    // Getting Current Semester and adding it to Session
+                    SqlCommand Current_Sem = new SqlCommand("Select TOP 1 (Semester_code) from Semester where CURRENT_TIMESTAMP >= start_date and CURRENT_TIMESTAMP<= end_date", conn);
+                    conn.Open();
+                    string Cur_Sem = (string)Current_Sem.ExecuteScalar();
+                    conn.Close();
+                    Session["Cur_Sem"] = Cur_Sem;
+
                     //Re-Direct to Advisor Page
                     Response.Redirect("./pages/Advisor/AdvisorPage.aspx");
-                    Session["id"] = username;
                 }
                 else
                 {
