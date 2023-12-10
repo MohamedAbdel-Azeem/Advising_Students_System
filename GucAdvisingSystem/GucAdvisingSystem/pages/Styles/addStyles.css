@@ -17,19 +17,19 @@
     gap: 1rem;
 }
 
-#form1 .input:focus, .input:not(:placeholder-shown) {
+form .input:focus, .input:not(:placeholder-shown) {
     outline: none;
     border: solid 1.5px #496800;
 }
 
-    #form1 .input:focus ~ .userLabel, .input:not(:placeholder-shown) ~ .userLabel {
+    form .input:focus ~ .userLabel, .input:not(:placeholder-shown) ~ .userLabel {
         transform: translateX(-125%) scale(0.9);
         padding: 0.2em;
         color: #496800;
         font-size: 20px;
     }
 
-    #form1 .input:focus::placeholder {
+    form .input:focus::placeholder {
         color: transparent;
     }
 
@@ -63,7 +63,7 @@
     overflow-wrap: break-word;
 }
 
-#form1 .AddButton {
+form .AddButton {
     cursor: pointer;
     border: 0;
     border-radius: 7px;
@@ -77,7 +77,7 @@
     margin-top: 15px;
 }
 
-    #form1 .AddButton:hover {
+    form .AddButton:hover {
         color: white;
         background-color: #496800;
     }

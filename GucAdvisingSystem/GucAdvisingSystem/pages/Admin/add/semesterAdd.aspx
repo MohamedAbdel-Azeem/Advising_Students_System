@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="courseAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.courseAdd" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="semesterAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.semesterAdd" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Add a Course</title>
+    <title>Add a Semester</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
     <link href="../../Styles/addStyles.css" rel="stylesheet" />
@@ -28,8 +28,8 @@
            <li class="menu-item">
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
@@ -70,36 +70,23 @@
         </ul>
     </div>
 </aside>
-    <form id="form1" runat="server">
+    <form id="form2" runat="server">
         <div class="inputContainer">
-            <h2>Add Course</h2>
-            <div class="inputGroup" id="courseName">
-                <asp:TextBox ID="coursenInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
-                <asp:Label ID="Cname" runat="server" Text="Course Name" CssClass="userLabel"></asp:Label>
+            <h2>Add Semester</h2>
+            <div class="inputGroup" id="semCode">
+                <asp:TextBox ID="SemesterCodeInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
+                <asp:Label runat="server" Text="Semester Code" CssClass="userLabel"></asp:Label>
             </div>
-            <div class="inputGroup" id="Semester">
-                <asp:TextBox ID="SemesterInput" runat="server" CssClass="input" placeholder="Semester"></asp:TextBox>
-                <asp:Label ID="Sem" runat="server" Text="Semester" CssClass="userLabel"></asp:Label>
+            <div class="inputGroup" id="startDate">
+                <input type="date" id="SemesterStartInput" class="input" placeholder="Start Date" runat="server"/>
+                <span class="styledText">Start Date</span>
             </div>
-            <div class="inputGroup" id="CreditHours">
-                <asp:TextBox ID="CredHrsInput" runat="server" CssClass="input" placeholder="Credit Hours"></asp:TextBox>
-                <asp:Label ID="CredHrs" runat="server" Text="Credit Hours" CssClass="userLabel"></asp:Label> 
-            </div>
-            <div class="inputGroup" id="isOffered">
-                <input type="checkbox" id="isOfferedInput" class="input" name="isOfferedInput"/>
-                <label for="isOfferedInput" class="styledText">Is Offered</label>    
-            </div>
-            <div id="major">
-                <span class="styledText">Major</span>
-                <select id="majorInput" class="input" name="majorInput">
-                    <option value="Engineering" selected ="selected">Engineering</option>
-                    <option value="Bussines">Bussines</option>
-                    <option value="Pharmacy">Pharmacy</option>
-                    <option value="Applied Arts">Applied Arts</option>
-                </select>
+            <div class="inputGroup" id="endDate">
+                <input type="date" id="SemesterEndInput" class="input" placeholder="End Date" runat="server" />
+                <span class="styledText">End Date</span>
             </div>
             <div>
-                <asp:Button ID="AddButton" runat="server" Text="Add Course" OnClick="addCourse" class="AddButton"/>
+                <asp:Button ID="AddButton" runat="server" Text="Add Semester" OnClick="addSemester" class="AddButton"/>
             </div>
         </div>
     </form>

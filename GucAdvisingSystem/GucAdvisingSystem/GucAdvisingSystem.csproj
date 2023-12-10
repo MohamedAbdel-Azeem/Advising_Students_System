@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pages\Admin\add\courseAdd.aspx" />
+    <Content Include="pages\Admin\add\semesterAdd.aspx" />
     <Content Include="pages\Admin\AdminPage.aspx" />
     <Content Include="pages\Admin\lists\advisorsList.aspx" />
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
@@ -90,6 +91,13 @@
     </Compile>
     <Compile Include="pages\Admin\add\courseAdd.aspx.designer.cs">
       <DependentUpon>courseAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\add\semesterAdd.aspx.cs">
+      <DependentUpon>semesterAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\add\semesterAdd.aspx.designer.cs">
+      <DependentUpon>semesterAdd.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Admin\AdminPage.aspx.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
