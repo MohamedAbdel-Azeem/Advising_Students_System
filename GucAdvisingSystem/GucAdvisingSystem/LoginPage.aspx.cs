@@ -57,9 +57,10 @@ namespace GucAdvisingSystem
                     conn.Open();
                     string Cur_Sem = (string)Current_Sem.ExecuteScalar();
                     conn.Close();
-                    Session["Cur_Sem"] = Cur_Sem;
+                    Session["SEM"] = Cur_Sem;
 
                     // Re-Direct to Student Page
+                    Response.Redirect("./pages/Student/Student_Menu.aspx");
             }
             else
             {

@@ -74,6 +74,15 @@
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
     <Content Include="pages\Admin\lists\studentsList.aspx" />
     <Content Include="pages\Advisor\AdvisorPage.aspx" />
+    <Content Include="pages\Student\Courses_Views\Available.aspx" />
+    <Content Include="pages\Student\Courses_Views\Missing.aspx" />
+    <Content Include="pages\Student\Courses_Views\Optional_Courses.aspx" />
+    <Content Include="pages\Student\Courses_Views\Required_Courses.aspx" />
+    <Content Include="pages\Student\mainPageStyles.css" />
+    <Content Include="pages\Student\Requests\CHR_request.aspx" />
+    <Content Include="pages\Student\Requests\Course_Request.aspx" />
+    <Content Include="pages\Student\Student_Menu.aspx" />
+    <Content Include="pages\Student\telephone_number\telephone_number.aspx" />
     <Content Include="pages\Styles\gridStyle.css" />
     <Content Include="pages\Styles\addStyles.css" />
     <Content Include="registerPage.aspx" />
@@ -142,6 +151,62 @@
     <Compile Include="pages\Advisor\AdvisorPage.aspx.designer.cs">
       <DependentUpon>AdvisorPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="pages\Student\Courses_Views\Available.aspx.cs">
+      <DependentUpon>Available.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Available.aspx.designer.cs">
+      <DependentUpon>Available.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Missing.aspx.cs">
+      <DependentUpon>Missing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Missing.aspx.designer.cs">
+      <DependentUpon>Missing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Optional_Courses.aspx.cs">
+      <DependentUpon>Optional_Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Optional_Courses.aspx.designer.cs">
+      <DependentUpon>Optional_Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Required_Courses.aspx.cs">
+      <DependentUpon>Required_Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\Required_Courses.aspx.designer.cs">
+      <DependentUpon>Required_Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Requests\CHR_request.aspx.cs">
+      <DependentUpon>CHR_request.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Requests\CHR_request.aspx.designer.cs">
+      <DependentUpon>CHR_request.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Requests\Course_Request.aspx.cs">
+      <DependentUpon>Course_Request.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Requests\Course_Request.aspx.designer.cs">
+      <DependentUpon>Course_Request.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Student_Menu.aspx.cs">
+      <DependentUpon>Student_Menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Student_Menu.aspx.designer.cs">
+      <DependentUpon>Student_Menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\telephone_number\telephone_number.aspx.cs">
+      <DependentUpon>telephone_number.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\telephone_number\telephone_number.aspx.designer.cs">
+      <DependentUpon>telephone_number.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="registerPage.aspx.cs">
       <DependentUpon>registerPage.aspx</DependentUpon>
@@ -161,7 +226,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="pages\Student\" />
+    <Folder Include="pages\Student\Courses_View\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

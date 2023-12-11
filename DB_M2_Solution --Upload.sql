@@ -1245,4 +1245,26 @@ select * from advisor;
 update student set advisor_id=2;
 print(dbo.FN_StudentLogin(1, '1234'))
 
-Insert Into Semester(semester_code,start_date) values ('test','2023-12-31');
+INSERT INTO Semester(start_date,end_date,semester_code) Values ('2020-01-01','2025-05-01','2020R1');
+select * from Semester;
+
+
+--test a missing course for student 1
+insert into Course(name,major,semester,credit_hours,is_offered) Values ('Math','CS',1,3,1);
+insert into Course(name,major,semester,credit_hours,is_offered) Values ('Math','CS',2,3,1);
+insert into Course(name,major,semester,credit_hours,is_offered) Values ('Math','CS',3,3,1);
+
+insert into Student_Instructor_Course_take (student_id, course_id,semester_code) values (1,1,'2020R1');
+insert into Student_Instructor_Course_take (student_id, course_id,semester_code) values (1,2,'2020R1');
+
+--insert into Student_Instructor_Course_take (student_id, course_id,semester_code) values (1,3,'2020R1');
+select * from Course
+update Student 
+set semester=2
+where student_id=1
+EXEC Procedures_ViewOptionalCourse 1,'2020R1'
+select * from Student
+insert into Course_Semester(course_id,semester_code) values (6,'2020R1');
+select* from Course_Semester
+
+
