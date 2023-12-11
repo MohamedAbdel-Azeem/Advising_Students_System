@@ -11,7 +11,7 @@ namespace GucAdvisingSystem.pages.Admin.link
 {
 
 
-    public partial class InstructorCourseSlot
+    public partial class StudentCourseInstructor
     {
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace GucAdvisingSystem.pages.Admin.link
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// CourseIDInput control.
+        /// StudentIDInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox CourseIDInput;
+        protected global::System.Web.UI.WebControls.TextBox StudentIDInput;
 
         /// <summary>
         /// InstructorIDInput control.
@@ -42,13 +42,22 @@ namespace GucAdvisingSystem.pages.Admin.link
         protected global::System.Web.UI.WebControls.TextBox InstructorIDInput;
 
         /// <summary>
-        /// SlotIDInput control.
+        /// CourseIDInput control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SlotIDInput;
+        protected global::System.Web.UI.WebControls.TextBox CourseIDInput;
+
+        /// <summary>
+        /// SemesterCodeInput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox SemesterCodeInput;
 
         /// <summary>
         /// AddButton control.

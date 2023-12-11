@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <aside>
+    <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">

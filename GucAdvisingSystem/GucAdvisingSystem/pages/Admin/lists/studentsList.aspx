@@ -35,9 +35,9 @@
             <li class="menu-item">
                 <button class="collapsible">Link <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Student to Advisor</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
+                        <p><a href="../link/InstructorCourseSlot.aspx" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
+                        <p><a href="../link/StudentAdvisor.aspx" style="color:white;text-decoration:none">Student to Advisor</a></p>
+                        <p><a href="../link/StudentCourseInstructor.aspx" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
                 </div>
             </li>
             <li class="menu-item">

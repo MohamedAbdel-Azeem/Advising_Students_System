@@ -1,43 +1,42 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Required_Courses.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Required_Courses" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="StudentAdvisor.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.link.StudentAdvisor" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Advisors List View</title>
-        <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
-        <link href="../../Styles/gridStyle.css" rel="stylesheet" />
-
+    <title>Link Student-Advisor</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
-    <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
+            <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
             <li>
-                <p><a href="../Student_Menu.aspx" style="color:white;text-decoration:none">Home</a></p>
+                <p><a href="../AdminPage.aspx" style="color:white;text-decoration:none">Home</a></p>
             </li>
             <li class="menu-item">
-                <button class="collapsible">View Courses<img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
+                <button class="collapsible">List <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="Optional_Courses.aspx" style="color:white;text-decoration:none"> Optional Courses </a></p>
-                    <p><a href="Required_Courses.aspx" style="color:white;text-decoration:none"> Required Courses </a></p>
-                    <p><a href="Available.aspx" style="color:white;text-decoration:none"> Available Courses </a></p>
-                    <p><a href="Missing.aspx" style="color:white;text-decoration:none"> Missing Courses </a></p>
+                    <p><a href="../lists/advisorsList.aspx" style="color:white;text-decoration:none">Advisors</a></p>
+                    <p><a href="../lists/studentsList.aspx" style="color:white;text-decoration:none">Students</a></p>
+                    <p><a href="../lists/PendingRequestsList.aspx" style="color:white;text-decoration:none">Requests</a></p>
                 </div>
             </li>
            <li class="menu-item">
-     <button class="collapsible">Send Request<img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>
-     <div class="content">
-         <p><a href="../Requests/Course_Request.aspx" style="color:white;text-decoration:none">Send Course Request</a></p>
-         <p><a href="../Requests/CHR_request.aspx" style="color:white;text-decoration:none"> Send Extra credit hours Request </a></p>
-
-              </div>
-              </li>
+                <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
+                <div class="content">
+                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                </div>
+            </li>
             <li class="menu-item">
                 <button class="collapsible">Link <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
+                        <p><a href="InstructorCourseSlot.aspx" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Student to Advisor</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
                 </div>
@@ -66,18 +65,26 @@
                 </div>
             </li>
             <li class="menu-item">
-\                   <p><a href="../telephone_number/telephone_number.aspx" style="color:white;text-decoration:none">Add Mobile number</a></p>
+               <p> <a href="#" style="color:white;text-decoration:none">Issue Installments</a></p>
             </li>
         </ul>
     </div>
 </aside>
     <form id="form1" runat="server">
+        <div class="inputContainer">
+            <h2>Link Student to Advisor</h2>
+            <div class="inputGroup" id="SID">
+                <asp:TextBox ID="StudentIDInput" runat="server" CssClass="input" placeholder="Student ID"></asp:TextBox>
+                <asp:Label runat="server" Text="Student ID" CssClass="userLabel"></asp:Label>
+            </div>
+        <div class="inputGroup" id="AID">
+            <asp:TextBox ID="AdvisorIDInput" runat="server" CssClass="input" placeholder="Advisor ID"></asp:TextBox>
+            <asp:Label runat="server" Text="Advisor ID" CssClass="userLabel"></asp:Label>
+        </div>
         <div>
-    <div class="TableContainer">
-        <h1>Required Courses</h1>
-    <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
-    </div>
-</div>
+            <asp:Button ID="AddButton" runat="server" Text="Link" OnClick="LinkStudentAdvisor" class="AddButton"/>
+        </div>
+        </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
 </body>

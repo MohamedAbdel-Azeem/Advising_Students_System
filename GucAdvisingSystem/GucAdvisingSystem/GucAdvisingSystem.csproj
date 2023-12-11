@@ -70,6 +70,9 @@
     <Content Include="pages\Admin\add\courseAdd.aspx" />
     <Content Include="pages\Admin\add\semesterAdd.aspx" />
     <Content Include="pages\Admin\AdminPage.aspx" />
+    <Content Include="pages\Admin\link\InstructorCourseSlot.aspx" />
+    <Content Include="pages\Admin\link\StudentAdvisor.aspx" />
+    <Content Include="pages\Admin\link\StudentCourseInstructor.aspx" />
     <Content Include="pages\Admin\lists\advisorsList.aspx" />
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
     <Content Include="pages\Admin\lists\studentsList.aspx" />
@@ -122,6 +125,27 @@
     </Compile>
     <Compile Include="LoginPage.aspx.designer.cs">
       <DependentUpon>LoginPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\link\InstructorCourseSlot.aspx.cs">
+      <DependentUpon>InstructorCourseSlot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\link\InstructorCourseSlot.aspx.designer.cs">
+      <DependentUpon>InstructorCourseSlot.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\link\StudentAdvisor.aspx.cs">
+      <DependentUpon>StudentAdvisor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\link\StudentAdvisor.aspx.designer.cs">
+      <DependentUpon>StudentAdvisor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\link\StudentCourseInstructor.aspx.cs">
+      <DependentUpon>StudentCourseInstructor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\link\StudentCourseInstructor.aspx.designer.cs">
+      <DependentUpon>StudentCourseInstructor.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Admin\lists\advisorsList.aspx.cs">
       <DependentUpon>advisorsList.aspx</DependentUpon>

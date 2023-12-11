@@ -1239,8 +1239,10 @@ insert into Student(password) values('1234');
 
 insert into Advisor(password) values('2244');
 
-select * from student;
-select * from advisor;
+select * from Course;
+select * from Instructor;
+select * from Slot
+
 
 update student set advisor_id=2;
 print(dbo.FN_StudentLogin(1, '1234'))
