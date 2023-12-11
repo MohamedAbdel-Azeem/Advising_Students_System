@@ -74,6 +74,7 @@
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
     <Content Include="pages\Admin\lists\studentsList.aspx" />
     <Content Include="pages\Advisor\AdvisorPage.aspx" />
+    <Content Include="pages\Styles\gridStyle.css" />
     <Content Include="pages\Styles\addStyles.css" />
     <Content Include="registerPage.aspx" />
     <Content Include="pages\Scripts\sidebarScript.js" />

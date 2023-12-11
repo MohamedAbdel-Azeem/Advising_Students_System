@@ -6,6 +6,7 @@
 <head runat="server">
     <title>Pending Requests View</title>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../../Styles/gridStyle.css" rel="stylesheet" />
 </head>
 <body>
     <aside>
@@ -71,7 +72,7 @@
     <form id="form1" runat="server">
         <div class="TableContainer">
             <h1>Pending Requests</h1>
-            <asp:GridView ID="PendingReqList" runat="server"></asp:GridView>
+            <asp:GridView ID="PendingReqList" runat="server" CssClass="myGridClass"></asp:GridView>
         </div>    
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

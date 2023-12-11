@@ -26,8 +26,8 @@
                <li class="menu-item">
                     <button class="collapsible">ADD <img src="../styles/assets/menu-down.svg" width="40" height="40"/></button>
                     <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Semester</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Course</a></p>
+                        <p><a href="add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
+                        <p><a href="add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
                     </div>
                 </li>

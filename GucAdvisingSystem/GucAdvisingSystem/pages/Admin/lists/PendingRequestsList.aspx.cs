@@ -32,6 +32,26 @@ namespace GucAdvisingSystem.pages.Admin.lists
             PendingReqList.DataBind();
             conn.Close();
 
+            ApplyStylingForOddRows();
+
         }
+
+
+        protected void ApplyStylingForOddRows()
+        {
+            foreach (GridViewRow row in PendingReqList.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    if (row.RowIndex % 2 == 1) // Odd row
+                    {
+                        row.CssClass = "myAltRowClass";
+                    }
+                }
+            }
+        }
+
+
     }
+
 }

@@ -6,6 +6,7 @@
 <head runat="server">
     <title>Advisors List View</title>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../../Styles/gridStyle.css" rel="stylesheet" />
 </head>
 <body>
     <aside>
@@ -72,7 +73,7 @@
         <div>
             <div class="TableContainer">
                 <h1>Advisors</h1>
-            <asp:GridView ID="AdvisorsList" runat="server"></asp:GridView>
+            <asp:GridView ID="AdvisorsList" runat="server" CssClass="myGridClass"></asp:GridView>
             </div>
         </div>
     </form>
