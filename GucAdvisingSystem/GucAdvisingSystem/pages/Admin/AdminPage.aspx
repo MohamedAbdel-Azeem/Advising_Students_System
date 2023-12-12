@@ -42,7 +42,7 @@
                 <li class="menu-item">
                     <button class="collapsible">View <img src="../styles/assets/menu-down.svg" width="40" height="40"/></button>
                     <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Instructors details</a></p>
+                        <p><a href="view/InstructorCourses.aspx" style="color:white;text-decoration:none">Instructors details</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Students' Payment details</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Graduation Plans</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Student's Transcript</a></p>
@@ -51,7 +51,7 @@
                 <li class="menu-item">
                     <button class="collapsible">Fetch <img src="../styles/assets/menu-down.svg" width="40" height="40"/></button>
                     <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
+                        <p><a href="fetch/CoursesSemesters.aspx" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
                         <p><a href="#" style="color:white;text-decoration:none">Active Students details</a></p>
                     </div>
                 </li>

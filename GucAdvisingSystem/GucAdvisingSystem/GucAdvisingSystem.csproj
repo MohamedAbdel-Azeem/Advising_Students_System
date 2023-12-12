@@ -70,12 +70,14 @@
     <Content Include="pages\Admin\add\courseAdd.aspx" />
     <Content Include="pages\Admin\add\semesterAdd.aspx" />
     <Content Include="pages\Admin\AdminPage.aspx" />
+    <Content Include="pages\Admin\fetch\CoursesSemesters.aspx" />
     <Content Include="pages\Admin\link\InstructorCourseSlot.aspx" />
     <Content Include="pages\Admin\link\StudentAdvisor.aspx" />
     <Content Include="pages\Admin\link\StudentCourseInstructor.aspx" />
     <Content Include="pages\Admin\lists\advisorsList.aspx" />
     <Content Include="pages\Admin\lists\PendingRequestsList.aspx" />
     <Content Include="pages\Admin\lists\studentsList.aspx" />
+    <Content Include="pages\Admin\view\InstructorCourses.aspx" />
     <Content Include="pages\Advisor\AdvisorPage.aspx" />
     <Content Include="pages\Student\Courses_Views\Available.aspx" />
     <Content Include="pages\Student\Courses_Views\Missing.aspx" />
@@ -126,6 +128,13 @@
     <Compile Include="LoginPage.aspx.designer.cs">
       <DependentUpon>LoginPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="pages\Admin\fetch\CoursesSemesters.aspx.cs">
+      <DependentUpon>CoursesSemesters.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\fetch\CoursesSemesters.aspx.designer.cs">
+      <DependentUpon>CoursesSemesters.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Admin\link\InstructorCourseSlot.aspx.cs">
       <DependentUpon>InstructorCourseSlot.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -167,6 +176,13 @@
     </Compile>
     <Compile Include="pages\Admin\lists\studentsList.aspx.designer.cs">
       <DependentUpon>studentsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\view\InstructorCourses.aspx.cs">
+      <DependentUpon>InstructorCourses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\view\InstructorCourses.aspx.designer.cs">
+      <DependentUpon>InstructorCourses.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Advisor\AdvisorPage.aspx.cs">
       <DependentUpon>AdvisorPage.aspx</DependentUpon>

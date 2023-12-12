@@ -1,16 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="StudentCourseInstructor.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.link.StudentCourseInstructor" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CoursesSemesters.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.fetch.CoursesSemesters" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Link Student-Course-Instructor</title>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>Fetch all semesters along with their offered courses.</title>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
-    <link href="../../Styles/addStyles.css" rel="stylesheet" />
+    <link href="../../Styles/gridStyle.css" rel="stylesheet" />
 </head>
 <body>
-                <aside>
+            <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -29,16 +28,16 @@
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
                     <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
-                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="../add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">
                 <button class="collapsible">Link <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                        <p><a href="InstructorCourseSlot.aspx" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
-                        <p><a href="StudentAdvisor.aspx" style="color:white;text-decoration:none">Student to Advisor</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
+                        <p><a href="../link/InstructorCourseSlot.aspx" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
+                        <p><a href="../link/StudentAdvisor.aspx" style="color:white;text-decoration:none">Student to Advisor</a></p>
+                        <p><a href="../link/StudentCourseInstructor.aspx" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
                 </div>
             </li>
             <li class="menu-item">
@@ -53,7 +52,7 @@
             <li class="menu-item">
                 <button class="collapsible">Fetch <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="../fetch/CoursesSemesters.aspx" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Active Students details</a></p>
                 </div>
             </li>
@@ -71,27 +70,11 @@
     </div>
 </aside>
     <form id="form1" runat="server">
-        <div class="inputContainer">
-            <h2>Link Student to Course and Instructor</h2>
-            <div class="inputGroup" id="SID">
-                <asp:TextBox ID="StudentIDInput" runat="server" CssClass="input" placeholder="Student ID"></asp:TextBox>
-                <asp:Label runat="server" Text="Student ID" CssClass="userLabel"></asp:Label>
-            </div>
-        <div class="inputGroup" id="IID">
-            <asp:TextBox ID="InstructorIDInput" runat="server" CssClass="input" placeholder="Instructor ID"></asp:TextBox>
-            <asp:Label runat="server" Text="Instructor ID" CssClass="userLabel"></asp:Label>
-        </div>
-        <div class="inputGroup" id="CID">
-            <asp:TextBox ID="CourseIDInput" runat="server" CssClass="input" placeholder="Course ID"></asp:TextBox>
-            <asp:Label runat="server" Text="Course ID" CssClass="userLabel"></asp:Label>
-        </div>
-        <div class="inputGroup" id="semCode">
-            <asp:TextBox ID="SemesterCodeInput" runat="server" CssClass="input" placeholder="Semester Code"></asp:TextBox>
-            <asp:Label runat="server" Text="Semester Code" CssClass="userLabel"></asp:Label>
-        </div>
         <div>
-            <asp:Button ID="AddButton" runat="server" Text="Link" OnClick="LinkSICT" class="AddButton"/>
-        </div>
+            <div class="TableContainer">
+                <h1>semesters along with their offered courses.</h1>
+                <asp:GridView ID="CSemTable" runat="server" CssClass="myGridClass"></asp:GridView>
+            </div>
         </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

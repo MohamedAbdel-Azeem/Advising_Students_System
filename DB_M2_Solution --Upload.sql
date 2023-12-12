@@ -1269,4 +1269,7 @@ select * from Student
 insert into Course_Semester(course_id,semester_code) values (6,'2020R1');
 select* from Course_Semester
 
+Insert Into Instructor_Course(instructor_id,course_id) values (1,1);
 
+
+select * from Instructors_AssignedCourses
