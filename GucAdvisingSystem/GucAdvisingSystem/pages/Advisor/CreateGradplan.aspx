@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
      <link href="../Styles/mainPageStyles.css" rel="stylesheet" />
      <link href="../Styles/addStyles.css" rel="stylesheet" />
-
 </head>
 <body>
                 <aside style="background: linear-gradient(159deg, rgba(37,124,216,1) 0%, rgba(23,54,249,1) 100%);">
