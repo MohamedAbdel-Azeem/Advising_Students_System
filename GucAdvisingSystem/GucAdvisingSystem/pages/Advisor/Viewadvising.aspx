@@ -48,11 +48,11 @@
     </div>
     </aside>
     <form id="form1" runat="server" >
-        <div class="TableContainer" style=" padding:10px 0px 0px 100px;width:400px">
-                  <h1 >Advising Students </h1>
-           <div >
-            <asp:GridView ID="GridView3" runat="server" CssClass="myGridClass"></asp:GridView>
-               </div>
+        <div class="TableContainer" >
+                  <h1>Advising Students </h1>
+            <div style="position:absolute;right:80px;top:170px;">
+                <asp:GridView ID="GridView3" runat="server" CssClass="myGridClass" ></asp:GridView>
+            </div>
        </div>
     </form>
     <script src="../Scripts/sidebarScript.js" defer="defer"></script>
