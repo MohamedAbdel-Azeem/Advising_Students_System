@@ -10,7 +10,7 @@
     <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
-    <aside>
+                          <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -45,31 +45,35 @@
                 <button class="collapsible">View <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
                     <p><a href="../view/InstructorCourses.aspx" style="color:white;text-decoration:none">Instructors details</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Students' Payment details</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Graduation Plans</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Student's Transcript</a></p>
+                    <p><a href="../view/ViewPayments.aspx" style="color:white;text-decoration:none">Students' Payment details</a></p>
+                    <p><a href="../view/Grad_advisor.aspx" style="color:white;text-decoration:none">Graduation Plans</a></p>
+                    <p><a href="../view/Stud_Transcript.aspx" style="color:white;text-decoration:none">Student's Transcript</a></p>
                 </div>
             </li>
             <li class="menu-item">
                 <button class="collapsible">Fetch <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
                     <p><a href="../fetch/CoursesSemesters.aspx" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Active Students details</a></p>
+                    <p><a href="../fetch/Student_details.aspx" style="color:white;text-decoration:none">Active Students details</a></p>
                 </div>
             </li>
             <li class="menu-item">
                 <button class="collapsible">Delete <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Course with its Slots</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Not offered Course Slots</a></p>
+                    <p><a href="Delete.aspx" style="color:white;text-decoration:none">Course with its Slots</a></p>
+                    <p><a href="slotdeletion.aspx" style="color:white;text-decoration:none">Not offered Course Slots</a></p>
                 </div>
             </li>
             <li class="menu-item">
-               <p> <a href="#" style="color:white;text-decoration:none">Issue Installments</a></p>
+                <button class="collapsible">Payment <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
+                <div class="content">
+                    <p><a href="../misc/Issue_installment.aspx" style="color:white;text-decoration:none">Issue Installments</a></p>
+                    <p><a href="../misc/Update_status.aspx" style="color:white;text-decoration:none">Update Student Financial Status</a></p>
+                </div>
             </li>
         </ul>
     </div>
-    </aside>
+</aside>
     <form id="form1" runat="server">
         <div class="inputContainer">
             <h2>Delete Course</h2>

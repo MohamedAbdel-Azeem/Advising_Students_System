@@ -30,7 +30,7 @@ namespace GucAdvisingSystem.pages.Advisor
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Major;
+        protected global::System.Web.UI.WebControls.DropDownList Major;
 
         /// <summary>
         /// Button1 control.

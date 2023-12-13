@@ -63,7 +63,11 @@
                     </div>
                 </li>
                 <li class="menu-item">
-                   <p> <a href="#" style="color:white;text-decoration:none">Issue Installments</a></p>
+                     <button class="collapsible">Payment <img src="../styles/assets/menu-down.svg" width="40" height="40"/></button>
+                    <div class="content">
+                        <p><a href="misc/Issue_installment.aspx" style="color:white;text-decoration:none">Issue Installments</a></p>
+                        <p><a href="misc/Update_status.aspx" style="color:white;text-decoration:none">Update Student Financial Status</a></p>
+                    </div>
                 </li>
             </ul>
         </div>

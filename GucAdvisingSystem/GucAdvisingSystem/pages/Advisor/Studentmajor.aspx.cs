@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace GucAdvisingSystem.pages.Advisor
 {
@@ -14,11 +15,24 @@ namespace GucAdvisingSystem.pages.Advisor
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                string connStr = ConfigurationManager.ConnectionStrings["Advising_System"].ConnectionString;
+                SqlConnection conn = new SqlConnection(connStr);
+                {
+                    SqlCommand cmd = new SqlCommand("SELECT distinct major FROM Student", conn);
+                    conn.Open();
+                    Major.DataTextField = "major";
+                    Major.DataSource = cmd.ExecuteReader();
+                    Major.DataBind();
+                    conn.Close();
+                }
 
+
+            }
 
         }
-
-        protected void Viewadvstud(object sender, EventArgs e)
+            protected void Viewadvstud(object sender, EventArgs e)
         {
             string connStr = WebConfigurationManager.ConnectionStrings["Advising_System"].ToString();
             try

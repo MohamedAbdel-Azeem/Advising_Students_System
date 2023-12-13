@@ -1,16 +1,16 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="semesterAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.semesterAdd" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Update_status.aspx.cs" Inherits="Admin.Update_status" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Add a Semester</title>
+    <title>Update financial Status</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
     <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
-                           <aside>
+                   <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -28,9 +28,9 @@
            <li class="menu-item">
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
-                    <p><a href="courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
-                    <p><a href="addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="../add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="../add/addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">
@@ -67,31 +67,19 @@
             <li class="menu-item">
                 <button class="collapsible">Payment <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="../misc/Issue_installment.aspx" style="color:white;text-decoration:none">Issue Installments</a></p>
-                    <p><a href="../misc/Update_status.aspx" style="color:white;text-decoration:none">Update Student Financial Status</a></p>
+                    <p><a href="Issue_installment.aspx" style="color:white;text-decoration:none">Issue Installments</a></p>
+                    <p><a href="Update_status.aspx" style="color:white;text-decoration:none">Update Student Financial Status</a></p>
                 </div>
             </li>
         </ul>
     </div>
 </aside>
-    <form id="form2" runat="server">
+    <form id="form1" runat="server">
         <div class="inputContainer">
-            <h2>Add Semester</h2>
-            <div class="inputGroup" id="semCode">
-                <asp:TextBox ID="SemesterCodeInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
-                <asp:Label runat="server" Text="Semester Code" CssClass="userLabel"></asp:Label>
-            </div>
-            <div class="inputGroup" id="startDate">
-                <input type="date" id="SemesterStartInput" class="input" placeholder="Start Date" runat="server"/>
-                <span class="styledText">Start Date</span>
-            </div>
-            <div class="inputGroup" id="endDate">
-                <input type="date" id="SemesterEndInput" class="input" placeholder="End Date" runat="server" />
-                <span class="styledText">End Date</span>
-            </div>
-            <div>
-                <asp:Button ID="AddButton" runat="server" Text="Add Semester" OnClick="addSemester" class="AddButton"/>
-            </div>
+            <h2>Update Financial Status</h2>
+            <asp:Label ID="Label1" runat="server" Text="Choose Student" CssClass="styledText"></asp:Label>
+            <asp:DropDownList ID="DropDownList1" runat="server" CssClass="input"></asp:DropDownList>
+            <asp:Button ID="Button1" runat="server" OnClick="status_update" Text="Update Status" class="AddButton"/>
         </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

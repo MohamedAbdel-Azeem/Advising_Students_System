@@ -56,7 +56,9 @@
              
               <div class="inputContainer" style="flex-direction:row; min-width: 500px;min-height:100px">
                   
-              <asp:TextBox ID="Major" runat="server" placeholder="Major" CssClass="input"></asp:TextBox>
+                          <div class="inputGroup">
+                 <asp:DropDownList ID="Major" runat="server" CssClass="input"></asp:DropDownList>
+             </div>
               <asp:Button ID="Button1" runat="server" Text="View" OnClick="Viewadvstud" CssClass="AddButton" style="margin-top:0px"/>
                      
                </div>

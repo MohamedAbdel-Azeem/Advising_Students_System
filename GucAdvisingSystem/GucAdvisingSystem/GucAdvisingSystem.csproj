@@ -67,10 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="pages\Admin\jimmy\Issue_installment.aspx" />
+    <Content Include="pages\Admin\misc\Issue_installment.aspx" />
     <Content Include="pages\Admin\fetch\Student_details.aspx" />
     <Content Include="pages\Admin\view\Stud_Transcript.aspx" />
-    <Content Include="pages\Admin\jimmy\Update_status.aspx" />
+    <Content Include="pages\Admin\misc\Update_status.aspx" />
     <Content Include="pages\Admin\view\Grad_advisor.aspx" />
     <Content Include="pages\Admin\view\ViewPayments.aspx" />
     <Content Include="pages\Admin\delete\slotdeletion.aspx" />
@@ -119,11 +119,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pages\Admin\jimmy\Issue_installment.aspx.cs">
+    <Compile Include="pages\Admin\misc\Issue_installment.aspx.cs">
       <DependentUpon>Issue_installment.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pages\Admin\jimmy\Issue_installment.aspx.designer.cs">
+    <Compile Include="pages\Admin\misc\Issue_installment.aspx.designer.cs">
       <DependentUpon>Issue_installment.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Admin\fetch\Student_details.aspx.cs">
@@ -140,11 +140,11 @@
     <Compile Include="pages\Admin\view\Stud_Transcript.aspx.designer.cs">
       <DependentUpon>Stud_Transcript.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\Admin\jimmy\Update_status.aspx.cs">
+    <Compile Include="pages\Admin\misc\Update_status.aspx.cs">
       <DependentUpon>Update_status.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="pages\Admin\jimmy\Update_status.aspx.designer.cs">
+    <Compile Include="pages\Admin\misc\Update_status.aspx.designer.cs">
       <DependentUpon>Update_status.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Admin\view\Grad_advisor.aspx.cs">
