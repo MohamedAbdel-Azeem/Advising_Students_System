@@ -1,16 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="semesterAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.semesterAdd" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Student_details.aspx.cs" Inherits="Admin.Student_details" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Add a Semester</title>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>Fetch all details of active students</title>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
-    <link href="../../Styles/addStyles.css" rel="stylesheet" />
+    <link href="../../Styles/gridStyle.css" rel="stylesheet" />
 </head>
 <body>
-    <aside>
+        <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -28,9 +27,9 @@
            <li class="menu-item">
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Semester</a></p>
-                    <p><a href="courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
-                    <p><a href="addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                    <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="../add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
+                    <p><a href="../add/addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">
@@ -53,7 +52,7 @@
             <li class="menu-item">
                 <button class="collapsible">Fetch <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="../fetch/CoursesSemesters.aspx" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Active Students details</a></p>
                 </div>
             </li>
@@ -70,24 +69,10 @@
         </ul>
     </div>
 </aside>
-    <form id="form2" runat="server">
-        <div class="inputContainer">
-            <h2>Add Semester</h2>
-            <div class="inputGroup" id="semCode">
-                <asp:TextBox ID="SemesterCodeInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
-                <asp:Label runat="server" Text="Semester Code" CssClass="userLabel"></asp:Label>
-            </div>
-            <div class="inputGroup" id="startDate">
-                <input type="date" id="SemesterStartInput" class="input" placeholder="Start Date" runat="server"/>
-                <span class="styledText">Start Date</span>
-            </div>
-            <div class="inputGroup" id="endDate">
-                <input type="date" id="SemesterEndInput" class="input" placeholder="End Date" runat="server" />
-                <span class="styledText">End Date</span>
-            </div>
-            <div>
-                <asp:Button ID="AddButton" runat="server" Text="Add Semester" OnClick="addSemester" class="AddButton"/>
-            </div>
+    <form id="form1" runat="server">
+        <div class="TableContainer" style="position:absolute;left:25%;">
+            <h1>All Active Students Details</h1>
+            <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
         </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

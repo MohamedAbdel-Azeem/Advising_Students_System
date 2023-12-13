@@ -1272,4 +1272,26 @@ select* from Course_Semester
 Insert Into Instructor_Course(instructor_id,course_id) values (1,1);
 
 
-select * from Instructors_AssignedCourses
+Insert into Slot(slot_id,day,time,location,course_id) values (5,'Sunday','10:00','C7.201',6);
+
+INSERT INTO Student(f_name, password) VALUES 
+('Liam', '7890'),
+('Emma', 'bcde'),
+('Noah', 'fghi'),
+('Olivia', 'jklm'),
+('William', 'nopq'),
+('Isabella', 'rstu'),
+('James', 'vwxy'),
+('Sophie', 'z123'),
+('Benjamin', '4567'),
+('Amelia', '89ab'),
+('Elijah', 'cdef'),
+('Mia', 'ghij'),
+('Lucas', 'klmn'),
+('Aiden', 'opqr'),
+('Charlotte', 'stuv'),
+('Carter', 'wxyz'),
+('Evelyn', '2345'),
+('Jackson', '6789'),
+('Aria', 'abcd'),
+('Logan', 'efgh');

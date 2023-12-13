@@ -67,6 +67,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="pages\Admin\jimmy\Issue_installment.aspx" />
+    <Content Include="pages\Admin\fetch\Student_details.aspx" />
+    <Content Include="pages\Admin\view\Stud_Transcript.aspx" />
+    <Content Include="pages\Admin\jimmy\Update_status.aspx" />
+    <Content Include="pages\Admin\view\Grad_advisor.aspx" />
+    <Content Include="pages\Admin\view\ViewPayments.aspx" />
+    <Content Include="pages\Admin\delete\slotdeletion.aspx" />
+    <Content Include="pages\Admin\delete\Delete.aspx" />
+    <Content Include="pages\Admin\add\addmakeup.aspx" />
     <Content Include="pages\Admin\add\courseAdd.aspx" />
     <Content Include="pages\Admin\add\semesterAdd.aspx" />
     <Content Include="pages\Admin\AdminPage.aspx" />
@@ -110,6 +119,69 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="pages\Admin\jimmy\Issue_installment.aspx.cs">
+      <DependentUpon>Issue_installment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\jimmy\Issue_installment.aspx.designer.cs">
+      <DependentUpon>Issue_installment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\fetch\Student_details.aspx.cs">
+      <DependentUpon>Student_details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\fetch\Student_details.aspx.designer.cs">
+      <DependentUpon>Student_details.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\view\Stud_Transcript.aspx.cs">
+      <DependentUpon>Stud_Transcript.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\view\Stud_Transcript.aspx.designer.cs">
+      <DependentUpon>Stud_Transcript.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\jimmy\Update_status.aspx.cs">
+      <DependentUpon>Update_status.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\jimmy\Update_status.aspx.designer.cs">
+      <DependentUpon>Update_status.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\view\Grad_advisor.aspx.cs">
+      <DependentUpon>Grad_advisor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\view\Grad_advisor.aspx.designer.cs">
+      <DependentUpon>Grad_advisor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\view\ViewPayments.aspx.cs">
+      <DependentUpon>ViewPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\view\ViewPayments.aspx.designer.cs">
+      <DependentUpon>ViewPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\delete\slotdeletion.aspx.cs">
+      <DependentUpon>slotdeletion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\delete\slotdeletion.aspx.designer.cs">
+      <DependentUpon>slotdeletion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\delete\Delete.aspx.cs">
+      <DependentUpon>Delete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\delete\Delete.aspx.designer.cs">
+      <DependentUpon>Delete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Admin\add\addmakeup.aspx.cs">
+      <DependentUpon>addmakeup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\add\addmakeup.aspx.designer.cs">
+      <DependentUpon>addmakeup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Admin\add\courseAdd.aspx.cs">
       <DependentUpon>courseAdd.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -345,9 +417,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="pages\Student\Courses_View\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

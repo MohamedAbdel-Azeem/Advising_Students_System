@@ -9,7 +9,7 @@
     <link href="../../Styles/gridStyle.css" rel="stylesheet" />
 </head>
 <body>
-        <aside>
+    <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -29,7 +29,7 @@
                 <div class="content">
                     <p><a href="../add/semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
                     <p><a href="../add/courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                    <p><a href="../add/addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">
@@ -70,12 +70,10 @@
     </div>
 </aside>
     <form id="form1" runat="server">
-        <div>
             <div class="TableContainer">
                 <h1>Instructor's Courses</h1>
-            <asp:GridView ID="InstructorCourseList" runat="server" CssClass="myGridClass"></asp:GridView>
+                <asp:GridView ID="InstructorCourseList" runat="server" CssClass="myGridClass"></asp:GridView>
             </div>
-        </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
 </body>

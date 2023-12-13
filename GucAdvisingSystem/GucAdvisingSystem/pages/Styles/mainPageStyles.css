@@ -3,7 +3,7 @@
     flex-direction: row;
     padding: 0;
     margin: 0;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     gap: 20rem;
     align-items: self-start;
@@ -18,7 +18,7 @@ aside {
     flex-direction: column;
     color: #e4e4e7;
     overflow-y: auto;
-    justify-content:center;
+    justify-content: center;
 }
 
 aside h1 {
@@ -92,8 +92,8 @@ p::before {
     margin-top: 5rem;
     display:flex;
     flex-direction:column;
+    flex: 2;
     gap: 1rem;
-    align-items: center;
 }
 
 

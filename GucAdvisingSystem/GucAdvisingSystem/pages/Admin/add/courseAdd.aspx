@@ -30,7 +30,7 @@
                 <div class="content">
                     <p><a href="semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
                     <p><a href="#" style="color:white;text-decoration:none">Course</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                    <p><a href="addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">

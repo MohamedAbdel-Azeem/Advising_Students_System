@@ -1,16 +1,16 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="semesterAdd.aspx.cs" Inherits="GucAdvisingSystem.pages.Admin.add.semesterAdd" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="addmakeup.aspx.cs" Inherits="Admin.addmakeup" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Add a Semester</title>
+    <title>Add Makeup Exame</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
     <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
-    <aside>
+        <aside>
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -28,9 +28,9 @@
            <li class="menu-item">
                 <button class="collapsible">ADD <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Semester</a></p>
+                    <p><a href="semesterAdd.aspx" style="color:white;text-decoration:none">Semester</a></p>
                     <p><a href="courseAdd.aspx" style="color:white;text-decoration:none">Course</a></p>
-                    <p><a href="addmakeup.aspx" style="color:white;text-decoration:none">Makeup Exam</a></p>
+                    <p><a href="#" style="color:white;text-decoration:none">Makeup Exam</a></p>
                 </div>
             </li>
             <li class="menu-item">
@@ -70,23 +70,23 @@
         </ul>
     </div>
 </aside>
-    <form id="form2" runat="server">
+    <form id="form1" runat="server">
         <div class="inputContainer">
-            <h2>Add Semester</h2>
-            <div class="inputGroup" id="semCode">
-                <asp:TextBox ID="SemesterCodeInput" runat="server" CssClass="input" placeholder="Course Name"></asp:TextBox>
-                <asp:Label runat="server" Text="Semester Code" CssClass="userLabel"></asp:Label>
+            <h2>Add Makeup Exam</h2>
+            <div class="inputGroup">
+                <asp:TextBox ID="TextBox1" runat="server" CssClass="input" placeholder="Exam Type"></asp:TextBox>
+                <asp:Label runat="server" Text="Exam Type" CssClass="userLabel"></asp:Label>
             </div>
-            <div class="inputGroup" id="startDate">
-                <input type="date" id="SemesterStartInput" class="input" placeholder="Start Date" runat="server"/>
-                <span class="styledText">Start Date</span>
+            <div class="inputGroup">
+                <input type="date" id="ExamDateInput" class="input" runat="server" />
+                <span class="styledText">Exam Date</span>
             </div>
-            <div class="inputGroup" id="endDate">
-                <input type="date" id="SemesterEndInput" class="input" placeholder="End Date" runat="server" />
-                <span class="styledText">End Date</span>
+            <div class="inputGroup">
+                <asp:TextBox ID="TextBox3" runat="server" CssClass="input" placeholder="Course"></asp:TextBox>
+                <asp:Label runat="server" Text="Course" CssClass="userLabel"></asp:Label>
             </div>
             <div>
-                <asp:Button ID="AddButton" runat="server" Text="Add Semester" OnClick="addSemester" class="AddButton"/>
+                <asp:Button ID="Button1" runat="server" OnClick="add_makeup" Text="Add makeup" class="AddButton"/>
             </div>
         </div>
     </form>
