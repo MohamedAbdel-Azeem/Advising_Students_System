@@ -48,6 +48,7 @@ namespace GucAdvisingSystem.pages.Admin.add
                     ", true);
             }
             catch (Exception) {
+                
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'Please enter Valid Data and Do not leave anything blank!', 'error');", true);
             }
 

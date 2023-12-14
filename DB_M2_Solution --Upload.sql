@@ -1268,12 +1268,12 @@ EXEC Procedures_ViewOptionalCourse 1,'2020R1'
 select * from Student
 insert into Course_Semester(course_id,semester_code) values (6,'2020R1');
 select* from Course_Semester
-
+select * from advisor
 Insert Into Instructor_Course(instructor_id,course_id) values (1,1);
-
-
+select * from request
+update request set credit_hours=2 where request_id=1
 Insert into Slot(slot_id,day,time,location,course_id) values (5,'Sunday','10:00','C7.201',6);
-
+Select Top 1 from Request where =request_id and status='accept'
 INSERT INTO Student(f_name, password) VALUES 
 ('Liam', '7890'),
 ('Emma', 'bcde'),

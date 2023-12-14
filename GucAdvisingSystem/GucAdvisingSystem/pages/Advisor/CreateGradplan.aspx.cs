@@ -23,14 +23,14 @@ namespace GucAdvisingSystem.pages.Advisor
             try
 
             { 
-            SqlConnection conn = new SqlConnection(connStr);
-            SqlCommand View = new SqlCommand("Procedures_AdvisorCreateGP", conn);
-            View.CommandType = CommandType.StoredProcedure;
+                SqlConnection conn = new SqlConnection(connStr);
+                SqlCommand View = new SqlCommand("Procedures_AdvisorCreateGP", conn);
+                View.CommandType = CommandType.StoredProcedure;
             
-            string semester_code = sem_code.Text;
-            string graduation_date = grad_date.Text;
-            int credit_hours = Int16.Parse(sem_credit_hours.Text);
-            int student_Id = Int16.Parse(studentId.Text);
+                string semester_code = sem_code.Text;
+                string graduation_date = grad_date.Text;
+                int credit_hours = Int16.Parse(sem_credit_hours.Text);
+                int student_Id = Int16.Parse(studentId.Text);
             
           
                 if (semester_code == "" || graduation_date == "" )
@@ -45,7 +45,15 @@ namespace GucAdvisingSystem.pages.Advisor
                 conn.Open();
                 View.ExecuteNonQuery();
                 conn.Close();
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
+                
+                /*SqlCommand Check = new SqlCommand($"Select * from Graduation_Plan where {student_Id}=student_id and {semester_code}=semester_code", conn);
+                conn.Open();
+                SqlDataReader reader = Check.ExecuteReader();
+
+                if (reader.HasRows)
+               
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
                         swal({{
                             title: 'Success!',
                             text: 'New Graduation Plan Created',
@@ -54,6 +62,15 @@ namespace GucAdvisingSystem.pages.Advisor
                             closeOnEsc: true,
                         }});
                     ", true);
+                    
+                }
+               
+                else { 
+                    throw new Exception();
+                }
+
+                conn.Close();*/
+
             }
 
             catch (Exception)

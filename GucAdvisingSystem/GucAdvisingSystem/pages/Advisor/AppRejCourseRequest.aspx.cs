@@ -31,7 +31,29 @@ namespace GucAdvisingSystem.pages.Advisor
                 conn.Open();
                 View.ExecuteNonQuery();
                 conn.Close();
+                SqlCommand Check = new SqlCommand($"Select * from Request where {request_Id}=request_id and status='accept'", conn);
                 req.Text = string.Empty;
+                conn.Open();
+                SqlDataReader reader = Check.ExecuteReader();
+
+                if (!reader.HasRows)
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Rejected', 'Request Rejected', 'error');", true);
+                }
+                else
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
+                         swal({{
+                            title: 'Success!',
+                            text: 'Request accepted',
+                            icon: 'success',
+                            closeOnClickOutside: true,
+                            closeOnEsc: true,
+                        }});
+                    ", true);
+                    conn.Close();
+
+                }
 
             }
 
