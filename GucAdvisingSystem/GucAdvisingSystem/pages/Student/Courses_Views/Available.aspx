@@ -15,61 +15,57 @@
     <div id="controls">
         <ul class="menu-list">
             <li>
-                <p><a href="../Student_Menu.aspx" style="color:white;text-decoration:none">Home</a></p>
+                <p><a href="Student_Menu.aspx" style="color:white;text-decoration:none">Home</a></p>
             </li>
             <li class="menu-item">
-                <button class="collapsible">View Courses<img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
+                <button class="collapsible">View Courses <img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>
                 <div class="content">
-                    <p><a href="Optional_Courses.aspx" style="color:white;text-decoration:none"> Optional Courses </a></p>
-                    <p><a href="Required_Courses.aspx" style="color:white;text-decoration:none"> Required Courses </a></p>
-                    <p><a href="Available.aspx" style="color:white;text-decoration:none"> Available Courses </a></p>
-                    <p><a href="Missing.aspx" style="color:white;text-decoration:none"> Missing Courses </a></p>
+                    <p><a href="../Courses_Views/Optional_Courses.aspx" style="color:white;text-decoration:none"> Optional Courses </a></p>
+                    <p><a href="../Courses_Views/Required_Courses.aspx" style="color:white;text-decoration:none"> Required Courses </a></p>
+                    <p><a href="../Courses_Views/Available.aspx" style="color:white;text-decoration:none"> Available Courses </a></p>
+                    <p><a href="../Courses_Views/Missing.aspx" style="color:white;text-decoration:none"> Missing Courses </a></p>
+                    <p><a href="../Courses_Views/CoursesWithExam.aspx" style="color:white;text-decoration:none">Courses with Exams </a></p>
+                    <p><a href="../Courses_Views/CourseSlotInsructor.aspx" style="color:white;text-decoration:none">Courses with Slots and Instructors </a></p>
+                    <p><a href="../Courses_Views/CourseesPreq.aspx" style="color:white;text-decoration:none">Courses with thier Prerequisites </a></p>
                 </div>
             </li>
            <li class="menu-item">
-     <button class="collapsible">Send Request<img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>
-     <div class="content">
-         <p><a href="../Requests/Course_Request.aspx" style="color:white;text-decoration:none"> Send Course Request </a></p>
-                 <p><a href="../Requests/CHR_request.aspx" style="color:white;text-decoration:none"> Send Extra credit hours Request </a></p>
+                <button class="collapsible">Send Request<img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>
+                <div class="content">
+                    <p><a href="../Requests/Course_Request.aspx" style="color:white;text-decoration:none"> Send Course Request </a></p>
+                    <p><a href="../Requests/CHR_request.aspx" style="color:white;text-decoration:none"> Send Extra credit hours Request </a></p>
+                </div>
+            </li>
+            <li class="menu-item">
+                <button class="collapsible">Register For Makeup<img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>
+                <div class="content">
+                       <p><a href="../Makeup/FirstMakeup.aspx" style="color:white;text-decoration:none">First Makeup </a></p>
+                       <p><a href="../Makeup/SecondMakeup.aspx" style="color:white;text-decoration:none"> Second Makeup </a></p>
+               
+                </div>
+            </li>
+            
+            <li class="menu-item">
+               <p><a href="../telephone_number/telephone_number.aspx" style="color:white;text-decoration:none">Add Mobile Number</a></p>
+                
+            </li>
+            <li class="menu-item">
+                <p><a href="../Grad_plan/GradPlan_AssignedCourses.aspx" style="color:white;text-decoration:none">View Graduation Plan</a></p>
 
-     </div>
- </li>
+                </li>
             <li class="menu-item">
-                <button class="collapsible">Link <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
-                <div class="content">
-                        <p><a href="#" style="color:white;text-decoration:none">Instructor to Course in a Slot</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Student to Advisor</a></p>
-                        <p><a href="#" style="color:white;text-decoration:none">Student to Course with Instructor</a></p>
-                </div>
+                 <p><a href="../Installment/Installment.aspx" style="color:white;text-decoration:none">View Upcoming Installment</a></p>
+
             </li>
             <li class="menu-item">
-                <button class="collapsible">View <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
-                <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Instructors details</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Students' Payment details</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Graduation Plans</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Student's Transcript</a></p>
-                </div>
-            </li>
+             <p><a href="../Slots/InputSlot.aspx" style="color:white;text-decoration:none">View Slots</a></p>
+                </li>
             <li class="menu-item">
-                <button class="collapsible">Fetch <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
-                <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Semesters along with offered Courses</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Active Students details</a></p>
-                </div>
-            </li>
-            <li class="menu-item">
-                <button class="collapsible">Delete <img src="../../Styles/Assets/menu-down.svg" width="40" height="40"/></button>
-                <div class="content">
-                    <p><a href="#" style="color:white;text-decoration:none">Course with its Slots</a></p>
-                    <p><a href="#" style="color:white;text-decoration:none">Not offered Course Slots</a></p>
-                </div>
-            </li>
-            <li class="menu-item">
-=                   <p><a href="../telephone_number/telephone_number.aspx" style="color:white;text-decoration:none">Add Mobile number</a></p>
-            </li>
+            <p><a href="../Instructor/InputInstructor.aspx" style="color:white;text-decoration:none">Chose Instructor</a></p>
+                </li>
         </ul>
     </div>
+    
 </aside>
     <form id="form1" runat="server">
         <div>

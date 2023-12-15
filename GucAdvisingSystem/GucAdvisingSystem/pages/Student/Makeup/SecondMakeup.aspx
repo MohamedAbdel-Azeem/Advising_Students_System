@@ -1,13 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Optional_Courses.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Optional_Courses" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SecondMakeup.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Makeup.SecondMakeup" %>
+
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Advisors List View</title>
-        <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
-        <link href="../../Styles/gridStyle.css" rel="stylesheet" />
-
+    <title></title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+<link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
         <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
@@ -68,13 +69,20 @@
     
 </aside>
     <form id="form1" runat="server">
-    <div>
-        <div class="TableContainer">
-            <h1>Optional Courses</h1>
-            <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
-        </div>
+        <div>
+     <div class="inputContainer">
+         <h2>Register For Second Makeup</h2>
+         <div class="inputGroup" id="courseID">
+             <asp:TextBox ID="courseIDInput" runat="server" CssClass="input" placeholder="CourseID"></asp:TextBox>
+             <asp:Label ID="CID" runat="server" Text="Course ID" CssClass="userLabel"></asp:Label>
+         </div>
+  
+         <div>
+             <asp:Button ID="AddButton" OnClick="Register" runat="server"  Text="Register" class="AddButton"/>
+         </div>
+     </div>
         </div>
     </form>
-    <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
+        <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
 </body>
 </html>

@@ -99,12 +99,22 @@
     <Content Include="pages\Advisor\UpdateGradplan.aspx" />
     <Content Include="pages\Advisor\Viewadvising.aspx" />
     <Content Include="pages\Student\Courses_Views\Available.aspx" />
+    <Content Include="pages\Student\Courses_Views\CourseesPreq.aspx" />
+    <Content Include="pages\Student\Courses_Views\CourseSlotInsructor.aspx" />
+    <Content Include="pages\Student\Courses_Views\CoursesWithExam.aspx" />
     <Content Include="pages\Student\Courses_Views\Missing.aspx" />
     <Content Include="pages\Student\Courses_Views\Optional_Courses.aspx" />
     <Content Include="pages\Student\Courses_Views\Required_Courses.aspx" />
+    <Content Include="pages\Student\Grad_plan\GradPlan_AssignedCourses.aspx" />
+    <Content Include="pages\Student\Installment\Installment.aspx" />
+    <Content Include="pages\Student\Instructor\InputInstructor.aspx" />
     <Content Include="pages\Student\mainPageStyles.css" />
+    <Content Include="pages\Student\Makeup\FirstMakeup.aspx" />
+    <Content Include="pages\Student\Makeup\SecondMakeup.aspx" />
     <Content Include="pages\Student\Requests\CHR_request.aspx" />
     <Content Include="pages\Student\Requests\Course_Request.aspx" />
+    <Content Include="pages\Student\Slots\InputSlot.aspx" />
+    <Content Include="pages\Student\Slots\ViewSlot.aspx" />
     <Content Include="pages\Student\Student_Menu.aspx" />
     <Content Include="pages\Student\telephone_number\telephone_number.aspx" />
     <Content Include="pages\Styles\gridStyle.css" />
@@ -350,6 +360,27 @@
     <Compile Include="pages\Student\Courses_Views\Available.aspx.designer.cs">
       <DependentUpon>Available.aspx</DependentUpon>
     </Compile>
+    <Compile Include="pages\Student\Courses_Views\CourseesPreq.aspx.cs">
+      <DependentUpon>CourseesPreq.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\CourseesPreq.aspx.designer.cs">
+      <DependentUpon>CourseesPreq.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\CourseSlotInsructor.aspx.cs">
+      <DependentUpon>CourseSlotInsructor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\CourseSlotInsructor.aspx.designer.cs">
+      <DependentUpon>CourseSlotInsructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\CoursesWithExam.aspx.cs">
+      <DependentUpon>CoursesWithExam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Courses_Views\CoursesWithExam.aspx.designer.cs">
+      <DependentUpon>CoursesWithExam.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Student\Courses_Views\Missing.aspx.cs">
       <DependentUpon>Missing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -371,6 +402,41 @@
     <Compile Include="pages\Student\Courses_Views\Required_Courses.aspx.designer.cs">
       <DependentUpon>Required_Courses.aspx</DependentUpon>
     </Compile>
+    <Compile Include="pages\Student\Grad_plan\GradPlan_AssignedCourses.aspx.cs">
+      <DependentUpon>GradPlan_AssignedCourses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Grad_plan\GradPlan_AssignedCourses.aspx.designer.cs">
+      <DependentUpon>GradPlan_AssignedCourses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Installment\Installment.aspx.cs">
+      <DependentUpon>Installment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Installment\Installment.aspx.designer.cs">
+      <DependentUpon>Installment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Instructor\InputInstructor.aspx.cs">
+      <DependentUpon>InputInstructor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Instructor\InputInstructor.aspx.designer.cs">
+      <DependentUpon>InputInstructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Makeup\FirstMakeup.aspx.cs">
+      <DependentUpon>FirstMakeup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Makeup\FirstMakeup.aspx.designer.cs">
+      <DependentUpon>FirstMakeup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Makeup\SecondMakeup.aspx.cs">
+      <DependentUpon>SecondMakeup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Makeup\SecondMakeup.aspx.designer.cs">
+      <DependentUpon>SecondMakeup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Student\Requests\CHR_request.aspx.cs">
       <DependentUpon>CHR_request.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -384,6 +450,20 @@
     </Compile>
     <Compile Include="pages\Student\Requests\Course_Request.aspx.designer.cs">
       <DependentUpon>Course_Request.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Slots\InputSlot.aspx.cs">
+      <DependentUpon>InputSlot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Slots\InputSlot.aspx.designer.cs">
+      <DependentUpon>InputSlot.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Student\Slots\ViewSlot.aspx.cs">
+      <DependentUpon>ViewSlot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Student\Slots\ViewSlot.aspx.designer.cs">
+      <DependentUpon>ViewSlot.aspx</DependentUpon>
     </Compile>
     <Compile Include="pages\Student\Student_Menu.aspx.cs">
       <DependentUpon>Student_Menu.aspx</DependentUpon>

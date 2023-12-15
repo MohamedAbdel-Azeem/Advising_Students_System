@@ -32,9 +32,23 @@ namespace GucAdvisingSystem.pages.Advisor
                 conn.Open();
                 View.ExecuteNonQuery();
                 conn.Close();
+                SqlCommand Check = new SqlCommand($"Select * from Graduation_Plan where student_id={student_Id} and expected_grad_date='{graduation_date}'", conn);
                 grad_date1.Text = string.Empty;
                 studentId2.Text = string.Empty;
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
+                conn.Open();
+                SqlDataReader reader = Check.ExecuteReader();
+
+                if (!reader.HasRows)
+
+                {
+                    throw new Exception();
+
+                }
+
+                else
+                {
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
                         swal({{
                             title: 'Success!',
                             text: 'Graduation Plan Updated',
@@ -43,6 +57,7 @@ namespace GucAdvisingSystem.pages.Advisor
                             closeOnEsc: true,
                         }});
                     ", true);
+                }
             }
 
             catch (Exception)

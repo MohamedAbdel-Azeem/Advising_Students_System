@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Optional_Courses.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Optional_Courses" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CoursesWithExam.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Courses_Views.CoursesWithExam" %>
 
 <!DOCTYPE html>
 
@@ -70,7 +70,7 @@
     <form id="form1" runat="server">
     <div>
         <div class="TableContainer">
-            <h1>Optional Courses</h1>
+            <h1>Courses with Exams</h1>
             <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
         </div>
         </div>

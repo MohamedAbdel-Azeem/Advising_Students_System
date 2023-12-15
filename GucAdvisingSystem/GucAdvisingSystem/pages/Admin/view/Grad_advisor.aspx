@@ -76,7 +76,9 @@
     <form id="form1" runat="server">
             <div class="TableContainer">
                 <h1>Graduation Plans</h1>
-                <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
+                <div style="position:absolute;right:80px;top:170px;">
+                    <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
+                </div>
             </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

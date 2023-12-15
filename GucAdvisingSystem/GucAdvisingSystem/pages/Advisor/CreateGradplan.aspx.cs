@@ -20,20 +20,20 @@ namespace GucAdvisingSystem.pages.Advisor
         protected void Insertgradplan(object sender, EventArgs e)
         {
             string connStr = WebConfigurationManager.ConnectionStrings["Advising_System"].ToString();
-            try
+           try
 
             { 
                 SqlConnection conn = new SqlConnection(connStr);
                 SqlCommand View = new SqlCommand("Procedures_AdvisorCreateGP", conn);
                 View.CommandType = CommandType.StoredProcedure;
             
-                string semester_code = sem_code.Text;
+                string semester_code1 = sem_code.Text;
                 string graduation_date = grad_date.Text;
                 int credit_hours = Int16.Parse(sem_credit_hours.Text);
                 int student_Id = Int16.Parse(studentId.Text);
             
           
-                if (semester_code == "" || graduation_date == "" )
+                if (semester_code1 == "" || graduation_date == "" )
                 {
                     throw new Exception();
                 }
@@ -41,18 +41,27 @@ namespace GucAdvisingSystem.pages.Advisor
                 View.Parameters.AddWithValue("@expected_graduation_date", graduation_date);
                 View.Parameters.AddWithValue("@sem_credit_hours", credit_hours);
                 View.Parameters.AddWithValue("@student_id", student_Id);
-                View.Parameters.AddWithValue("@Semester_code", semester_code);
+                View.Parameters.AddWithValue("@Semester_code", semester_code1);
                 conn.Open();
                 View.ExecuteNonQuery();
                 conn.Close();
                 
-                /*SqlCommand Check = new SqlCommand($"Select * from Graduation_Plan where {student_Id}=student_id and {semester_code}=semester_code", conn);
+                SqlCommand Check = new SqlCommand($"Select * from Graduation_Plan where student_id={student_Id} and Semester_code='{semester_code1}'", conn);
+                grad_date.Text = string.Empty;
+                sem_code.Text = string.Empty;
+                sem_credit_hours.Text = string.Empty;
+                studentId.Text = string.Empty;
                 conn.Open();
                 SqlDataReader reader = Check.ExecuteReader();
 
-                if (reader.HasRows)
+                if (!reader.HasRows)
                
                 {
+                    throw new Exception();
+                    
+                }
+               
+                else {
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
                         swal({{
                             title: 'Success!',
@@ -62,14 +71,9 @@ namespace GucAdvisingSystem.pages.Advisor
                             closeOnEsc: true,
                         }});
                     ", true);
-                    
-                }
-               
-                else { 
-                    throw new Exception();
                 }
 
-                conn.Close();*/
+                conn.Close();
 
             }
 

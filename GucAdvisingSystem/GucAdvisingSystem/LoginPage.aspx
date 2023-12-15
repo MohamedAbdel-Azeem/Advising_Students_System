@@ -22,7 +22,7 @@
                 <asp:Label ID="Username" runat="server" Text="User ID" CssClass="userLabel"></asp:Label>
             </div>
             <div class="inputGroup">
-                <asp:TextBox ID="PasswordInput" runat="server" CssClass="input" placeholder="Password"></asp:TextBox>
+                <asp:TextBox ID="PasswordInput" runat="server" CssClass="input" placeholder="Password" TextMode="Password"></asp:TextBox>
                 <asp:Label ID="Password" runat="server" Text="Password" CssClass="userLabel"></asp:Label>
             </div>
             <asp:Button ID="LoginButton" runat="server" Text="Login" OnClick="login" />

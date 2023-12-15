@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Optional_Courses.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Optional_Courses" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ViewSlot.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Slots.ViewSlot" %>
 
 <!DOCTYPE html>
 
@@ -10,7 +10,7 @@
 
 </head>
 <body>
-        <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
+       <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -70,7 +70,7 @@
     <form id="form1" runat="server">
     <div>
         <div class="TableContainer">
-            <h1>Optional Courses</h1>
+            <h1>Slots of Course and Instructor</h1>
             <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
         </div>
         </div>

@@ -1,13 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Optional_Courses.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Optional_Courses" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InputSlot.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Slots.InputSlot" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Advisors List View</title>
-        <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
-        <link href="../../Styles/gridStyle.css" rel="stylesheet" />
-
+    <title></title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
+<link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
         <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
@@ -68,13 +68,24 @@
     
 </aside>
     <form id="form1" runat="server">
-    <div>
-        <div class="TableContainer">
-            <h1>Optional Courses</h1>
-            <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
-        </div>
+        <div>
+     <div class="inputContainer">
+         <h2>Select Course and Instructor</h2>
+         <div class="inputGroup" id="courseID">
+             <asp:TextBox ID="courseIDInput" runat="server" CssClass="input" placeholder="CourseID"></asp:TextBox>
+             <asp:Label ID="CID" runat="server" Text="Course ID" CssClass="userLabel"></asp:Label>
+         </div>
+         <div class="inputGroup" id="InstructorID">
+             <asp:TextBox ID="InstructorInput" runat="server" CssClass="input" placeholder="InstructorID"></asp:TextBox>
+             <asp:Label ID="Instructor" runat="server" Text="Instructor ID" CssClass="userLabel"></asp:Label> 
+         </div>
+       <asp:Button ID="AddButton" OnClick="ViewSlot" runat="server"  Text="View Slots" class="AddButton"/>
+         <div>
+             
+         </div>
+     </div>
         </div>
     </form>
-    <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
+        <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
 </body>
 </html>
