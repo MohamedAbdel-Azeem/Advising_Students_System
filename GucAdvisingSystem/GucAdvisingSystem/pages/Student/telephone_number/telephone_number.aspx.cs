@@ -23,21 +23,22 @@ namespace GucAdvisingSystem.pages.Student
                 string connStr = WebConfigurationManager.ConnectionStrings["Advising_System"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
                 SqlCommand requestCourse = new SqlCommand("dbo.Procedures_StudentaddMobile", conn);
-                String number = mobile_number.Text;
+                string countryCode = hiddenCountryCode.Value;
+                String number = '+' + countryCode + telephone.Text;
                 if (number == "")
                 {
                     throw new Exception();
                 }
                 requestCourse.CommandType = System.Data.CommandType.StoredProcedure;
                 requestCourse.Parameters.AddWithValue("@StudentID", Session["id"]);
-                requestCourse.Parameters.AddWithValue("@mobile_number",number);
+                requestCourse.Parameters.AddWithValue("@mobile_number", number);
                 conn.Open();
                 requestCourse.ExecuteNonQuery();
                 conn.Close();
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", $@"
                         swal({{
                             title: 'Success!',
-                            text: 'Request Sent Successfully',
+                            text: 'Mobile Number saved Successfully',
                             icon: 'success',
                             closeOnClickOutside: true,
                             closeOnEsc: true,
@@ -47,8 +48,8 @@ namespace GucAdvisingSystem.pages.Student
             }
             catch (Exception)
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'Please enter Valid Data and Do not leave anything blank!', 'error');", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error!', 'Please enter Valid Data and Do not leave anything blank !', 'error');", true);
             }
         }
     }
-    }
+}

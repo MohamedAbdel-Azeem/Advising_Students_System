@@ -189,12 +189,14 @@ Select * from Student where financial_status = 1
 
 ---------------------------------courses with their prerequisites--------------------------------------------------------------
 go
-CREATE  VIEW  view_Course_prerequisites AS
+CREATE  VIEW view_Course_prerequisites AS
 Select C1.*, C2.course_id as preRequsite_course_id, C2.name as preRequsite_course_name 
 from Course C1 inner join PreqCourse_course On C1.course_id = PreqCourse_course.course_id
 inner join course C2 on PreqCourse_course.prerequisite_course_id = c2.course_id
 go
 -----------------------------------all Instructors along with their assigned courses------------------------------------------------------
+
+
 
 CREATE  VIEW  Instructors_AssignedCourses AS
 Select Instructor.instructor_id, Instructor.name as Instructor, Course.course_id, Course.name As Course
@@ -216,10 +218,16 @@ from Course inner join Slot on Course.course_id = Slot.course_id
 inner join Instructor on Slot.instructor_id = Instructor.instructor_id
 
 go
+
+
+
+select * from Slot
 ----------------------all courses along with their exams’ details-----------------------------------------------------------------
-CREATE  VIEW  Courses_MakeupExams AS
+CREATE  VIEW Courses_MakeupExams AS
 Select MakeUp_Exam.*, Course.name, Course.semester
 from MakeUp_Exam inner join Course on MakeUp_Exam.course_id = Course.course_id 
+
+insert into Course_Semester(course_id,semester_code)values(12,'w23')
 
 ------------------------All students along with their taken courses details--------------------------------------------------------------------
 go
@@ -294,6 +302,12 @@ CREATE PROC [Procedures_AdvisorRegistration]
 
 --//////////////////////////////As an admin I should be able to://////////////////////////////////////////////////
 
+
+
+insert into Advisor
+
+exec Procedures_AdminListAdvisors
+
 -----------------------List all advising students--------------------------------------
 Go
 CREATE PROC [Procedures_AdminListStudents]
@@ -304,9 +318,11 @@ Select * from Student
 Go
 CREATE PROC [Procedures_AdminListAdvisors]
 As
-Select * from Advisor
+Select * from Advi
 
 -----------------------List all Students with their Advisors--------------------------------------
+
+exec AdminListStudentsWithAdvisors
 go
 Create Proc [AdminListStudentsWithAdvisors] AS
 Select Student.student_id, Student.f_name, Student.l_name, Advisor.advisor_id, Advisor.advisor_name
@@ -314,6 +330,7 @@ from Student inner join Advisor on Student.advisor_id = Advisor.advisor_id
 go
 
 ----------------------------Add new Semester-------------------------------------------
+
 Go
 CREATE PROC [AdminAddingSemester]
 
@@ -332,6 +349,8 @@ Go
 
 
 -----------------------------Add new Course---------------------------------------
+
+select * from Course
 
 Go
 
@@ -375,6 +394,7 @@ instructor_id =@instructor_id
 where slot_id = @slot_id;
 
 Go
+
 
 ---------------------------------------------------------------------------------------------
 ------------------ Link student to course and instructor -----------------------------
@@ -493,6 +513,7 @@ End
 
 
 GO
+
 
 ------------------------------------------------------------------------------------
  -------------------------------Delete courses-----------------------------------------------
@@ -1015,6 +1036,24 @@ CREATE FUNCTION [FN_StudentViewSlot]
 --------------------------------------------------------------------------------------------------
 ----------Register for first makeup exam {refer to eligibility section (2.4.1) in the description}-------
 
+go
+CREATE FUNCTION [FN_StudentCheckFMEligibility]
+     (@CourseID int, @StudentID int)
+   RETURNs bit
+Begin
+If(not exists( Select * from Student_Instructor_Course_take where Student_Instructor_Course_take.student_id = @StudentID and Student_Instructor_Course_take.course_id
+= @courseID and Student_Instructor_Course_take.exam_type in ('First_makeup','Second_makeup')))
+begin 
+If(exists(Select * from Student_Instructor_Course_take where Student_Instructor_Course_take.student_id = @StudentID and Student_Instructor_Course_take.course_id
+= @courseID  and Student_Instructor_Course_take.exam_type = 'Normal' and Student_Instructor_Course_take.grade in ('F','FF',null)))
+return 1
+end
+return 0
+END
+go
+
+delete from Course
+
 Go
 Create PROC [Procedures_StudentRegisterFirstMakeup]
 @StudentID int, @courseID int, @studentCurr_sem varchar(40)
@@ -1041,7 +1080,7 @@ where  student_id = @StudentID and course_id = @courseID and
 end
 end
 Go
----------------------------------------------------------------------------------
+---------------------
 -----------------Second makeup Eligibility Check {refer to eligibility section (2.4.1) in the description}
 
 CREATE FUNCTION [FN_SemesterCodeCheck]
@@ -1055,6 +1094,8 @@ else
 set @output =  'Even'
 return @output
 end
+
+print(dbo.FN_StudentCheckSMEligibility(1,1))
 
 --Output: Eligible bit {0 → not eligible, 1 → eligible }
 go
@@ -1268,30 +1309,37 @@ EXEC Procedures_ViewOptionalCourse 1,'2020R1'
 select * from Student
 insert into Course_Semester(course_id,semester_code) values (6,'2020R1');
 select* from Course_Semester
-select * from advisor
-Insert Into Instructor_Course(instructor_id,course_id) values (1,1);
-select * from request
-update request set credit_hours=2 where request_id=1
-Insert into Slot(slot_id,day,time,location,course_id) values (5,'Sunday','10:00','C7.201',6);
-Select Top 1 from Request where =request_id and status='accept'
-INSERT INTO Student(f_name, password) VALUES 
-('Liam', '7890'),
-('Emma', 'bcde'),
-('Noah', 'fghi'),
-('Olivia', 'jklm'),
-('William', 'nopq'),
-('Isabella', 'rstu'),
-('James', 'vwxy'),
-('Sophie', 'z123'),
-('Benjamin', '4567'),
-('Amelia', '89ab'),
-('Elijah', 'cdef'),
-('Mia', 'ghij'),
-('Lucas', 'klmn'),
-('Aiden', 'opqr'),
-('Charlotte', 'stuv'),
-('Carter', 'wxyz'),
-('Evelyn', '2345'),
-('Jackson', '6789'),
-('Aria', 'abcd'),
-('Logan', 'efgh');
+
+update Student set advisor_id=2 where f_name='welo'
+
+select * from student , Advisor,Course,Graduation_Plan
+
+insert into Course(name)values('cs'),('math'),('db')
+
+insert into Graduation_Plan(student_id,semester_code,semester_credit_hours,advisor_id,expected_grad_date)
+values(1,'xxx',18,2,'2-2-2024')
+
+
+
+
+update student set financial_status=1 where student_id=1
+
+select * from dbo.FN_StudentViewGP(1)
+select * from dbo.FN_StudentViewGP(1)
+
+go
+create proc helperinstallment 
+@stu int 
+as
+declare @deadline date= dbo.FN_StudentUpcoming_installment(@stu)
+ select i.* 
+from payment p inner join Installment i on p.payment_id=i.payment_id
+where p.student_id=@stu and i.deadline=@deadline
+go
+
+
+
+insert into Payment(student_id,amount,deadline,n_installments,startdate,payment_id)values(1,120,'1-1-2025',12,'1-1-2024',1)
+
+exec Procedures_AdminIssueInstallment 1
+

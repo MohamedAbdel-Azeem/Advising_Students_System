@@ -98,6 +98,7 @@
     <Content Include="pages\Advisor\Studentmajor.aspx" />
     <Content Include="pages\Advisor\UpdateGradplan.aspx" />
     <Content Include="pages\Advisor\Viewadvising.aspx" />
+    <Content Include="pages\Scripts\telephoneCodes.js" />
     <Content Include="pages\Student\Courses_Views\Available.aspx" />
     <Content Include="pages\Student\Courses_Views\CourseesPreq.aspx" />
     <Content Include="pages\Student\Courses_Views\CourseSlotInsructor.aspx" />

@@ -29,7 +29,7 @@
                     <asp:Label ID="AdvisorName" runat="server" Text="Name" CssClass="userLabel"></asp:Label> 
                 </div>
                 <div class="inputGroup" id="password">
-                    <asp:TextBox ID="passwordInput" runat="server" CssClass="input" placeholder="Password"></asp:TextBox>
+                    <asp:TextBox ID="passwordInput" runat="server" CssClass="input" placeholder="Password" TextMode="Password"></asp:TextBox>
                     <asp:Label ID="pass" runat="server" Text="Password" CssClass="userLabel"></asp:Label>       
                 </div>
                 <div class="inputGroup student" id="faculty">

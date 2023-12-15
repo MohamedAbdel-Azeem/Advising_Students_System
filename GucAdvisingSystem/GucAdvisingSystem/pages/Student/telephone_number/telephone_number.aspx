@@ -7,11 +7,16 @@
 <head runat="server">
     <title></title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/css/intlTelInput.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/intlTelInput.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/utils.js"></script>
+
 <link href="../../Styles/mainPageStyles.css" rel="stylesheet" />
 <link href="../../Styles/addStyles.css" rel="stylesheet" />
 </head>
 <body>
-            <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
+         <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
     <h1>Controls</h1>
     <div id="controls">
         <ul class="menu-list">
@@ -72,9 +77,12 @@
         <div>
      <div class="inputContainer">
          <h2>Add Mobile Number</h2>
+         <h5>*Note:Do not add an existing telephone number</h5>
          <div class="inputGroup" id="credit_hours">
-             <asp:TextBox ID="mobile_number" runat="server" CssClass="input" placeholder="Number"></asp:TextBox>
+             <asp:TextBox ID="telephone" runat="server" CssClass="input" placeholder="Number" TextMode="Number" ></asp:TextBox>
              <asp:Label ID="CHR" runat="server" Text="Mobile Number" CssClass="userLabel"></asp:Label>
+                
+             <asp:HiddenField ID="hiddenCountryCode" runat="server" />
          </div>
          <div>
              <asp:Button ID="AddButton" OnClick="Add_number" runat="server"  Text="Save Number" class="AddButton"/>
@@ -83,5 +91,6 @@
         </div>
     </form>
         <script src="../../Scripts/sidebarScript.js" defer="defer"></script>
+    <script src="../../Scripts/telephoneCodes.js" defer="defer"></script>
 </body>
 </html>

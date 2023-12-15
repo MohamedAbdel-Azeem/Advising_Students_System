@@ -24,13 +24,13 @@ namespace GucAdvisingSystem.pages.Student
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// mobile_number control.
+        /// telephone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox mobile_number;
+        protected global::System.Web.UI.WebControls.TextBox telephone;
 
         /// <summary>
         /// CHR control.
@@ -40,6 +40,15 @@ namespace GucAdvisingSystem.pages.Student
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label CHR;
+
+        /// <summary>
+        /// hiddenCountryCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hiddenCountryCode;
 
         /// <summary>
         /// AddButton control.
