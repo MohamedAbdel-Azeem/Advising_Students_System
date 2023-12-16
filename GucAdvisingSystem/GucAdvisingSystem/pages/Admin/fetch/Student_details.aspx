@@ -76,7 +76,9 @@
     <form id="form1" runat="server">
         <div class="TableContainer" style="position:absolute;left:25%;">
             <h1>All Active Students Details</h1>
-            <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass"></asp:GridView>
+            <div style="position:absolute;left:10px;top:100px;">
+                <asp:GridView ID="GridView1" runat="server" CssClass="myGridClass" AllowPaging="true" PageSize="10" OnPageIndexChanging="GridView1_PageIndexChanging"></asp:GridView>
+            </div>
         </div>
     </form>
     <script src="../../Scripts/sidebarScript.js" defer="defer"></script>

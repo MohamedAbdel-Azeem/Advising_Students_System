@@ -120,6 +120,7 @@
     <Content Include="pages\Student\telephone_number\telephone_number.aspx" />
     <Content Include="pages\Styles\gridStyle.css" />
     <Content Include="pages\Styles\addStyles.css" />
+    <Content Include="pages\Styles\infoContainer.css" />
     <Content Include="registerPage.aspx" />
     <Content Include="pages\Scripts\sidebarScript.js" />
     <Content Include="scripts\registerScript.js" />

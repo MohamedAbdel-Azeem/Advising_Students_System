@@ -21,7 +21,7 @@
     <div id="controls">
         <ul class="menu-list">
             <li>
-                <p><a href="Student_Menu.aspx" style="color:white;text-decoration:none">Home</a></p>
+                <p><a href="../Student_Menu.aspx" style="color:white;text-decoration:none">Home</a></p>
             </li>
             <li class="menu-item">
                 <button class="collapsible">View Courses <img src="../../styles/assets/menu-down.svg" width="40" height="40"/></button>

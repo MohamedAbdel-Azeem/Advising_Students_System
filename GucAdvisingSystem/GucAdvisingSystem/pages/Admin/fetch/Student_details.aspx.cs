@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -20,7 +21,9 @@ namespace Admin
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    GridView1.DataSource = reader;
+                    DataTable dt = new DataTable();
+                    dt.Load(reader);
+                    GridView1.DataSource = dt;
                     GridView1.DataBind();
                 }
             }
@@ -39,6 +42,13 @@ namespace Admin
                     }
                 }
             }
+        }
+
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            // Your code to handle the PageIndexChanging event goes here
+            GridView1.PageIndex = e.NewPageIndex;
+            GridView1.DataBind();
         }
 
     }

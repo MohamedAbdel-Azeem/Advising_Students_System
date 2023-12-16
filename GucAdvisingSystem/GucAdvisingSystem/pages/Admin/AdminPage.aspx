@@ -6,6 +6,7 @@
 <head runat="server">
     <title>Admin Control Room</title>
     <link href="../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../Styles/infoContainer.css" rel="stylesheet" />
 </head>
 <body>
     <aside>
@@ -72,6 +73,9 @@
             </ul>
         </div>
     </aside>
+    <div class="profile-card">
+        Welcome to the Admin Control Room 👑
+    </div>
     <script src="../Scripts/sidebarScript.js" defer="defer"></script>
 </body>
 </html>

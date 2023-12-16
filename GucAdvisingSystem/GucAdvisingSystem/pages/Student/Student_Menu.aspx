@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Student_Menu.aspx.cs" Inherits="GucAdvisingSystem.AdminPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Student_Menu.aspx.cs" Inherits="GucAdvisingSystem.pages.Student.Student_Menu" %>
 
 <!DOCTYPE html>
 
@@ -6,10 +6,11 @@
 <head runat="server">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <title>Studnt Main Page</title>
-        <link href="../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../Styles/mainPageStyles.css" rel="stylesheet" />
+    <link href="../Styles/infoContainer.css" rel="stylesheet" />
 </head>
 <body>
-    <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
+        <aside style="background:linear-gradient(159deg, rgba(255,30,5,1) 0%, rgba(179,0,69,1) 100%);">
         <h1>Controls</h1>
         <div id="controls">
             <ul class="menu-list">
@@ -64,8 +65,32 @@
                     </li>
             </ul>
         </div>
-        
     </aside>
+    <form id="form1" runat="server">
+        <div style="display:flex">
+            <div class="profile-card">
+                <h2>ID & Full Name: </h2>
+                <p id="fullName" runat="server"></p>
+                <h2>Email</h2>
+                <p id="email" runat="server"></p>
+                <h2>Faculty</h2>
+                <p id="faculty" runat="server"></p>
+                <h2>Major</h2>
+                <p id="major" runat="server"></p>
+                <h2>GPA: </h2>
+                <p id="gpa" runat="server"></p>
+                <h2>Semester</h2>
+                <p id="semester" runat="server"></p>
+                <h2>Current Active Semester</h2>
+                <p id="currSem" runat="server"></p>
+            </div>
+            <div>
+                <div id="studentPhone" class="profile-card" runat="server">
+                <h2>My Phone Numbers</h2>
+                </div>
+            </div>
+        </div>
+    </form>
     <script src="../Scripts/sidebarScript.js" defer="defer"></script>
 </body>
 </html>
