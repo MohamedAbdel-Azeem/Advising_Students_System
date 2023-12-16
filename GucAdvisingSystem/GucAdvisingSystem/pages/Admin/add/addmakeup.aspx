@@ -78,7 +78,10 @@
         <div class="inputContainer">
             <h2>Add Makeup Exam</h2>
             <div class="inputGroup">
-                <asp:TextBox ID="TextBox1" runat="server" CssClass="input" placeholder="Exam Type"></asp:TextBox>
+                <select id="ExamTypeInput" class="input" name="ExamTypeInput">
+                    <option value="First_makeup" selected ="selected">First Makeup</option>
+                    <option value="Second_makeup">Second Makeup</option>
+                </select>
                 <asp:Label runat="server" Text="Exam Type" CssClass="userLabel"></asp:Label>
             </div>
             <div class="inputGroup">

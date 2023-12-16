@@ -1343,3 +1343,4 @@ insert into Payment(student_id,amount,deadline,n_installments,startdate,payment_
 
 exec Procedures_AdminIssueInstallment 1
 
+EXEC Procedures_AdminAddExam 'Final','2020-01-01',1

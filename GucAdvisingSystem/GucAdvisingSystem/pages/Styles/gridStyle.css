@@ -29,3 +29,44 @@
     .myGridClass .myAltRowClass {
         background: #e2e8f0 repeat-x top;
     }
+
+    .myGridClass .pager {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .myGridClass .pager a, .myGridClass .pager span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 2px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+            .myGridClass .pager a:hover {
+                background-color: #ddd;
+            }
+
+            .myGridClass .pager span.current {
+                background-color: #4CAF50;
+                color: white;
+                border: 1px solid #4CAF50;
+                cursor: default;
+            }
+
+            .myGridClass .pager span.disabled {
+                color: #ccc;
+                cursor: default;
+            }
+
+        /* Optional: Adjust pager link styles for better visibility */
+        .myGridClass .pager a {
+            color: #333;
+        }
+
+            .myGridClass .pager a:hover {
+                color: #000;
+            }

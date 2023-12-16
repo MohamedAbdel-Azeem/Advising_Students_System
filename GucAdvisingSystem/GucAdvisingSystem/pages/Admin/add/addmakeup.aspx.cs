@@ -22,7 +22,8 @@ namespace Admin
             {
                 string conStr = ConfigurationManager.ConnectionStrings["Advising_System"].ConnectionString;
                 SqlConnection conn = new SqlConnection(conStr);
-                String type = TextBox1.Text;
+                String type = Request.Form["ExamTypeInput"];
+                System.Diagnostics.Debug.WriteLine(type);
                 String date = Request.Form["ExamDateInput"];
                 int id = Int16.Parse(TextBox3.Text);
 
