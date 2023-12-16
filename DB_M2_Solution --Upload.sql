@@ -1052,7 +1052,6 @@ return 0
 END
 go
 
-delete from Course
 
 Go
 Create PROC [Procedures_StudentRegisterFirstMakeup]
@@ -1343,4 +1342,6 @@ insert into Payment(student_id,amount,deadline,n_installments,startdate,payment_
 
 exec Procedures_AdminIssueInstallment 1
 
-EXEC Procedures_AdminAddExam 'Final','2020-01-01',1
+EXEC Procedures_AdminAddExam 'First_Makeup','12-16-2023',4
+Insert into Slot (slot_id,location,day,time) values (1,'C7','Sunday','12:00')
+select * from Slot

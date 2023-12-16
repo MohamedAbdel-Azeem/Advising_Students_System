@@ -79,7 +79,7 @@
              <asp:TextBox ID="InstructorInput" runat="server" CssClass="input" placeholder="InstructorID"></asp:TextBox>
              <asp:Label ID="Instructor" runat="server" Text="Instructor ID" CssClass="userLabel"></asp:Label> 
          </div>
-       <asp:Button ID="AddButton" OnClick="Choose" runat="server"  Text="Choose Instructor" class="AddButton"/>
+       <asp:Button ID="AddButton" OnClick="Choose" runat="server"  Text="Choose Instructor" class="AddButton" Width="150px"/>
          <div>
              
          </div>
