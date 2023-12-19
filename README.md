@@ -9,20 +9,20 @@
 
 
 
-## About The Project
+# About The Project
 
 The Advising Student System project was divided into three milestones to systematically develop and implement the system.
 
-### Milestone 1: ER Diagram and Relational Schema
+## Milestone 1: ER Diagram and Relational Schema
 This milestone focused on designing the database structure using an Entity-Relationship (ER) diagram and defining the relational schema. The team collaborated to create a comprehensive visual representation of the data model, outlining entities, relationships, and attributes. This phase laid the foundation for the subsequent milestones.
 
-### Milestone 2: Database Implementation
+## Milestone 2: Database Implementation
 The second milestone involved implementing the MySQL database for the Advising Student System. The team adhered to specific guidelines, defining appropriate data types, following naming conventions, and ensuring proper data retrieval. Key functionalities were implemented using stored procedures and views.
 
-### Milestone 3: Web Application Development
+## Milestone 3: Web Application Development
 This final milestone focused on building the web application using ASP.Net. The Student, Advisor and Admin Components were developed, each with its specific functionalities.
 
-###### Features for Students:
+##### Features for Students:
 * User registration and login.
 * Adding telephone numbers.
 * Viewing available courses and prerequisites.
@@ -30,14 +30,14 @@ This final milestone focused on building the web application using ASP.Net. The 
 * Requesting Makeup Exams.
 * Viewing graduation plan and upcoming installment.
 
-###### Features for Advisors:
+##### Features for Advisors:
 * User registration and login.
 * Managing advising students.
 * Inserting and updating graduation plans.
 * Viewing students assigned by major with taken courses.
 * Approving/rejecting extra credit hours and course requests.
 
-###### Features for Admins:
+##### Features for Admins:
 * User login.
 * Listing all advisors, students, and pending requests.
 * Adding new semesters and courses.
