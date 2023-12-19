@@ -52,9 +52,7 @@ This final milestone focused on building the web application using ASP.Net. The 
 - <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> **CSS** for styling.
 -  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> **JavaScript** for dynamic features.
 
-<center>
 The seamless integration of these components created a robust Advising Student System, combining a well-designed database structure with a user-friendly web application that caters to the needs of students, advisors, and an administrator. 
-</center>
 
 ## Authors
 
