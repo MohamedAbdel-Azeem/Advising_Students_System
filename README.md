@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <h3 align="center">GUC Advising Students System</h3>
+  <h1 align="center">GUC Advising Students System</h3>
 
   <p align="center">
     The Advising Student System is a comprehensive solution developed as part of the Database Course at the German University in Cairo. The project aimed to create a dynamic system for managing student advising interactions, utilizing MySQL for database management and ASP.Net for web application development. Divided into three milestones, each phase contributed to the overall success of the system.
